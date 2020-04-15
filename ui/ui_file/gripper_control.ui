@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form_gripper</class>
+ <widget class="QWidget" name="Form_gripper">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>411</width>
+    <height>259</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>15</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>夹持器控制</string>
+  </property>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>100</y>
+     <width>371</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>夹持器_G6</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>开启</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="text">
+       <string>开启</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>夹持器_G0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="text">
+       <string>关闭</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="text">
+       <string>关闭</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>371</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>夹持器
+力矩</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;整数0~2000&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="placeholderText">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>mN.m</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_5">
+      <property name="text">
+       <string>设置</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton_5</sender>
+   <signal>clicked()</signal>
+   <receiver>Form_gripper</receiver>
+   <slot>gripper_torque_set()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>319</x>
+     <y>49</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>402</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>Form_gripper</receiver>
+   <slot>gripper_0_open()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>443</x>
+     <y>101</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>Form_gripper</receiver>
+   <slot>gripper_0_close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>354</x>
+     <y>138</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>418</x>
+     <y>150</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>Form_gripper</receiver>
+   <slot>gripper_6_open()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>235</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>369</x>
+     <y>254</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>Form_gripper</receiver>
+   <slot>gripper_6_close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>327</x>
+     <y>194</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>501</x>
+     <y>205</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>gripper_torque_set()</slot>
+  <slot>gripper_0_open()</slot>
+  <slot>gripper_0_close()</slot>
+  <slot>gripper_6_open()</slot>
+  <slot>gripper_6_close()</slot>
+ </slots>
+</ui>
