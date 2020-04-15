@@ -48,7 +48,7 @@ class Path_point_recorder_func(QWidget, Ui_Form_recoder_point):
         self.listWidget.takeItem(self.listWidget.currentRow())
 
     def save_point(self):
-        filename = QFileDialog.getSaveFileName(self,'保存为文件','./../','path_point_file')
+        filename = QFileDialog.getSaveFileName(self,'保存为文件','./../','txt')
         if filename[0]:
             with open(filename[0],'w') as f:
                 for i in range(self.listWidget.count()):
