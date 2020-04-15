@@ -43,7 +43,7 @@ sudo pip install canopen
 #### 3.1 软件下载与环境配置
 ```
 cd ~/ros/biped5d_robot/src/ 
-git clone https://github.com/Jiongyu/biped5d.git
+git clone https://github.com/Jiongyu/third_modular_robot.git
 sudo echo "source ~/ros/biped5d_robot/devel/setup.bash">> ~/.bashrc
 source ~/.bashrc
 
