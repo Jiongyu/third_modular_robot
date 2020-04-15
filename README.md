@@ -56,14 +56,3 @@ rosrun canopen_communication can_prepare.sh
 
 roslaunch ui ui_start.launch
 ```
-
-##### 3.2.2. trajectory control
-```
-rosrun canopen_communication can_prepare.sh
-
-roslaunch birl_module_robot biped5d.lauch
-
-##command trajectory
-rosrun birl_module_robot biped5d_sent_joint_command.py 
-```
-
