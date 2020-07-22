@@ -23,7 +23,7 @@ class I100():
         self.__network = network.Network()
         self.__network.connect(channel='can0', bustype='socketcan')
         self.__network.check()
-        self.__network.sync.start(0.05)        # 5ms
+        self.__network.sync.start(0.015)        # 5ms
         self.__id = id
         self.__eds_file = eds_file
         self.__node = BaseNode402(self.__id, self.__eds_file)
@@ -88,10 +88,12 @@ class I100():
         # self.__network.disconnect()
 
     def pause_run(self):
+        self.__controlword = self.__node.sdo[0x6040].raw
         self.__node.controlword = (self.__controlword | ( 1 << 8))
         pass
 
     def continue_run(self):
+        self.__controlword = self.__node.sdo[0x6040].raw
         self.__node.controlword = ( self.__controlword & ~(1 << 8))
         pass
 
@@ -100,7 +102,7 @@ class I100():
         rad -> mdeg * resolution of encoder * reduction ratio / 360 degree
         :return:
         """
-        return  int(degrees(position) * 4096 * 457 / 360)
+        return  int(position * 4096 * 457 / 360)
         # return  int(degrees(position) * 4096 * 188 / 360)
 
     def __motor_data_to_user(self, position):
@@ -108,8 +110,7 @@ class I100():
         actual position [count] -> rad
         :return:
         """
-        return (radians(position) * 360 / 457 / 4096)
-        # return (radians(position) * 360 / 188 / 4096)
+        return (position * 360 / 457 / 4096)
 
     def __motor_torque_to_user(self,torque):
         return (torque * self.__motor_rate_current / 1000)
@@ -230,5 +231,5 @@ class I100():
         self.__node.sdo[0x6086].phys =  0                   # rotate motor
 
         # motor data
-        self.__node.sdo[0x6410][0x0b].phys = 45000     # max velocity 0.1counts/s
+        # self.__node.sdo[0x6410][0x0b].phys = 45000     # max velocity 0.1counts/s
         self.__node.sdo[0x6410][0x0d].phys = 1200      # max torque mN.m

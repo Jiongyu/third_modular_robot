@@ -12,5 +12,5 @@ class Canopen_control_init(object):
         self.network = canopen.Network()
         self.network.connect(channel='can0', bustype='socketcan')
         self.network.check()
-        self.network.sync.start(0.01)
+        self.network.sync.start(0.015)
         # print("canopen init is over!")

@@ -23,7 +23,7 @@ class I85():
         self.__network = network.Network()
         self.__network.connect(channel='can0', bustype='socketcan')
         self.__network.check()
-        self.__network.sync.start(0.05)        # 5ms
+        self.__network.sync.start(0.015)        # 5ms
         self.__id = id
         self.__eds_file = eds_file
         self.__node = BaseNode402(self.__id, self.__eds_file)
@@ -87,30 +87,38 @@ class I85():
         # self.__network.sync.stop()
         # self.__network.disconnect()
 
+    # def pause_run(self):
+    #     self.__controlword = self.__node.sdo[0x6040].raw
+    #     self.__node.sdo[0x6040].raw = (self.__controlword | ( 1 << 8))
+    #     pass
+
+    # def continue_run(self):
+    #     self.__controlword = self.__node.sdo[0x6040].raw
+    #     self.__node.sdo[0x6040].raw = ( self.__controlword & (~(1 << 8)))
+    #     pass
     def pause_run(self):
-        self.__node.controlword = (self.__controlword | ( 1 << 8))
-        pass
+        self.__node.sdo[0x6040].raw = (self.__controlword | (1 << 8 ))
 
     def continue_run(self):
-        self.__node.controlword = ( self.__controlword & ~(1 << 8))
-        pass
+        self.__node.sdo[0x6040].raw = (self.__controlword & ~( 1 << 8))
+
 
     def __user_data_to_motor(self, position):
         """
-        rad -> mdeg * resolution of encoder * reduction ratio / 360 degree
+         resolution of encoder * reduction ratio / 360 degree
         :return:
         """
-        return  int(degrees(position) * 4096 * 188 / 360)
+        return  int(position * 4096 * 188 / 360.0)
 
     def __motor_data_to_user(self, position):
         """
         actual position [count] -> rad
         :return:
         """
-        return (radians(position) * 360 / 188 / 4096)
+        return round((position * 360 / 188.0 / 4096.0),2)
 
     def __motor_torque_to_user(self,torque):
-        return (torque * self.__motor_rate_current / 1000)
+        return (torque * self.__motor_rate_current / 1000.0)
 
     def __user_torque_to_motor(self, torque):
         return (torque * 1000 / self.__motor_rate_current )
@@ -142,8 +150,8 @@ class I85():
     def sent_position(self,pos, vel):
         """
         In the profile position mode this function sent some control message to motor.
-        :param position: motor position(rad)
-        :param velocity: default motor velocity(rad/s)
+        :param position: motor position(deg)
+        :param velocity: default motor velocity(deg/s)
         """
         self.__node.sdo[0x6081].phys = self.__user_data_to_motor( vel * 10)
         self.__node.sdo[0x607a].phys = self.__user_data_to_motor( pos )

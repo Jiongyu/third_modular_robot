@@ -23,7 +23,7 @@ class T85():
         self.__network = network.Network()
         self.__network.connect(channel='can0', bustype='socketcan')
         self.__network.check()
-        self.__network.sync.start(0.05)        # 5ms
+        self.__network.sync.start(0.015)        # 5ms
         self.__id = id
         self.__eds_file = eds_file
         self.__node = BaseNode402(self.__id, self.__eds_file)
@@ -100,14 +100,14 @@ class T85():
         rad -> mdeg * resolution of encoder * reduction ratio / 360 degree
         :return:
         """
-        return  int(degrees(position) * 4096 * 188 / 360)
+        return  int(position * 4096 * 188 / 360)
 
     def __motor_data_to_user(self, position):
         """
         actual position [count] -> rad
         :return:
         """
-        return (radians(position) * 360 / 188 / 4096)
+        return (position * 360 / 188 / 4096)
 
     def __motor_torque_to_user(self,torque):
         return (torque * self.__motor_rate_current / 1000)

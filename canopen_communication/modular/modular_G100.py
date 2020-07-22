@@ -23,7 +23,7 @@ class G100():
         self.__network = network.Network()
         self.__network.connect(channel='can0', bustype='socketcan')
         self.__network.check()
-        self.__network.sync.start(0.05)        # 5ms
+        self.__network.sync.start(0.15)        # 5ms
         self.__id = id
         self.__eds_file = eds_file
         self.__node = BaseNode402(self.__id, self.__eds_file)
