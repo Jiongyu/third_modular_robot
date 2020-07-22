@@ -60,7 +60,7 @@ class Gripper_control_func(QWidget,Ui_Form_gripper):
 
     def gripper_6_close(self,data):
         if data:
-            self.sin_open_or_close_gripper6.emit(self.__torque)
+            self.sin_open_or_close_gripper6.emit(-self.__torque)
         else:
             self.sin_open_or_close_gripper6.emit(0)
 

@@ -41,6 +41,8 @@ class Path_process():
 
                 self.__joint_pos.append(temp_array)
 
+        # print self.__joint_pos
+
     def __get_joint_position(self):
         """
         @brief: 获取路径点
@@ -49,46 +51,56 @@ class Path_process():
         temp = []
         temp.append(self.__joint_pos[0])
 
-        deg_interval = self.__max_vel * 2
-        data_inteval = 5
+        deg_interval = self.__max_vel
 
         i = 0
-        while(i != (len(self.__joint_pos))):
+        getNextPoint = False
+        while(i < (len(self.__joint_pos))):
             try:
                 for j in range(len(self.__joint_pos[i])):
 
                     if(abs(self.__joint_pos[i][j] - self.__joint_pos[i+1][j]) > deg_interval ):
                         temp.append(self.__joint_pos[i+1])
                         i = i+1
+                        getNextPoint = True
                         break
 
                     if(abs(self.__joint_pos[i][j] - self.__joint_pos[i+2][j]) > deg_interval ):
                         temp.append(self.__joint_pos[i+2])
                         i = i+2
+                        getNextPoint = True
                         break
 
                     if(abs(self.__joint_pos[i][j] - self.__joint_pos[i+3][j]) > deg_interval ):
                         temp.append(self.__joint_pos[i+3])
                         i = i+3
+                        getNextPoint = True
                         break
 
                     if(abs(self.__joint_pos[i][j] - self.__joint_pos[i+4][j]) > deg_interval ):
                         temp.append(self.__joint_pos[i+4])
                         i = i+4 
+                        getNextPoint = True
                         break
 
                     if(abs(self.__joint_pos[i][j] - self.__joint_pos[i+5][j]) > deg_interval ):
                         temp.append(self.__joint_pos[i+5]) 
                         i = i+5
+                        getNextPoint = True
                         break
             except IndexError:
                 pass
-            i+=1
+            if getNextPoint:
+                getNextPoint = False
+            else:
+                i = i + 1
+
             
         if(temp[-1] != self.__joint_pos[-1]):
             temp.append(self.__joint_pos[-1])
                 
         self.__joint_pos = temp
+        # print self.__joint_pos
 
     def __get_joint_velocity(self):
         """
@@ -126,10 +138,11 @@ class Path_process():
                 for j in range(len(joint_vel[i])):
                     self.__joint_pos[i].append(joint_vel[i][j])
 
-        # convert from deg to rad
         for i in range(len(self.__joint_pos)):
             for j in range(len(self.__joint_pos[i])):
-                self.__joint_pos[i][j] = round(radians(self.__joint_pos[i][j]), 4)
+                self.__joint_pos[i][j] = round(self.__joint_pos[i][j], 2)
+
+        # print self.__joint_pos      
 
 
     def get_trajectory(self,data):

@@ -46,6 +46,7 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
 
     def set_zero_point(self):
 
+        self.get_actual_joint_point()
         self.__zero_pos_joints = [  float(str(self.lineEdit.text())),    \
                                     float(str(self.lineEdit_2.text())),  \
                                     float(str(self.lineEdit_3.text())),  \
