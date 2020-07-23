@@ -29,6 +29,6 @@ def positive_solution_client( which_gripper, current_joint_position):
     return descartes_position_state
 
 
-if __name__ == "__main__":
-    temp = positive_solution_client(True, [0, 0, 0, 0, 0])
-    print temp
+# if __name__ == "__main__":
+#     temp = positive_solution_client(True, [0, 0, 0, 0, 0])
+#     print temp
