@@ -1,0 +1,10 @@
+# Select which one gripper is the base (true : gripper0 , flase :gripper6)
+bool base
+
+# Current joint position of the robot
+# I1_pos T2_pos T3_pos T4_pos I5_pos 
+float32[] current_joint_state
+
+---
+# descartes point psotion command(X Y Z RX RY RZ)
+float32[] descartes_pos_state

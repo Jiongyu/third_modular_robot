@@ -1,4 +1,0 @@
-<launch>
-  <node name="biped5d_control" pkg="birl_module_robot" type="biped5d_control.py"/>
-  <node name="biped5d_descartes_feedback" pkg="birl_module_robot" type="biped5d_descartes_feedback"/>
-</launch>

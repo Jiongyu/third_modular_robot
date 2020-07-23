@@ -11,10 +11,14 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
 )
 
-add_message_files(
+# add_message_files(
+#   FILES
+# )
+
+add_service_files(
   FILES
-  descartes_point.msg
-  joint_point.msg
+  inverse_solution.srv
+  positive_solution.srv
 )
 
 generate_messages(
@@ -34,9 +38,7 @@ include_directories(
  ${catkin_INCLUDE_DIRS}
  "/usr/include/eigen3"
  "./../kinematics"
- "./../kinematics/CML"
  "/src/include"
-
 )
 
 ## Declare a C++ library
@@ -44,25 +46,13 @@ include_directories(
    ./../kinematics/Kine.cpp
    ./../kinematics/Matrix.cpp
    ./../kinematics/Setup.cpp
-   ./../kinematics/MyPath.cpp
-   ./../kinematics/CopleyCAN.cpp
-   ./../kinematics/Interpolation.cpp
-  ./../kinematics/SpeedProcess.cpp
-  ./../kinematics/CML/
  )
 
 link_libraries(Kine_lib)
 
-add_executable(biped5d_descartes_command src/biped5d_descartes_command.cpp)
-add_executable(biped5d_descartes_feedback src/biped5d_descartes_feedback.cpp)
-add_executable(biped5d_command_test src/biped5d_command_test.cpp)
+### server node
+add_executable(inverse_solution_server src/inverse_solution_server.cpp)
+target_link_libraries(inverse_solution_server ${catkin_LIBRARIES})
 
-
-target_link_libraries(biped5d_descartes_command
-  ${catkin_LIBRARIES})
-
-target_link_libraries(biped5d_descartes_feedback
-  ${catkin_LIBRARIES})
-
-target_link_libraries(biped5d_command_test
-  ${catkin_LIBRARIES})
+add_executable(positive_solution_server src/positive_solution_server.cpp)
+target_link_libraries(positive_solution_server ${catkin_LIBRARIES})

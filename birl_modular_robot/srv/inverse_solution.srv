@@ -1,0 +1,21 @@
+# Select which one gripper is the base (true : gripper0 , flase :gripper6)
+bool base
+
+# descartes point psotion command(X Y Z RX RY RZ) m,degree
+float32[] descartes_pos_commands
+
+# descartes point psotion command(X Y Z RX RY RZ) m/s,degree/s
+float32[] descartes_vel_commands 
+
+# Current joint position of the robot
+# I1_pos T2_pos T3_pos T4_pos I5_pos  deg
+float32[] current_joint_state
+
+---
+# robot joint position commands 
+# I1 T2 T3 T4 I5 deg
+float32[] joint_pos_commands 
+
+# robot joint velocity commands
+# I1 T2 T3 T4 I5 deg/s
+float32[] joint_vel_commands
