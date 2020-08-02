@@ -3,8 +3,8 @@
 
 """
 @version: python2.7
-@author:Jony
-@contact: 35024339@qq.com
+@author:
+@contact: 
 @software: RoboWareStudio
 @file: path_process.py
 
@@ -108,10 +108,9 @@ class Path_process():
         """
 
         max_pos = 0
-        temp_time = 0
         temp_vel = []
         joint_vel = []
-
+        temp_time = []
 
         for i in range(len(self.__joint_pos) - 1):
 
@@ -120,11 +119,11 @@ class Path_process():
                 if(temp > max_pos):
                     max_pos = temp
 
-            temp_time = max_pos / self.__max_vel
+            temp_time.append(max_pos / self.__max_vel)
 
             for j in range(len(self.__joint_pos[i])):
                 temp = abs(self.__joint_pos[i][j] - self.__joint_pos[i+1][j])
-                temp_vel.append(temp / temp_time)
+                temp_vel.append(temp / temp_time[i])
             
             joint_vel.append(temp_vel)
 
@@ -137,10 +136,12 @@ class Path_process():
 
                 for j in range(len(joint_vel[i])):
                     self.__joint_pos[i].append(joint_vel[i][j])
+                self.__joint_pos[i].append(temp_time[i])
 
         for i in range(len(self.__joint_pos)):
             for j in range(len(self.__joint_pos[i])):
-                self.__joint_pos[i][j] = round(self.__joint_pos[i][j], 2)
+                self.__joint_pos[i][j] = round(self.__joint_pos[i][j], 3)
+            self.__joint_pos[i][j] = round(self.__joint_pos[i][j], 3)
 
         # print self.__joint_pos      
 

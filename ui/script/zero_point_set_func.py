@@ -3,8 +3,8 @@
 
 """
 @version: python2.7
-@author:Jony
-@contact: 35024339@qq.com
+@author:
+@contact: 
 @software: RoboWareStudio
 @file: zero_point_set_func.py
 
@@ -43,7 +43,7 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
         self.__display_joints_direction()
         self.__display_joints_pos()
 
-
+    # 获取零点，机器人正方向
     def set_zero_point(self):
 
         self.get_actual_joint_point()
@@ -52,9 +52,6 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
                                     float(str(self.lineEdit_3.text())),  \
                                     float(str(self.lineEdit_4.text())),  \
                                     float(str(self.lineEdit_5.text()))  ]
-        # for i in range(len(self.__zero_pos_joints)):
-        #     print self.__zero_pos_joints[i]
-        #     print type(self.__zero_pos_joints[i])
 
         # I1
         if self.checkBox.isChecked():
@@ -85,18 +82,20 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
         self.sin_set_zero_point.emit([ self.__zero_pos_joints, \
                                         self.__direction_joints ])
 
+    ################# 获取机器人当前关节值 ##################################
     def get_actual_joint_point(self):
         self.sin_get_actual_joints_pos.emit()
         self.__qtimer.start(100)    # 100ms
 
     def receive_actual_joint_point(self,data):
-
         self.__zero_pos_joints = data
 
     def __update(self):
         self.__display_joints_pos()
         self.__qtimer.stop()
+    ################# 获取机器人当前关节值 end  #############################
 
+    # 显示机器人关节数据
     def __display_joints_pos(self):
         self.lineEdit.setText(str(self.__zero_pos_joints[0]))
         self.lineEdit_2.setText(str(self.__zero_pos_joints[1]))
@@ -105,6 +104,7 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
         self.lineEdit_5.setText(str(self.__zero_pos_joints[4]))
         pass
 
+    # 显示机器人关节方向 
     def __display_joints_direction(self):
 
         # I1
@@ -133,6 +133,7 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
         else:
             self.checkBox_5.setChecked(False)
 
+    # 设置输入限制
     def __set_input_range(self):
         pdoubleValidator_I = QDoubleValidator(self)
         pdoubleValidator_I.setRange(-360,360)
@@ -149,5 +150,6 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
         self.lineEdit_3.setValidator(pdoubleValidator_T)
         self.lineEdit_4.setValidator(pdoubleValidator_T)
 
+    # 关闭界面
     def close_windows(self):
         self.close()

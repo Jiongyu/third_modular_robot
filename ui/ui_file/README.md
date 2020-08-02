@@ -7,6 +7,7 @@
 |*robot_choice.ui*| *机器人选择界面*|
 |*zero_point_set.ui*| *零点设置界面*|
 |*path_point_recorder.ui*| *离线示教界面*|
+|*robot_feedback.ui*| *机器人状态反馈界面*|
 
 ##### 使用方法：
 >1. 使用qtcreator编辑界面文件，添加或删除控件。
@@ -19,4 +20,4 @@
 >``` sudo pyuic5 -o modular_robot_control.py modular_robot_control.ui ```
 >
 
->3. 生成文件保存在 ui/script文件夹内。
+>3. 生成的 *.py放在 ui/script, *.ui 放在 ui/ui_file. 

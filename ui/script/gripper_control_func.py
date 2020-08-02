@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 @version: python2.7
-@author:Jony
-@contact: 35024339@qq.com
+@author:
+@contact: 
 @software: RoboWareStudio
 @file: gripper_control_func.py
 
@@ -21,48 +21,60 @@ class Gripper_control_func(QWidget,Ui_Form_gripper):
     sin_open_or_close_gripper0 = pyqtSignal(int)
     sin_open_or_close_gripper6 = pyqtSignal(int)
 
+    #　启动夹持器反馈状态
+    sin_open_gripper_feedback = pyqtSignal(bool)
+
     def __init__(self):
         super(Gripper_control_func,self).__init__()
         self.setupUi(self)
         
-        # 力矩值范围0~2000（int）
+        # 电流值范围0~1000（int）
         pIntValidator = QIntValidator(self)
-        pIntValidator.setRange(0,2000)
+        pIntValidator.setRange(0,1000)
         self.lineEdit.setValidator(pIntValidator)
 
-        # 力矩默认值 1200mN.m
-        self.__torque = 1200 
-        self.lineEdit.setText(str(self.__torque))
+        # 电流默认值 200mＡ
+        self.__current = 200 
+        self.lineEdit.setText(str(self.__current))
         pass
 
+    def open_gripper_current_feedback(self):
+        self.sin_open_gripper_feedback.emit(True)
+
     def gripper_torque_set(self):
-        self.__torque = int(str(self.lineEdit.text()))
-        # print type(self.__torque)
-        # print (self.__torque)
+        self.__current = int(str(self.lineEdit.text()))
+        # print type(self.__current)
+        # print (self.__current)
 
     def gripper_0_open(self,data):
         if data:
-            self.sin_open_or_close_gripper0.emit(self.__torque)
+            self.sin_open_or_close_gripper0.emit(self.__current)
         else:
             self.sin_open_or_close_gripper0.emit(0)
 
     def gripper_0_close(self,data):
         if data:
-            self.sin_open_or_close_gripper0.emit(-self.__torque)
+            self.sin_open_or_close_gripper0.emit(-self.__current)
         else:
             self.sin_open_or_close_gripper0.emit(0)
 
     def gripper_6_open(self,data):
         if data:
-            self.sin_open_or_close_gripper6.emit(self.__torque)
+            self.sin_open_or_close_gripper6.emit(self.__current)
         else:
             self.sin_open_or_close_gripper6.emit(0)
 
     def gripper_6_close(self,data):
         if data:
-            self.sin_open_or_close_gripper6.emit(-self.__torque)
+            self.sin_open_or_close_gripper6.emit(-self.__current)
         else:
             self.sin_open_or_close_gripper6.emit(0)
 
+    # 电流状态显示
+    def display(self,data):
+        self.lineEdit_2.setText(str(data[0]))
+        self.lineEdit_3.setText(str(data[1]))
+
     def close_windows(self):
+        self.sin_open_gripper_feedback.emit(False)
         self.close()

@@ -6,15 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>689</width>
-    <height>521</height>
+    <width>778</width>
+    <height>666</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>778</width>
+    <height>666</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>778</width>
+    <height>888</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -29,10 +41,15 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>20</y>
-      <width>401</width>
-      <height>470</height>
+      <y>19</y>
+      <width>531</width>
+      <height>611</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
@@ -41,14 +58,19 @@
      <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
      <attribute name="title">
-      <string>关节空间控制</string>
+      <string>关节空间位置控制</string>
      </attribute>
      <widget class="QWidget" name="gridLayoutWidget_2">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>-10</y>
+        <x>90</x>
+        <y>70</y>
         <width>351</width>
         <height>361</height>
        </rect>
@@ -74,7 +96,7 @@
        <item row="2" column="2">
         <widget class="QLabel" name="label_20">
          <property name="text">
-          <string>度</string>
+          <string>deg</string>
          </property>
         </widget>
        </item>
@@ -88,7 +110,7 @@
        <item row="0" column="2">
         <widget class="QLabel" name="label_18">
          <property name="text">
-          <string>度</string>
+          <string>deg</string>
          </property>
         </widget>
        </item>
@@ -115,7 +137,7 @@
        <item row="3" column="2">
         <widget class="QLabel" name="label_21">
          <property name="text">
-          <string>度</string>
+          <string>deg</string>
          </property>
         </widget>
        </item>
@@ -139,7 +161,7 @@
        <item row="1" column="2">
         <widget class="QLabel" name="label_19">
          <property name="text">
-          <string>度</string>
+          <string>deg</string>
          </property>
         </widget>
        </item>
@@ -195,7 +217,7 @@
        <item row="4" column="2">
         <widget class="QLabel" name="label_22">
          <property name="text">
-          <string>度</string>
+          <string>deg</string>
          </property>
         </widget>
        </item>
@@ -214,8 +236,8 @@
      <widget class="QWidget" name="horizontalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>350</y>
+        <x>90</x>
+        <y>430</y>
         <width>351</width>
         <height>80</height>
        </rect>
@@ -241,12 +263,157 @@
        <item>
         <widget class="QLabel" name="label_24">
          <property name="text">
-          <string>度/秒</string>
+          <string>deg/s</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_6">
+         <property name="text">
+          <string>设置</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>关节空间速度控制</string>
+     </attribute>
+     <widget class="QWidget" name="gridLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>70</y>
+        <width>351</width>
+        <height>361</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_35">
+         <property name="text">
+          <string>关节_T2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="pushButton_9">
+         <property name="text">
+          <string>运行</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="pushButton_16">
+         <property name="text">
+          <string>运行</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_37">
+         <property name="text">
+          <string>关节_T3</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_42">
+         <property name="text">
+          <string>关节_I1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_40">
+         <property name="text">
+          <string>关节_T4</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pushButton_15">
+         <property name="text">
+          <string>运行</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="pushButton_14">
+         <property name="text">
+          <string>运行</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButton_13">
+         <property name="text">
+          <string>运行</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_43">
+         <property name="text">
+          <string>关节_I5</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>430</y>
+        <width>351</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_45">
+         <property name="text">
+          <string>关节速度</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_23">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;1~30度/秒&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_46">
+         <property name="text">
+          <string>deg/s</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_17">
          <property name="text">
           <string>设置</string>
          </property>
@@ -265,15 +432,15 @@
         <x>10</x>
         <y>10</y>
         <width>291</width>
-        <height>411</height>
+        <height>551</height>
        </rect>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton_24">
       <property name="geometry">
        <rect>
-        <x>310</x>
-        <y>240</y>
+        <x>370</x>
+        <y>430</y>
         <width>80</width>
         <height>80</height>
        </rect>
@@ -285,8 +452,8 @@
      <widget class="QPushButton" name="pushButton_11">
       <property name="geometry">
        <rect>
-        <x>310</x>
-        <y>90</y>
+        <x>370</x>
+        <y>60</y>
         <width>80</width>
         <height>80</height>
        </rect>
@@ -297,144 +464,775 @@
       </property>
      </widget>
     </widget>
-   </widget>
-   <widget class="QWidget" name="gridLayoutWidget_3">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>50</y>
-      <width>231</width>
-      <height>291</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout_3">
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEdit_13">
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="label_25">
-       <property name="text">
-        <string>度</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLabel" name="label_26">
-       <property name="text">
-        <string>度</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_27">
-       <property name="text">
-        <string>关节_T4</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit_14">
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_28">
-       <property name="text">
-        <string>关节_T3</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_29">
-       <property name="text">
-        <string>关节_I5</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="2">
-      <widget class="QLabel" name="label_30">
-       <property name="text">
-        <string>度</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_15">
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_31">
-       <property name="text">
-        <string>关节_T2</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QLabel" name="label_32">
-       <property name="text">
-        <string>度</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEdit_16">
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_33">
-       <property name="text">
-        <string>关节_I1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_34">
-       <property name="text">
-        <string>度</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEdit_17">
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>笛卡尔空间位置控制</string>
+     </attribute>
+     <widget class="QWidget" name="gridLayoutWidget_7">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>30</y>
+        <width>171</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_7">
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineEdit_28">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_61">
+         <property name="text">
+          <string>Y</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_62">
+         <property name="text">
+          <string>Z</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_63">
+         <property name="text">
+          <string>X</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="lineEdit_29">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_70">
+         <property name="text">
+          <string>deg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_66">
+         <property name="text">
+          <string>RZ</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEdit_26">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_69">
+         <property name="text">
+          <string>mm</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_72">
+         <property name="text">
+          <string>deg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_71">
+         <property name="text">
+          <string>deg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="lineEdit_31">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_68">
+         <property name="text">
+          <string>mm</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_67">
+         <property name="text">
+          <string>mm</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="lineEdit_30">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_64">
+         <property name="text">
+          <string>RX</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_65">
+         <property name="text">
+          <string>RY</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEdit_27">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget_8">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>30</y>
+        <width>171</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_8">
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineEdit_32">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_73">
+         <property name="text">
+          <string>Y</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_74">
+         <property name="text">
+          <string>Z</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_75">
+         <property name="text">
+          <string>X</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="lineEdit_33">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_76">
+         <property name="text">
+          <string>deg/s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_77">
+         <property name="text">
+          <string>RZ</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEdit_34">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_78">
+         <property name="text">
+          <string>mm/s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_79">
+         <property name="text">
+          <string>deg/s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_80">
+         <property name="text">
+          <string>deg/s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="lineEdit_35">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_81">
+         <property name="text">
+          <string>mm/s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_82">
+         <property name="text">
+          <string>mm/s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="lineEdit_36">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_83">
+         <property name="text">
+          <string>RX</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_84">
+         <property name="text">
+          <string>RY</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEdit_37">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="label_85">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>141</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>笛卡尔位置命令</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_86">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>0</y>
+        <width>161</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>笛卡尔速度命令</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_99">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>310</y>
+        <width>131</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>关节速度命令</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget_9">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>340</y>
+        <width>171</width>
+        <height>221</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_12">
+       <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_126">
+         <property name="text">
+          <string>I1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="lineEdit_57">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineEdit_56">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_124">
+         <property name="text">
+          <string>T2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_125">
+         <property name="text">
+          <string>T3</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_127">
+         <property name="text">
+          <string>deg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEdit_58">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_129">
+         <property name="text">
+          <string>deg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_131">
+         <property name="text">
+          <string>deg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_132">
+         <property name="text">
+          <string>deg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_135">
+         <property name="text">
+          <string>I5</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="lineEdit_60">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_133">
+         <property name="text">
+          <string>deg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_134">
+         <property name="text">
+          <string>T4</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEdit_61">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="label_148">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>310</y>
+        <width>131</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>关节位置命令</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_33">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>330</y>
+        <width>91</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>获取逆解</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_34">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>470</y>
+        <width>91</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>运行</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget_10">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>340</y>
+        <width>171</width>
+        <height>221</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_13">
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineEdit_62">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_137">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>T3</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="lineEdit_63">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_139">
+         <property name="text">
+          <string>deg/s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEdit_64">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_141">
+         <property name="text">
+          <string>deg/s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_143">
+         <property name="text">
+          <string>deg/s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_144">
+         <property name="text">
+          <string>deg/s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_146">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>T4</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_145">
+         <property name="text">
+          <string>deg/s</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="lineEdit_66">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <widget class="QLabel" name="label_147">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>I5</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEdit_67">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;-360~360度&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_136">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>T2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_138">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>I1</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QRadioButton" name="radioButton">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>100</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>G0_基座</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioButton_2">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>190</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>G6_基座</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QPushButton" name="pushButton_8">
     <property name="geometry">
      <rect>
-      <x>570</x>
-      <y>430</y>
+      <x>620</x>
+      <y>510</y>
       <width>100</width>
       <height>60</height>
      </rect>
@@ -446,8 +1244,8 @@
    <widget class="QPushButton" name="pushButton_7">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>430</y>
+      <x>620</x>
+      <y>300</y>
       <width>100</width>
       <height>60</height>
      </rect>
@@ -462,11 +1260,17 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>10</y>
-      <width>271</width>
-      <height>51</height>
+      <x>570</x>
+      <y>20</y>
+      <width>191</width>
+      <height>131</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="font">
      <font>
@@ -483,8 +1287,8 @@
    <widget class="QPushButton" name="pushButton_10">
     <property name="geometry">
      <rect>
-      <x>570</x>
-      <y>350</y>
+      <x>620</x>
+      <y>410</y>
       <width>100</width>
       <height>60</height>
      </rect>
@@ -496,8 +1300,8 @@
    <widget class="QPushButton" name="pushButton_12">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>350</y>
+      <x>620</x>
+      <y>190</y>
       <width>100</width>
       <height>60</height>
      </rect>
@@ -512,7 +1316,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>689</width>
+     <width>778</width>
      <height>40</height>
     </rect>
    </property>
@@ -533,14 +1337,13 @@
     <addaction name="action_2"/>
     <addaction name="action_3"/>
     <addaction name="action_8"/>
+    <addaction name="action_11"/>
    </widget>
    <widget class="QMenu" name="menuROS">
     <property name="title">
      <string>ROS</string>
     </property>
     <addaction name="action_6"/>
-    <addaction name="action_7"/>
-    <addaction name="action_9"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -618,7 +1421,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>位置消息</string>
+    <string>状态反馈</string>
    </property>
    <property name="font">
     <font>
@@ -671,6 +1474,16 @@
     </font>
    </property>
   </action>
+  <action name="action_11">
+   <property name="text">
+    <string>机器人状态反馈</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -681,8 +1494,8 @@
    <slot>joint_i1_command()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>357</x>
-     <y>119</y>
+     <x>461</x>
+     <y>220</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -697,8 +1510,8 @@
    <slot>joint_t2_command()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>366</x>
-     <y>188</y>
+     <x>461</x>
+     <y>291</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -713,8 +1526,8 @@
    <slot>joint_t3_command()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>360</x>
-     <y>265</y>
+     <x>461</x>
+     <y>358</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -729,8 +1542,8 @@
    <slot>joint_t4_command()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>362</x>
-     <y>329</y>
+     <x>461</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -745,8 +1558,8 @@
    <slot>joint_i5_command()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>358</x>
-     <y>393</y>
+     <x>461</x>
+     <y>492</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -758,11 +1571,11 @@
    <sender>pushButton_6</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow_modular_robot</receiver>
-   <slot>joint_velocity_set()</slot>
+   <slot>joint_velocity_set_posMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>340</x>
-     <y>479</y>
+     <x>461</x>
+     <y>575</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -778,7 +1591,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>669</x>
-     <y>474</y>
+     <y>594</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -793,8 +1606,8 @@
    <slot>halt()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>536</x>
-     <y>475</y>
+     <x>620</x>
+     <y>399</y>
     </hint>
     <hint type="destinationlabel">
      <x>604</x>
@@ -809,8 +1622,8 @@
    <slot>load_point_file()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>349</x>
-     <y>242</y>
+     <x>392</x>
+     <y>232</y>
     </hint>
     <hint type="destinationlabel">
      <x>481</x>
@@ -825,8 +1638,8 @@
    <slot>operate_point_data()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>368</x>
-     <y>387</y>
+     <x>392</x>
+     <y>523</y>
     </hint>
     <hint type="destinationlabel">
      <x>494</x>
@@ -841,8 +1654,8 @@
    <slot>stop_robot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>612</x>
-     <y>435</y>
+     <x>620</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>564</x>
@@ -857,12 +1670,188 @@
    <slot>start_robot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>446</x>
-     <y>425</y>
+     <x>620</x>
+     <y>289</y>
     </hint>
     <hint type="destinationlabel">
      <x>430</x>
      <y>405</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_15</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>joint_i1_vel_command()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>451</x>
+     <y>224</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>432</x>
+     <y>143</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_13</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>joint_t2_vel_command()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>451</x>
+     <y>291</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>437</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_14</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>joint_t3_vel_command()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>451</x>
+     <y>358</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>434</x>
+     <y>260</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_16</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>joint_t4_vel_command()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>451</x>
+     <y>425</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>429</x>
+     <y>339</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_9</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>joint_i5_vel_command()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>451</x>
+     <y>492</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>433</x>
+     <y>435</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_33</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>get_inverse_solution()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>489</x>
+     <y>423</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>584</x>
+     <y>259</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_34</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>descartes_command()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>492</x>
+     <y>622</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>592</x>
+     <y>584</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>set_base_0()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>464</x>
+     <y>208</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>578</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>set_base_6()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>466</x>
+     <y>289</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>571</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_17</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>joint_velocity_set_velMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>399</x>
+     <y>560</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>605</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>tab_change()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>106</x>
+     <y>73</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>112</x>
+     <y>47</y>
     </hint>
    </hints>
   </connection>
@@ -873,12 +1862,23 @@
   <slot>joint_t3_command()</slot>
   <slot>joint_t4_command()</slot>
   <slot>joint_i5_command()</slot>
-  <slot>joint_velocity_set()</slot>
+  <slot>joint_velocity_set_posMode()</slot>
   <slot>quick_stop()</slot>
   <slot>halt()</slot>
   <slot>load_point_file()</slot>
   <slot>operate_point_data()</slot>
   <slot>start_robot()</slot>
   <slot>stop_robot()</slot>
+  <slot>joint_i1_vel_command()</slot>
+  <slot>joint_t2_vel_command()</slot>
+  <slot>joint_t3_vel_command()</slot>
+  <slot>joint_t4_vel_command()</slot>
+  <slot>joint_i5_vel_command()</slot>
+  <slot>get_inverse_solution()</slot>
+  <slot>descartes_command()</slot>
+  <slot>set_base_0()</slot>
+  <slot>set_base_6()</slot>
+  <slot>joint_velocity_set_velMode()</slot>
+  <slot>tab_change()</slot>
  </slots>
 </ui>

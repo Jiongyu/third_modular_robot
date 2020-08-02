@@ -3,8 +3,8 @@
 
 """
 @version: python2.7
-@author:Jony
-@contact: 35024339@qq.com
+@author:
+@contact: 
 @software: RoboWareStudio
 @file: path_point_recorder_func.py
 
@@ -42,6 +42,7 @@ class Path_point_recorder_func(QWidget, Ui_Form_recoder_point):
 
         self.__joint_enable = False
 
+    # 插入关节点
     def insert_point(self):
         self.sin_request_pos_joints.emit()
         self.__timer.start(100) # 100ms
@@ -53,9 +54,11 @@ class Path_point_recorder_func(QWidget, Ui_Form_recoder_point):
                                         + str(self.__pos_joints[4]) + ',;' )
         self.__timer.stop()
 
+    # 删除点
     def delete_point(self):
         self.listWidget.takeItem(self.listWidget.currentRow())
 
+    # 保存示教点数据
     def save_point(self):
 
         fileTitle = str(self.lineEdit.text())
@@ -68,12 +71,14 @@ class Path_point_recorder_func(QWidget, Ui_Form_recoder_point):
                     for i in range(self.listWidget.count()):
                         f.write(self.listWidget.item(i).text() + '\n')
 
-
+    # 清除示教点数据
     def clear_point(self):
         self.listWidget.clear()
 
+    # 更新关节数据
     def receive_pos_joints(self,data):
         self.__pos_joints = data
 
+    # 关闭界面
     def close_windows(self):
         self.close()

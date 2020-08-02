@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>411</width>
-    <height>259</height>
+    <width>491</width>
+    <height>157</height>
    </rect>
   </property>
   <property name="font">
@@ -21,22 +21,32 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>100</y>
-     <width>371</width>
-     <height>141</height>
+     <x>10</x>
+     <y>60</y>
+     <width>301</width>
+     <height>91</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0">
      <widget class="QLabel" name="label_2">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="text">
-       <string>夹持器_G6</string>
+       <string>夹持器_G6  </string>
       </property>
      </widget>
     </item>
     <item row="0" column="1">
      <widget class="QPushButton" name="pushButton">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>开启</string>
       </property>
@@ -47,6 +57,11 @@
     </item>
     <item row="1" column="1">
      <widget class="QPushButton" name="pushButton_2">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>开启</string>
       </property>
@@ -57,13 +72,23 @@
     </item>
     <item row="0" column="0">
      <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="text">
-       <string>夹持器_G0</string>
+       <string>夹持器_G0  </string>
       </property>
      </widget>
     </item>
     <item row="0" column="2">
      <widget class="QPushButton" name="pushButton_3">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>关闭</string>
       </property>
@@ -74,6 +99,11 @@
     </item>
     <item row="1" column="2">
      <widget class="QPushButton" name="pushButton_4">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>关闭</string>
       </property>
@@ -84,26 +114,138 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
+  <widget class="QWidget" name="gridLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>371</width>
-     <height>81</height>
+     <x>320</x>
+     <y>60</y>
+     <width>160</width>
+     <height>91</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>夹持器
-力矩</string>
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;整数0~2000&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="placeholderText">
+       <string/>
       </property>
      </widget>
     </item>
-    <item>
+    <item row="1" column="0">
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;整数0~2000&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="placeholderText">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="label_8">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>mA</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="label_9">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>mA</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>230</y>
+     <width>39</width>
+     <height>79</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>mA</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>331</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_4">
+    <item row="0" column="2">
+     <widget class="QLabel" name="label_4">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>mA</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>夹持器力矩  </string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
      <widget class="QLineEdit" name="lineEdit">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="toolTip">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;整数0~2000&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
@@ -115,15 +257,13 @@
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>mN.m</string>
-      </property>
-     </widget>
-    </item>
-    <item>
+    <item row="0" column="3">
      <widget class="QPushButton" name="pushButton_5">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>设置</string>
       </property>
@@ -135,30 +275,14 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton_5</sender>
-   <signal>clicked()</signal>
-   <receiver>Form_gripper</receiver>
-   <slot>gripper_torque_set()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>319</x>
-     <y>49</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>402</x>
-     <y>65</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>pushButton</sender>
    <signal>clicked(bool)</signal>
    <receiver>Form_gripper</receiver>
    <slot>gripper_0_open()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>194</x>
-     <y>127</y>
+     <x>210</x>
+     <y>99</y>
     </hint>
     <hint type="destinationlabel">
      <x>443</x>
@@ -173,8 +297,8 @@
    <slot>gripper_0_close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>354</x>
-     <y>138</y>
+     <x>309</x>
+     <y>99</y>
     </hint>
     <hint type="destinationlabel">
      <x>418</x>
@@ -189,8 +313,8 @@
    <slot>gripper_6_open()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>235</x>
-     <y>190</y>
+     <x>210</x>
+     <y>144</y>
     </hint>
     <hint type="destinationlabel">
      <x>369</x>
@@ -205,12 +329,28 @@
    <slot>gripper_6_close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>327</x>
-     <y>194</y>
+     <x>309</x>
+     <y>144</y>
     </hint>
     <hint type="destinationlabel">
      <x>501</x>
      <y>205</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_5</sender>
+   <signal>clicked()</signal>
+   <receiver>Form_gripper</receiver>
+   <slot>gripper_torque_set()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>408</x>
+     <y>29</y>
     </hint>
    </hints>
   </connection>
