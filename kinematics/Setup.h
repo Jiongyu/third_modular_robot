@@ -9,12 +9,6 @@
  *****************************************************************************/
 #include "Robot.h"
 
-//#include "TaskControl.h"
-//#include "ServoControl.h"
-//#include "Monitor.h"
-//#include "PumpControl.h"
-//#include "masterdlg.h"
-
 #define unchar  unsigned char
 
 
