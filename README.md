@@ -2,57 +2,25 @@
 
 **BIRL 爬壁机器人&双手爪攀爬机器人控制**
 
-### 1. 安装通信驱动及相关依赖
+##### 1. 安装通信驱动及相关依赖
+自动安装脚本：[./install.sh](/src/BirlModuleRobot/install.sh)
 ```
-cd
-mkdir -r ros/biped5d_robot/src/ && cd ~/ros/biped5d_robot/src/
-wget http://www.ixxat.com/docs/librariesprovider8/default-document-library/downloads/other-drivers/socketcan_1-1-92-0_20150508.zip?sfvrsn=10 
-unzip socketcan_1-1-92-0_20150508.zip?sfvrsn=10
-gedit README &
-cd usb-to-can_v2_socketcan
-sudo modprobe can-dev
-sudo apt-get install module-assistant
-sudo module-assistant prepare
-make
-sudo make install
+sudo ./install.sh
 ```
+##### 2. ROS安装
+>参考网址：
+> <http://wiki.ros.org/kinetic/Installation/Ubuntu>
 
-```
-sudo touch /etc/can.conf
-sudo chmod a+w /etc/can.conf
+#### 3. 软件使用
 
-echo "[default]  
-interface = socketcan  
-channel = can0" >> /etc/can.conf
-```
+##### 3.1 文件内容:
+>birl_modular_robot:正逆运动学ros服务
+>canopen_communication: canopen底层通信
+>kinematics: 正逆运动学源码
+>ui: 界面逻辑文件
 
-```
-sudo apt-get install can-utils
-sudo pip install canopen
-```
-
-### 2. ROS安装
-
-  参考网址：
-
-
-   <http://wiki.ros.org/kinetic/Installation/Ubuntu>
-
-### 3. 软件使用
-
-#### 3.1 软件下载与环境配置
-```
-cd ~/ros/biped5d_robot/src/ 
-git clone https://github.com/Jiongyu/third_modular_robot.git
-sudo echo "source ~/ros/biped5d_robot/devel/setup.bash">> ~/.bashrc
-source ~/.bashrc
-
-```
-
-#### 3.2 连接通信启动软件
-##### 3.2.1. ui control
+##### 3.1 连接通信启动软件
 ```
 rosrun canopen_communication can_prepare.sh
-
 roslaunch ui ui_start.launch
 ```
