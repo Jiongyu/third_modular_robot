@@ -1,5 +1,0 @@
-# WARNING! All changes made in this file may be cause error!
-# Created by: UI 
-# direction(1: positive 0:negative)
-
-D 1 1 1 1 1  
