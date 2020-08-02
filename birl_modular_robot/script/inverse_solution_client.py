@@ -1,17 +1,29 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+@version: python2.7
+@author:
+@contact: 
+@software: RoboWareStudio
+@file: inverse_solution_client.py
+
+@biref: 基于ros服务获取运动学逆解---客户端
+        输入输出参考srv/inverse_solution.srv
+"""
+
 import rospy
 from birl_module_robot.srv import inverse_solution
 
-def inverse_solution_client( which_gripper, descartes_position_command, descartes_velocity_command, current_joint_position):
+
+def Inverse_solution_client( which_robot, which_base, descartes_position_command, descartes_velocity_command, current_joint_position):
     rospy.loginfo("Wait For Server: inverse_solution.")
     rospy.wait_for_service("inverse_solution")
     rospy.loginfo("Client Get New Requset.")
     try:
         client = rospy.ServiceProxy("inverse_solution", inverse_solution)
         
-        resp = client.call(which_gripper, descartes_position_command, descartes_velocity_command, current_joint_position)
+        resp = client.call(which_robot, which_base, descartes_position_command, descartes_velocity_command, current_joint_position)
 
     except rospy.ServiceException, e:
         rospy.logwarn("Service call failed: %s"%e)
@@ -28,6 +40,6 @@ def inverse_solution_client( which_gripper, descartes_position_command, descarte
 
 
 # if __name__ == "__main__":
-#     [temp_1, temp_2] = inverse_solution_client(True, [0.56, 0, 0, 0, 0, 180], [-0.005, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0])
+#     [temp_1, temp_2] = Inverse_solution_client(1, True, [0.56, 0, 0, 0, 0, 180], [-0.005, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0])
 #     print temp_1
 #     print temp_2

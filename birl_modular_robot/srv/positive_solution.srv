@@ -1,3 +1,6 @@
+# which robot (0: climbing robot,  1: biped robot) 
+int16 which_robot
+
 # Select which one gripper is the base (true : gripper0 , flase :gripper6)
 bool base
 
