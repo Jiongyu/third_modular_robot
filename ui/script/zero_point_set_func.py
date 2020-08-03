@@ -24,6 +24,8 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
     # 获取当前关节值信号
     sin_get_actual_joints_pos = pyqtSignal()
 
+    sin_close = pyqtSignal()
+
     def __init__(self, pos_joint, direction_joint):
         super(Zero_point_set_func,self).__init__()
         self.setupUi(self)
@@ -153,3 +155,7 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
     # 关闭界面
     def close_windows(self):
         self.close()
+
+    def closeEvent(self, event):
+        self.sin_close.emit()
+        event.accept()

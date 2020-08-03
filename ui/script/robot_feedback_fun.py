@@ -23,6 +23,8 @@ class Robot_feedback_fun(QWidget, Ui_robotFeedback):
 
     sin_open_robot_state_feedback = pyqtSignal(bool)
 
+    sin_close = pyqtSignal()
+
     def __init__(self, which_robot):
         super(Robot_feedback_fun,self).__init__()
         self.setupUi(self)
@@ -92,3 +94,7 @@ class Robot_feedback_fun(QWidget, Ui_robotFeedback):
         self.sin_open_robot_state_feedback.emit(False)
         self.close()
         pass
+
+    def closeEvent(self, event):
+        self.sin_close.emit()
+        event.accept()

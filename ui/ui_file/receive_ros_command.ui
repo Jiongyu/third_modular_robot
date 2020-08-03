@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>receive_ros_command</class>
+ <widget class="QWidget" name="receive_ros_command">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>458</width>
+    <height>318</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>458</width>
+    <height>318</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>458</width>
+    <height>318</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>接受ros控制命令</string>
+  </property>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>281</width>
+     <height>281</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>260</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>发送控制命令</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_5">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>140</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>清空</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_7">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>30</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>删除</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton_6</sender>
+   <signal>clicked()</signal>
+   <receiver>receive_ros_command</receiver>
+   <slot>sent_ros_command()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>404</x>
+     <y>296</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>437</x>
+     <y>217</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_7</sender>
+   <signal>clicked()</signal>
+   <receiver>receive_ros_command</receiver>
+   <slot>delete_path_point()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>165</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_5</sender>
+   <signal>clicked()</signal>
+   <receiver>receive_ros_command</receiver>
+   <slot>clear_path_point()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>372</x>
+     <y>233</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>309</x>
+     <y>284</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>open_ros_command()</slot>
+  <slot>close_ros_command()</slot>
+  <slot>sent_ros_command()</slot>
+  <slot>delete_path_point()</slot>
+  <slot>clear_path_point()</slot>
+ </slots>
+</ui>

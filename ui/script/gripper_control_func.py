@@ -21,6 +21,8 @@ class Gripper_control_func(QWidget,Ui_Form_gripper):
     sin_open_or_close_gripper0 = pyqtSignal(int)
     sin_open_or_close_gripper6 = pyqtSignal(int)
 
+    sin_close = pyqtSignal()
+
     #　启动夹持器反馈状态
     sin_open_gripper_feedback = pyqtSignal(bool)
 
@@ -78,3 +80,7 @@ class Gripper_control_func(QWidget,Ui_Form_gripper):
     def close_windows(self):
         self.sin_open_gripper_feedback.emit(False)
         self.close()
+
+    def closeEvent(self, event):
+        self.sin_close.emit()
+        event.accept()

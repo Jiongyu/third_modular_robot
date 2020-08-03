@@ -1344,6 +1344,7 @@
      <string>ROS</string>
     </property>
     <addaction name="action_6"/>
+    <addaction name="action_12"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -1477,6 +1478,16 @@
   <action name="action_11">
    <property name="text">
     <string>机器人状态反馈</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_12">
+   <property name="text">
+    <string>控制命令</string>
    </property>
    <property name="font">
     <font>

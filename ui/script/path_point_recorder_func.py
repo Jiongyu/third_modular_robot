@@ -12,7 +12,6 @@
 """
 
 from path_point_recorder import Ui_Form_recoder_point
-from path_point_recorder_func_thread import Path_point_recorder_func_thread
 
 from PyQt5.QtWidgets import QWidget, QDesktopWidget, QFileDialog
 from PyQt5.QtCore import pyqtSignal,QTimer
@@ -28,6 +27,8 @@ class Path_point_recorder_func(QWidget, Ui_Form_recoder_point):
 
     # 获取当前关节信号
     sin_request_pos_joints = pyqtSignal()
+
+    sin_close = pyqtSignal()
 
     def __init__(self):
         super(Path_point_recorder_func, self).__init__()
@@ -82,3 +83,7 @@ class Path_point_recorder_func(QWidget, Ui_Form_recoder_point):
     # 关闭界面
     def close_windows(self):
         self.close()
+
+    def closeEvent(self, event):
+        self.sin_close.emit()
+        event.accept()

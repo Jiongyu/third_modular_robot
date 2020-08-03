@@ -17,11 +17,12 @@ from path_point_recorder_func import Path_point_recorder_func
 from gripper_control_func import Gripper_control_func
 from zero_point_set_func import Zero_point_set_func
 from robot_feedback_fun import Robot_feedback_fun
+from receive_ros_command_func import Receive_ros_command_func
 from robot_lowlevel_control_muti_thread import Robot_lowlevel_control_Muti_thread
 from get_inverse_solution_thread import Get_inverse_solution_thread
 from path_process import Path_process
 
-from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMessageBox, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMessageBox, QFileDialog, QWidget
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtGui import QDoubleValidator
 
@@ -77,6 +78,19 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.__string_robot_NotEnabled = "机器人\n未使能"
         self.__string_robot_Enable_ing = "机器人\n使能中"
 
+        # 窗口
+        self.__window_gripper_control = QWidget()
+        self.__window_path_point_record = QWidget()
+        self.__window_zero_point_set = QWidget()
+        self.__window_robot_state_feedback = QWidget()
+        self.__window_receive_ros_robot_command = QWidget()
+        # 判断窗口是否打开
+        self.__window_gripper_control_flag = False
+        self.__window_path_point_record_flag = False
+        self.__window_zero_point_set_flag = False
+        self.__window_robot_state_feedback_flag = False
+        self.__window_receive_ros_robot_command_flag = False
+
         # 区别攀爬、爬壁
         self.__which_robot = which_robot
 
@@ -128,6 +142,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.action_8.triggered.connect(self.__auto_gripper_pole)
         self.action_6.triggered.connect(self.__ros_state_feedback_Set)
         self.action_10.triggered.connect(self.__about)
+        self.action_12.triggered.connect(self.__open_ros_command)
         # end
 
         # ros 反馈初始化
@@ -435,66 +450,108 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def __open_gripper_control(self):
 
         if self.__which_robot == 0:
-            self.__windows_gripper_control = Gripper_control_func()
-            temp = self.frameGeometry()
-            self.__windows_gripper_control.move(temp.right(),temp.top())
-            
-            self.__windows_gripper_control.sin_open_or_close_gripper0.connect(self.__get_G0_torque_from_windowsGripperControl)
-            self.__windows_gripper_control.sin_open_or_close_gripper6.connect(self.__get_G6_torque_from_windowsGripperControl)
-            self.sin_close_windowsGripper.connect(self.__windows_gripper_control.close_windows)
-            
-            if self.__robot_enabled_flag:
-                self.sin_G0_command.connect(self.__lowLevelControl.G0_command)
-                self.sin_G6_command.connect(self.__lowLevelControl.G6_command)
-                self.__windows_gripper_control.sin_open_gripper_feedback.connect(self.__lowLevelControl.open_gripper_feedback)
+            if not self.__window_gripper_control_flag:
+                self.__window_gripper_control_flag = True
+                self.__window_gripper_control = Gripper_control_func()
+                temp = self.frameGeometry()
+                self.__window_gripper_control.move(temp.right(),temp.top())
                 
-                self.__lowLevelControl.sin_gripper_feedback.connect(self.__windows_gripper_control.display)
-            self.__windows_gripper_control.show()
-            self.__windows_gripper_control.open_gripper_current_feedback()
+                self.__window_gripper_control.sin_open_or_close_gripper0.connect(self.__get_G0_torque_from_windowsGripperControl)
+                self.__window_gripper_control.sin_open_or_close_gripper6.connect(self.__get_G6_torque_from_windowsGripperControl)
+                self.__window_gripper_control.sin_close.connect(self.__open_gripper_control_close_flag)
+
+                self.sin_close_windowsGripper.connect(self.__window_gripper_control.close_windows)
+                
+                if self.__robot_enabled_flag:
+                    self.sin_G0_command.connect(self.__lowLevelControl.G0_command)
+                    self.sin_G6_command.connect(self.__lowLevelControl.G6_command)
+                    self.__window_gripper_control.sin_open_gripper_feedback.connect(self.__lowLevelControl.open_gripper_feedback)
+                    
+                    self.__lowLevelControl.sin_gripper_feedback.connect(self.__window_gripper_control.display)
+                self.__window_gripper_control.show()
+                self.__window_gripper_control.open_gripper_current_feedback()
+
+    def __open_gripper_control_close_flag(self):
+        self.__window_gripper_control_flag = False
 
     # 打开示教点记录界面
     def __open_path_point_record(self):
+        if not self.__window_path_point_record_flag:
+            self.__window_path_point_record_flag = True
+            self.__window_path_point_record = Path_point_recorder_func()
+            temp = self.frameGeometry()
+            temp_height = self.__window_path_point_record.height()
+            self.__window_path_point_record.move(temp.right(), temp.top() + temp_height)
+            
+            self.__window_path_point_record.sin_request_pos_joints.connect(self.__sent_data_to_windowsPathRecorder)
+            self.__window_path_point_record.sin_close.connect(self.__open_path_point_record_close_flag)
+            self.sin_sent_data_to_WindowsPathRecoder.connect(self.__window_path_point_record.receive_pos_joints)
+            self.sin_close_windowsPathRecoder.connect(self.__window_path_point_record.close_windows)
+            self.__window_path_point_record.show()
 
-        self.__windows_path_point_record = Path_point_recorder_func()
-        temp = self.frameGeometry()
-        temp_height = self.__windows_path_point_record.height()
-        self.__windows_path_point_record.move(temp.right(), temp.top() + temp_height)
-        
-        self.__windows_path_point_record.sin_request_pos_joints.connect(self.__sent_data_to_windowsPathRecorder)
-        self.sin_sent_data_to_WindowsPathRecoder.connect(self.__windows_path_point_record.receive_pos_joints)
-        self.sin_close_windowsPathRecoder.connect(self.__windows_path_point_record.close_windows)
-        self.__windows_path_point_record.show()
+    def __open_path_point_record_close_flag(self):
+        self.__window_path_point_record_flag = False
 
     # 打开零点设置界面
     def __open_set_zero_point(self):
+        if not self.__window_zero_point_set_flag:
+            self.__window_zero_point_set_flag = True
+            self.__window_zero_point_set = Zero_point_set_func(self.__zero_pos_joints, self.__direction_joints)
+            temp = self.frameGeometry()
+            temp_width = self.__window_zero_point_set.width()
+            self.__window_zero_point_set.move(temp.left() - temp_width, temp.top())
+            self.__window_zero_point_set.sin_close.connect(self.__open_set_zero_point_close_flag)
+            self.__window_zero_point_set.sin_set_zero_point.connect(self.__get_data_from_windowsSetZeroPoint)
+            self.__window_zero_point_set.sin_get_actual_joints_pos.connect(self.__sent_data_to_windowsSetZero)
+            self.sin_sent_data_to_windowsSetZero.connect(self.__window_zero_point_set.receive_actual_joint_point)
+            self.sin_close_windowsSetZero.connect(self.__window_zero_point_set.close_windows)
+            self.__window_zero_point_set.show()
+            pass
 
-        self.__window_zero_point_set = Zero_point_set_func(self.__zero_pos_joints, self.__direction_joints)
-        temp = self.frameGeometry()
-        temp_width = self.__window_zero_point_set.width()
-        self.__window_zero_point_set.move(temp.left() - temp_width, temp.top())
-
-        self.__window_zero_point_set.sin_set_zero_point.connect(self.__get_data_from_windowsSetZeroPoint)
-        self.__window_zero_point_set.sin_get_actual_joints_pos.connect(self.__sent_data_to_windowsSetZero)
-        self.sin_sent_data_to_windowsSetZero.connect(self.__window_zero_point_set.receive_actual_joint_point)
-        self.sin_close_windowsSetZero.connect(self.__window_zero_point_set.close_windows)
-        self.__window_zero_point_set.show()
-        pass
+    def __open_set_zero_point_close_flag(self):
+        self.__window_zero_point_set_flag = False
     
     # 打开机器人状态反馈界面
     def __open_robot_state_feedback(self):
 
-        self.__window_robot_state_feedback = Robot_feedback_fun(self.__which_robot)
-        if self.__robot_enabled_flag:
-            self.sin_display_feedback_data.connect(self.__window_robot_state_feedback.display)
-            self.sin_update_gripper_base.connect(self.__window_robot_state_feedback.update_gripper)
-            self.__window_robot_state_feedback.sin_open_robot_state_feedback.connect(self.__open_robot_state_feedback_signal)
-        temp = self.frameGeometry()
-        temp_width = self.__window_robot_state_feedback.width()
-        temp_height = self.__window_robot_state_feedback.height()
-        self.__window_robot_state_feedback.move(temp.left() - temp_width, temp.top() + temp_height)
-        self.sin_close_windowsFeedback.connect(self.__window_robot_state_feedback.close_windows)
-        self.__window_robot_state_feedback.show()
-        self.__window_robot_state_feedback.open_robot_state_feedback()
+        if not self.__window_robot_state_feedback_flag:
+            self.__window_robot_state_feedback_flag = True
+            self.__window_robot_state_feedback = Robot_feedback_fun(self.__which_robot)
+            if self.__robot_enabled_flag:
+                self.sin_display_feedback_data.connect(self.__window_robot_state_feedback.display)
+                self.sin_update_gripper_base.connect(self.__window_robot_state_feedback.update_gripper)
+                self.__window_robot_state_feedback.sin_open_robot_state_feedback.connect(self.__open_robot_state_feedback_signal)
+            self.__window_robot_state_feedback.sin_close.connect(self.__open_robot_state_feedback_close_flag)
+            self.sin_close_windowsFeedback.connect(self.__window_robot_state_feedback.close_windows)
+            temp = self.frameGeometry()
+            temp_width = self.__window_robot_state_feedback.width()
+            temp_height = self.__window_robot_state_feedback.height()
+            self.__window_robot_state_feedback.move(temp.left() - temp_width, temp.top() + temp_height)
+            self.__window_robot_state_feedback.show()
+            self.__window_robot_state_feedback.open_robot_state_feedback()
+    
+    def __open_robot_state_feedback_close_flag(self):
+        self.__window_robot_state_feedback_flag = False
+
+    # 打开 接收ros command 界面
+    def __open_ros_command(self):
+
+        if not self.__window_receive_ros_robot_command_flag:
+            self.__window_receive_ros_robot_command_flag = True
+            self.__window_receive_ros_robot_command = Receive_ros_command_func()
+            self.__window_receive_ros_robot_command.sin_sent_ros_command.connect(self.__get_ros_command_data)
+            self.__window_receive_ros_robot_command.sin_close.connect(self.__open_ros_command_close_flag)
+
+            temp = self.frameGeometry()
+            self.__window_receive_ros_robot_command.move(temp.right(),temp.top())
+            self.__window_receive_ros_robot_command.show()
+
+    def __open_ros_command_close_flag(self):
+        self.__window_receive_ros_robot_command_flag = False
+
+    # 获取ros command， 发送至底层
+    def __get_ros_command_data(self, data):
+        pass
 
     # 打开机器人状态反馈界面，开始显示反馈数据
     def __open_robot_state_feedback_signal(self, data):
@@ -516,14 +573,12 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
     # 界面退出
     def __quit(self):
-        try:
 
-            self.__windows_path_point_record.close()
-            self.__window_zero_point_set.close()
-            self.__windows_gripper_control.close()
-            self.__window_robot_state_feedback.close()
-        except:
-            pass
+        self.sin_close_windowsGripper.emit()
+        self.sin_close_windowsPathRecoder.emit()
+        self.sin_close_windowsSetZero.emit()
+        self.sin_close_windowsFeedback.emit()
+
         self.close()
         pass
     
@@ -620,7 +675,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
     # 界面突出处理信号
     def closeEvent(self, event):
-        result = QMessageBox.question(self, "模块化机器人上位机", "Do you want to exit?", QMessageBox.Yes | QMessageBox.No)
+        result = QMessageBox.question(self, "模块化机器人上位机", '\n       退出?        \n', QMessageBox.Yes | QMessageBox.No)
         if(result == QMessageBox.Yes):
             self.sin_close_windowsGripper.emit()
             self.sin_close_windowsPathRecoder.emit()
@@ -632,7 +687,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         else:
             event.ignore()
 
-    ###############  ｒｏｓ消息反馈设置  #######################################
+    ###############  ｒｏｓ设置  #######################################
 
     def __ros_state_feedback_Set(self):
         if(self.action_6.isChecked()):

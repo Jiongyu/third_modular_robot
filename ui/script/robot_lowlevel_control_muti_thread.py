@@ -59,7 +59,7 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         # 判断机器人关节是否为新命令
         self.__new_pos_joints_command = [False ,False ,False ,False ,False]
         # 轨迹数据
-        self.__path_pos_joints_command = [0 ,0 ,0 ,0 ,0]
+        self.__path_pos_joints_command = []
         # 轨迹数据index
         self.__path_point_index = 0
         # 轨迹长度
@@ -283,7 +283,6 @@ class Robot_lowlevel_control_Muti_thread(QThread):
                     self.path_command_mode = False
                     return
         self.path_command_mode = False
-        pass
 
         # ## test code #################################
         # if (0 == self.__path_point_index):
