@@ -40,8 +40,7 @@ class Path_point_recorder_func(QWidget, Ui_Form_recoder_point):
         # 延迟获取关节状态使用
         self.__timer = QTimer()
         self.__timer.timeout.connect(self.__update) # 计时器挂接到槽：update
-
-        self.__joint_enable = False
+        self.listWidget.addItem('P=0,0,0,0,0,;')
 
     # 插入关节点
     def insert_point(self):
