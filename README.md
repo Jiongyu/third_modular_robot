@@ -3,7 +3,7 @@
 **BIRL 爬壁机器人&双手爪攀爬机器人控制**
 
 ##### 1. 安装通信驱动及相关依赖
-自动安装脚本：[./install.sh](/src/BirlModuleRobot/install.sh)
+自动安装脚本：[./install.sh](./install.sh)
 ```
 sudo ./install.sh
 ```
