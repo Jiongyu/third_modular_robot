@@ -34,7 +34,7 @@ class Modular_joint(object):
         """
         start communication
         """
-        print "Motor Start.\n"
+        print "Motor Start."
         # Reset network
         self.__node.nmt.state = 'RESET'
         self.__node.nmt.state = 'RESET COMMUNICATION'
@@ -61,21 +61,21 @@ class Modular_joint(object):
         self.__param_config()
 
 
-        print "Joint {0} Initialization Complete.\n".format(self.__id)
+        print "Joint {0} Initialization Complete.".format(self.__id)
 
-    def stop(self):
+    def stop_communication(self):
         """
         stop communication
         """
 
         self.serve_off()
-        print "Joint {0} Stop.\n".format(self.__id)
+        print "Joint {0} Stop.".format(self.__id)
         self.__node.nmt.state = 'PRE-OPERATIONAL'
         print('node {1} state 5) = {0}'.format(self.__node.nmt.state, self.__id))
         del self.__network[self.__id]
         self.__network.sync.stop()
         self.__network.disconnect()
-        print "Joint {0} Stop success.\n".format(self.__id)
+        print "Joint {0} Stop success.".format(self.__id)
 
     def get_operation_mode(self):
         return self.__node.op_mode
@@ -83,10 +83,10 @@ class Modular_joint(object):
 
     def quick_stop(self):
         self.__node.controlword = (self.__controlword & ~( 1 << 2 ))
-        self.__node.nmt.state = 'PRE-OPERATIONAL'
-        # del self.__network[self.__id]
-        # self.__network.sync.stop()
-        # self.__network.disconnect()
+        self.stop()
+
+    def stop(self):
+        self.__node.state = 'SWITCHED ON'
 
     def pause_run(self):
         self.__controlword = self.__node.sdo[0x6040].raw
@@ -94,6 +94,9 @@ class Modular_joint(object):
         pass
 
     def continue_run(self):
+        self.__node.controlword = ( self.__controlword & ~(1 << 4) )
+        self.__node.controlword = ( self.__controlword | (3  << 4) )
+        self.__node.controlword = ( self.__controlword & ~(1 << 4) )
         self.__controlword = self.__node.sdo[0x6040].raw
         self.__node.controlword = ( self.__controlword & ~(1 << 8))
         pass
@@ -125,6 +128,8 @@ class Modular_joint(object):
         pass
 
     def opmode_set(self,data):
+        # if self.__node.op_mode == data:
+        #     return
         self.__node.op_mode = data
         while( self.__node.op_mode != data ):
             self.__node.op_mode = data
@@ -214,10 +219,10 @@ class Modular_joint(object):
             else:
                 self.__node.reset_from_fault()
             time.sleep(0.01)    # 10ms
-            print "Serve On ...\n"
+            print "Serve On ..."
 
     def serve_off(self):
-        print "Serve Off.\n"
+        print "Serve Off."
         self.__node.state = 'READY TO SWITCH ON'
 
     def __del__(self):

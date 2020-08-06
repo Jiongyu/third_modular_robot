@@ -73,18 +73,20 @@ class G100(object):
         """
         return self.__node.sdo[0x221c].phys  # mA
 
-    def stop(self):
+    def stop_communication(self):
         """
         stop communication
         """
+        self.__node.state = 'READY TO SWITCH ON'
         self.__node.nmt.state = 'PRE-OPERATIONAL'
         print('node {1} state 5) = {0}'.format(self.__node.nmt.state, self.__id))
         self.__network.sync.stop()
         self.__network.disconnect()
+
+    def stop(self):
+        self.__node.state = 'SWITCHED ON'
         
     def quick_stop(self):
         self.__node.sdo[0x6040].bits[2] = 0
-        self.__node.nmt.state = 'PRE-OPERATIONAL'
-        print('node {1} state 5) = {0}'.format(self.__node.nmt.state, self.__id))
-        self.__network.sync.stop()
-        self.__network.disconnect()
+        self.stop()
+

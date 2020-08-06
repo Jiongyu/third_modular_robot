@@ -5,33 +5,41 @@ import rospy
 import sys
 from rospkg import RosPack
 sys.path.append(RosPack().get_path('canopen_communication') + "/modular/")
-from modular_G100 import G100
+from modular_T85 import T85
 
 from time import sleep
 
 def main():
     eds_file = RosPack().get_path('canopen_communication') + "/file/Copley.eds"
-    I1 = G100(7, eds_file)
-    I1.start()
-    # I1.opmode_set('PROFILED POSITION')
-    # I1.opmode_set('PROFILED VELOCITY')
+    joint = T85(5, eds_file)
+    joint.start()
+    # joint.opmode_set('PROFILED POSITION')
+    joint.opmode_set('PROFILED VELOCITY')
 
     # position = 50
-    # velocity = -5 
-    I1.sent_current(300)
-    print I1.get_current()
-    print I1.get_current()
-    print I1.get_current()
-    print I1.get_current()
-    print I1.get_current()
+    velocity = -5 
+    # joint.sent_current(300)
+    # print joint.get_current()
+    # print joint.get_current()
+    # print joint.get_current()
+    # print joint.get_current()
+    # print joint.get_current()
 
-    # I1.sent_position(position, velocity)
-    # I1.sent_velocity(velocity)
-    sleep(1)
-    I1.sent_current(0)
+    # joint.sent_position(position, velocity)
+    joint.sent_velocity(velocity)
+    sleep(2)
+    print "pause run"
+    joint.pause_run()
+    sleep(2)
+    print "continue run"
+    joint.continue_run()
+    sleep(2)
+    # sleep(1)
+    # joint.sent_current(0)
 
-    I1.stop()
-    # I1.quick_stop()
+    joint.stop()
+    joint.stop_communication()
+    # joint.quick_stop()
 
 
 if __name__ == "__main__":
