@@ -16,11 +16,11 @@ from math import radians
 
 class Path_process():
     
-    def __init__(self, joint_direction):
+    def __init__(self, zero_position, joint_direction, max_path_velocity):
 
         self.__joint_pos = []
-        self.__max_vel = 5
-
+        self.__max_vel = max_path_velocity
+        self.__zero_position = zero_position
         self.__joints_direction = joint_direction
 
     def __readfile(self,data):
@@ -28,6 +28,7 @@ class Path_process():
         @brief: 读取路径点文本文件
         """
         temp_data = data.split('\n')
+        # print temp_data
         for i in range(len(temp_data)):
             # 判断是否以P开始
             if temp_data[i][0:1] == 'P': 
@@ -37,7 +38,10 @@ class Path_process():
                 temp_data[i] = temp_data[i].split(' ')
                 temp_array = []
                 for j in range(1,len(temp_data[i]) - 1):
-                    temp_array.append(float(str(temp_data[i][j])) * self.__joints_direction[j - 1])
+                    if self.__joints_direction[j - 1] == 1:
+                        temp_array.append( (float(str(temp_data[i][j])) + self.__zero_position[j - 1]) ) 
+                    elif self.__joints_direction[j - 1] == -1:
+                        temp_array.append( (float(str(temp_data[i][j])) - self.__zero_position[j - 1]) ) 
 
                 self.__joint_pos.append(temp_array)
 
@@ -54,47 +58,13 @@ class Path_process():
         deg_interval = self.__max_vel
 
         i = 0
-        getNextPoint = False
-        while(i < (len(self.__joint_pos))):
-            try:
-                for j in range(len(self.__joint_pos[i])):
 
+        while(i < (len(self.__joint_pos) - 1)):
+                for j in range(len(self.__joint_pos[i])):
                     if(abs(self.__joint_pos[i][j] - self.__joint_pos[i+1][j]) > deg_interval ):
                         temp.append(self.__joint_pos[i+1])
-                        i = i+1
-                        getNextPoint = True
                         break
-
-                    if(abs(self.__joint_pos[i][j] - self.__joint_pos[i+2][j]) > deg_interval ):
-                        temp.append(self.__joint_pos[i+2])
-                        i = i+2
-                        getNextPoint = True
-                        break
-
-                    if(abs(self.__joint_pos[i][j] - self.__joint_pos[i+3][j]) > deg_interval ):
-                        temp.append(self.__joint_pos[i+3])
-                        i = i+3
-                        getNextPoint = True
-                        break
-
-                    if(abs(self.__joint_pos[i][j] - self.__joint_pos[i+4][j]) > deg_interval ):
-                        temp.append(self.__joint_pos[i+4])
-                        i = i+4 
-                        getNextPoint = True
-                        break
-
-                    if(abs(self.__joint_pos[i][j] - self.__joint_pos[i+5][j]) > deg_interval ):
-                        temp.append(self.__joint_pos[i+5]) 
-                        i = i+5
-                        getNextPoint = True
-                        break
-            except IndexError:
-                pass
-            if getNextPoint:
-                getNextPoint = False
-            else:
-                i = i + 1
-
+                i += 1
             
         if(temp[-1] != self.__joint_pos[-1]):
             temp.append(self.__joint_pos[-1])

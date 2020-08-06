@@ -4,7 +4,7 @@
 @version: python2.7
 @author:
 @contact: 
-@software: RoboWareStudio
+@software: 
 @file: robot_feedback_fun.py
 
 @biref: 机器人状态反馈界面

@@ -24,7 +24,7 @@ from path_process import Path_process
 
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMessageBox, QFileDialog, QWidget
 from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtGui import QDoubleValidator
+from PyQt5.QtGui import QDoubleValidator,QIntValidator
 
 # from string import atof
 
@@ -96,16 +96,23 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
         # 判断机器人是否启动
         self.__robot_enabled_flag = False
-        # 机器人启动中
+        # 判断是否为机器人启动中，防止启动过程重复启动
         self.__robot_starting = False
         self.label.setText(self.__string_robot_NotEnabled)
 
-        # 路径点集合
+        # 离线路径点集合
         self.__pos_joints_path_array = []
         self.__old_path_array = []
 
+        # 离线路径速度
+        self.__max_path_velocity = 5
+        self.lineEdit.setText(str(self.__max_path_velocity))
+
         # 关节速度命令
-        self.__joint_velocity = 5
+        self.__joint_velocity = 3
+        self.lineEdit_12.setText(str(self.__joint_velocity))
+        self.lineEdit_23.setText(str(self.__joint_velocity))
+
         # 位置模式界面
         self.___joint_velocity_command_posMode = [0,0,0,0,0]
         # 速度模式界面
@@ -119,9 +126,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
         # 关节是否正方向(1:正;-1:反)I1, T2, T3, T4, I5
         self.__direction_joints = [1,1,1,1,1]
-
-        # 是否设置零点,避免重复叠加零点值
-        self.__set_zero_point_flag = True
 
         # 默认机器人正逆运动学基座为G0
         self.__base_flag = True
@@ -199,7 +203,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def stop_robot(self):
         if self.__robot_enabled_flag:
             self.sin_stop_robot_operation.emit()
-            # print "Modular_robot_control_func__stop_robot"
         pass
 
     # 机器人急停槽函数
@@ -224,6 +227,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     # 机器人关闭成功反馈槽函数
     def __robot_stop_compelete(self):
         self.__robot_enabled_flag = False
+        self.__robot_starting = False
         del self.__lowLevelControl
         self.label.setText(self.__string_robot_NotEnabled)
 
@@ -235,7 +239,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_7.text())), \
                                                 self.__zero_pos_joints[0],  \
                                                 self.__direction_joints[0]  )
-            self.__set_zero_point_flag = False
             self.___joint_velocity_command_posMode[0] = self.__joint_velocity * self.__direction_joints[0]
             self.__joint_pos_command(self.__joint_position_command)
 
@@ -245,7 +248,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_8.text())), \
                                                 self.__zero_pos_joints[1],  \
                                                 self.__direction_joints[1]  )
-            self.__set_zero_point_flag = False
             self.___joint_velocity_command_posMode[1] = self.__joint_velocity  * self.__direction_joints[1]
             self.__joint_pos_command(self.__joint_position_command)
 
@@ -255,7 +257,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_9.text())), \
                                                 self.__zero_pos_joints[2],  \
                                                 self.__direction_joints[2]  )
-            self.__set_zero_point_flag = False
             self.___joint_velocity_command_posMode[2] = self.__joint_velocity * self.__direction_joints[2]
             self.__joint_pos_command(self.__joint_position_command)
 
@@ -265,7 +266,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_10.text())), \
                                                 self.__zero_pos_joints[3],  \
                                                 self.__direction_joints[3]  )
-            self.__set_zero_point_flag = False
             self.___joint_velocity_command_posMode[3] = self.__joint_velocity * self.__direction_joints[3]
             self.__joint_pos_command(self.__joint_position_command)
 
@@ -275,7 +275,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_11.text())), \
                                                 self.__zero_pos_joints[4],  \
                                                 self.__direction_joints[4]  )
-            self.__set_zero_point_flag = False
             self.___joint_velocity_command_posMode[4] = self.__joint_velocity * self.__direction_joints[4]
             self.__joint_pos_command(self.__joint_position_command)
 
@@ -399,23 +398,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def joint_velocity_set_velMode(self):
         self.__joint_velocity = float(str(self.lineEdit_23.text()))
 
-    # 更新机器人关节状态
-    def __update_feeback_joint_position(self,data):
-
-        for i in range(len(self.__pos_joints)):
-            self.__pos_joints[i] = ( data[0][i] - self.__zero_pos_joints[i] ) * self.__direction_joints[i]
-
-        if self.__robot_state_display_flag:
-            # 关节位置、速度、电流
-            self.sin_display_feedback_data.emit([self.__pos_joints, data[1], data[2]])
-        
-        if self.__ros_feedback_flag:
-            self.__ros_feedback_msg.feedbackPosData = self.__pos_joints
-            self.__ros_feedback_msg.feedbackVelData = data[1]
-            self.__ros_feedback_msg.feedbackCurrData = data[2]
-            self.__ros_feedback_msg.timeHeader.stamp = rospy.Time.now()
-            self.__publisher.publish(self.__ros_feedback_msg)
-
     # 离线轨迹载入文件槽函数
     def load_point_file(self):
 
@@ -428,7 +410,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
         self.__pos_joints_path_array = []
         temp_data = self.textEdit.toPlainText()
-        temp_path_process = Path_process(self.__direction_joints)
+        temp_path_process = Path_process(self.__zero_pos_joints, self.__direction_joints, self.__max_path_velocity)
 
         try:
             self.__pos_joints_path_array = temp_path_process.get_trajectory(temp_data) 
@@ -437,6 +419,11 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             QMessageBox.about(self,'错误','\n       路径点格式错误!!        \n')
             return 
         # print self.__pos_joints_path_array
+
+    # 设置离线轨迹最大速度
+    def set_path_max_velovity(self):
+        self.__max_path_velocity = int(str(self.lineEdit.text()))
+        # print self.__max_path_velocity
 
     # 运行离线轨迹槽函数
     def operate_point_data(self):
@@ -597,23 +584,51 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     
     # 获取零点，更新零点
     def __get_data_from_windowsSetZeroPoint(self,data):
-        if(not self.__set_zero_point_flag):
-            for i in range(len(data[0])):
-                if(self.__zero_pos_joints[i] != data[0][i]):
-                    self.__zero_pos_joints[i] += data[0][i]
-                self.__direction_joints[i] = data[1][i]
-            self.__set_zero_point_flag = True
+        for i in range(len(data[0])):
+            self.__direction_joints[i] = data[1][i]
+            if self.__direction_joints[i] == 1:
+                self.__zero_pos_joints[i] += data[0][i]
+            elif self.__direction_joints[i] == -1:
+                self.__zero_pos_joints[i] -= data[0][i]
 
     # 根据零点、关节方向， 计算关节命令
     @staticmethod
     def __user_data_to_motor(command_pos, zero_pos, direction):
         """
-        brief:  （用户值 + 零点）* 关节方向    
+        brief:  （用户值 +/- 零点）* 关节方向    
         """
-        return round((command_pos + zero_pos) * direction,  3)
+        if(direction == 1):
+            return round((command_pos + zero_pos),  3)
+        elif(direction == -1):
+            return round((command_pos - zero_pos),  3)
+
+    # 更新机器人关节状态
+    def __update_feeback_joint_position(self,data):
+
+        for i in range(len(self.__pos_joints)):
+            if(self.__direction_joints[i] == 1):
+                self.__pos_joints[i] = ( data[0][i] - self.__zero_pos_joints[i] )
+            if(self.__direction_joints[i] == -1):
+                    self.__pos_joints[i] = (data[0][i] + self.__zero_pos_joints[i])
+
+        if self.__robot_state_display_flag:
+            # 关节位置、速度、电流
+            self.sin_display_feedback_data.emit([self.__pos_joints, data[x1], data[2]])
+        
+        if self.__ros_feedback_flag:
+            self.__ros_feedback_msg.feedbackPosData = self.__pos_joints
+            self.__ros_feedback_msg.feedbackVelData = data[1]
+            self.__ros_feedback_msg.feedbackCurrData = data[2]
+            self.__ros_feedback_msg.timeHeader.stamp = rospy.Time.now()
+            self.__publisher.publish(self.__ros_feedback_msg)
 
     # 输入框　输入限制
     def __input_range_limit(self):
+
+        # 离线轨迹最大速度限制
+        pIntValidator = QIntValidator(self)
+        pIntValidator.setRange(1,30)
+        self.lineEdit.setValidator(pIntValidator)
 
         pDoubleValidator_I = QDoubleValidator(self)
         pDoubleValidator_I.setRange(-360, 360)
@@ -744,11 +759,4 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
     # tab 页数改变
     def tab_change(self, data):
-        # 修改关节位置运动速度默认5度
-        if data == 0:
-            self.__joint_velocity = 5
-            self.lineEdit_12.setText(str(5))
-        # 修改关节速度运动速度默认5度
-        elif data == 1:
-            self.__joint_velocity = 5
-            self.lineEdit_23.setText(str(5))
+        pass

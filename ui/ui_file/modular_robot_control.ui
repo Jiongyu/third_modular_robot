@@ -453,7 +453,7 @@
       <property name="geometry">
        <rect>
         <x>370</x>
-        <y>60</y>
+        <y>280</y>
         <width>80</width>
         <height>80</height>
        </rect>
@@ -461,6 +461,51 @@
       <property name="text">
        <string>载入
 文件</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_18">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>140</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>速度设置</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>100</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;速度范围1-30度/s&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>5</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>100</y>
+        <width>59</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>deg/s</string>
       </property>
      </widget>
     </widget>
@@ -1317,7 +1362,7 @@
      <x>0</x>
      <y>0</y>
      <width>778</width>
-     <height>40</height>
+     <height>36</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -1506,7 +1551,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>461</x>
-     <y>220</y>
+     <y>217</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -1522,7 +1567,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>461</x>
-     <y>291</y>
+     <y>284</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -1538,7 +1583,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>461</x>
-     <y>358</y>
+     <y>351</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -1554,7 +1599,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>461</x>
-     <y>425</y>
+     <y>418</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -1570,7 +1615,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>461</x>
-     <y>492</y>
+     <y>485</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -1586,7 +1631,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>461</x>
-     <y>575</y>
+     <y>571</y>
     </hint>
     <hint type="destinationlabel">
      <x>691</x>
@@ -1618,7 +1663,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>620</x>
-     <y>399</y>
+     <y>395</y>
     </hint>
     <hint type="destinationlabel">
      <x>604</x>
@@ -1633,8 +1678,8 @@
    <slot>load_point_file()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>392</x>
-     <y>232</y>
+     <x>394</x>
+     <y>445</y>
     </hint>
     <hint type="destinationlabel">
      <x>481</x>
@@ -1666,7 +1711,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>620</x>
-     <y>509</y>
+     <y>505</y>
     </hint>
     <hint type="destinationlabel">
      <x>564</x>
@@ -1682,7 +1727,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>620</x>
-     <y>289</y>
+     <y>285</y>
     </hint>
     <hint type="destinationlabel">
      <x>430</x>
@@ -1698,7 +1743,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>451</x>
-     <y>224</y>
+     <y>217</y>
     </hint>
     <hint type="destinationlabel">
      <x>432</x>
@@ -1714,7 +1759,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>451</x>
-     <y>291</y>
+     <y>284</y>
     </hint>
     <hint type="destinationlabel">
      <x>437</x>
@@ -1730,7 +1775,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>451</x>
-     <y>358</y>
+     <y>351</y>
     </hint>
     <hint type="destinationlabel">
      <x>434</x>
@@ -1746,7 +1791,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>451</x>
-     <y>425</y>
+     <y>418</y>
     </hint>
     <hint type="destinationlabel">
      <x>429</x>
@@ -1762,7 +1807,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>451</x>
-     <y>492</y>
+     <y>485</y>
     </hint>
     <hint type="destinationlabel">
      <x>433</x>
@@ -1793,8 +1838,8 @@
    <slot>descartes_command()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>492</x>
-     <y>622</y>
+     <x>494</x>
+     <y>616</y>
     </hint>
     <hint type="destinationlabel">
      <x>592</x>
@@ -1809,8 +1854,8 @@
    <slot>set_base_0()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>464</x>
-     <y>208</y>
+     <x>466</x>
+     <y>207</y>
     </hint>
     <hint type="destinationlabel">
      <x>578</x>
@@ -1866,6 +1911,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_18</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow_modular_robot</receiver>
+   <slot>set_path_max_velovity()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>428</x>
+     <y>244</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>595</x>
+     <y>196</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>joint_i1_command()</slot>
@@ -1891,5 +1952,6 @@
   <slot>set_base_6()</slot>
   <slot>joint_velocity_set_velMode()</slot>
   <slot>tab_change()</slot>
+  <slot>set_path_max_velovity()</slot>
  </slots>
 </ui>

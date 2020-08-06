@@ -49,11 +49,11 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
     def set_zero_point(self):
 
         self.get_actual_joint_point()
-        self.__zero_pos_joints = [  float(str(self.lineEdit.text())),    \
-                                    float(str(self.lineEdit_2.text())),  \
-                                    float(str(self.lineEdit_3.text())),  \
-                                    float(str(self.lineEdit_4.text())),  \
-                                    float(str(self.lineEdit_5.text()))  ]
+        self.__zero_pos_joints = [  round(float(str(self.lineEdit.text())),3),    \
+                                    round(float(str(self.lineEdit_2.text())),3),  \
+                                    round(float(str(self.lineEdit_3.text())),3),  \
+                                    round(float(str(self.lineEdit_4.text())),3),  \
+                                    round(float(str(self.lineEdit_5.text())),3)  ]
 
         # I1
         if self.checkBox.isChecked():

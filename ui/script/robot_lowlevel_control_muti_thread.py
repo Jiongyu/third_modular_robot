@@ -4,7 +4,7 @@
 @version: python2.7
 @author:
 @contact: 
-@software: RoboWareStudio
+@software: 
 @file: robot_lowlevel_control_muti_thread.py
 
 @biref: 上位机机器人底层控制
@@ -189,11 +189,11 @@ class Robot_lowlevel_control_Muti_thread(QThread):
 
         if self.__robot_start:
             for i in range(len(self.__joints)):
-                self.__joints[i].stop()
+                self.__joints[i].stop_communication()
 
             if which_robot == 0:
-                self.__G0.stop()
-                self.__G6.stop()
+                self.__G0.stop_communication()
+                self.__G6.stop_communication()
 
             # # test code ######################### 
             # self.__I1.stop()
@@ -220,15 +220,12 @@ class Robot_lowlevel_control_Muti_thread(QThread):
     # 打开夹持器反馈槽函数
     def open_gripper_feedback(self, data):
         self.__open_gripper_feedback = data
-        print "open_gripper_feedback"
-        print data
 
     # 关节控制位置控制 命令槽函数
     def set_jointPosition(self,data):
         self.robot_set_position_mode()
         self.__pos_joints_command = data[0]
         self.__joint_velocity = data[1]
-        # print data
         pass
 
     # 关节空间速度控制 命令槽函数
@@ -242,6 +239,7 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         self.__path_pos_joints_command = data
         self.__length_path = len(self.__path_pos_joints_command)
         self.__path_point_index = 0
+        self.path_command_mode = True
 
     # 执行关节空间位置控制命令
     def __execute_joints_position_command(self):
@@ -269,20 +267,21 @@ class Robot_lowlevel_control_Muti_thread(QThread):
 
     # 执行离线轨迹
     def __execute_path_command(self):
+
         if (0 == self.__path_point_index):
             path_time_location = len(self.__path_pos_joints_command[self.__path_point_index]) - 1
-            if self.__path_point_index < self.__length_path:
+            while self.__path_point_index < self.__length_path:
                 self.__mutex.lock()
                 for i in range(len(self.__joints)):
                     self.__joints[i].sent_position( self.__path_pos_joints_command[self.__path_point_index][i],  \
                                                     self.__path_pos_joints_command[self.__path_point_index][i+5] )
                 self.__mutex.unlock()
-                self.__path_point_index += 1
                 sleep(self.__path_pos_joints_command[self.__path_point_index][path_time_location])
-                if ((self.__stop) and (self.__quick_stop)):
-                    self.path_command_mode = False
-                    return
+                self.__path_point_index += 1
+                if ((self.__stop) or (self.__quick_stop)):
+                    break
         self.path_command_mode = False
+        self.__joint_pos_mode = False
 
         # ## test code #################################
         # if (0 == self.__path_point_index):
@@ -320,9 +319,11 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         if self.__robot_start:
             self.__mutex.lock()
             self.__quick_stop = True
-            if self.__quick_stop:
-                for i in range(len(self.__joints)):
-                    self.__joints[i].quick_stop()
+            for i in range(len(self.__joints)):
+                self.__joints[i].quick_stop()
+            if self.__which_robot == 0:
+                self.__G0.quick_stop()
+                self.__G6.quick_stop()
             self.__stop_communication(self.__which_robot)
             self.__mutex.unlock()
 
@@ -331,6 +332,9 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         if self.__robot_start:
             self.__mutex.lock()
             self.__stop = True
+            if self.__which_robot == 0:
+                self.__G0.stop()
+                self.__G6.stop()
             self.__stop_communication(self.__which_robot)
             self.__mutex.unlock()
 
