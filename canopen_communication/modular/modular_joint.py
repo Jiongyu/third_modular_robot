@@ -169,7 +169,7 @@ class Modular_joint(object):
          :param velocity: motor velocity(rad/s)
          :return:
          """
-         if abs(data) < self.__velocity_limit:
+        if abs(data) < self.__velocity_limit:
             self.__node.sdo[0x60ff].phys = self.__user_data_to_motor( data * 10 )
 
     def sent_current(self,data):
