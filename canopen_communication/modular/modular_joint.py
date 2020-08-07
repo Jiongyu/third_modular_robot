@@ -29,6 +29,7 @@ class Modular_joint(object):
         self.__node = BaseNode402(self.__id, self.__eds_file)
         self.__network.add_node(self.__node)
         self.__reduction_ratio = reduction_ratio
+        self.__velocity_limit = 30
 
     def start(self):
         """
@@ -154,11 +155,12 @@ class Modular_joint(object):
         :param position: motor position(rad)
         :param velocity: default motor velocity(rad/s)
         """
-        self.__node.sdo[0x6081].phys = abs(self.__user_data_to_motor( vel * 10))
-        self.__node.sdo[0x607a].phys = self.__user_data_to_motor( pos )
-        self.__node.controlword = ( self.__controlword & ~(1 << 4) )
-        self.__node.controlword = ( self.__controlword | (3  << 4) )
-        self.__node.controlword = ( self.__controlword & ~(1 << 4) )
+        if abs(vel) < self.__velocity_limit:
+            self.__node.sdo[0x6081].phys = abs(self.__user_data_to_motor( vel * 10))
+            self.__node.sdo[0x607a].phys = self.__user_data_to_motor( pos )
+            self.__node.controlword = ( self.__controlword & ~(1 << 4) )
+            self.__node.controlword = ( self.__controlword | (3  << 4) )
+            self.__node.controlword = ( self.__controlword & ~(1 << 4) )
 
 
     def sent_velocity(self,data):
@@ -167,7 +169,8 @@ class Modular_joint(object):
          :param velocity: motor velocity(rad/s)
          :return:
          """
-        self.__node.sdo[0x60ff].phys = self.__user_data_to_motor( data * 10 )
+         if abs(data) < self.__velocity_limit:
+            self.__node.sdo[0x60ff].phys = self.__user_data_to_motor( data * 10 )
 
     def sent_current(self,data):
         """
