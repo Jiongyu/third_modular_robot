@@ -55,6 +55,9 @@ class Receive_ros_command_func(QWidget, Ui_receive_ros_command):
     # 发送控制命令按钮槽函数
     def sent_ros_command(self):
         if self.__pos_vel_commnad_data:
+            print self.__pos_vel_commnad_data
+            self.__pos_vel_commnad_data = self.add_time_intervel(self.__pos_vel_commnad_data)
+            print self.__pos_vel_commnad_data
             self.sin_sent_ros_command.emit(self.__pos_vel_commnad_data)
     
     # 删除路径点按钮槽函数
@@ -84,3 +87,16 @@ class Receive_ros_command_func(QWidget, Ui_receive_ros_command):
         del self.__ros_command_thread
         self.sin_close.emit()
         event.accept()
+
+    def add_time_intervel(self, data):
+        return_data = data
+        if return_data:
+            for i in range(len(return_data) - 1):
+                temp_time = 0
+                for j in range(len(return_data[i]) / 2):
+                    if ( abs(return_data[i][j + 5] / float(return_data[i][j])) >  temp_time):
+                        temp_time = return_data[i][j + 5] / float(return_data[i][j])
+                return_data[i + 1].append(temp_time)
+            
+            del return_data[0]
+            return return_data

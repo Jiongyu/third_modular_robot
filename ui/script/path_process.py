@@ -122,3 +122,4 @@ class Path_process():
         self.__get_joint_position()
         self.__get_joint_velocity()
         return self.__joint_pos
+          

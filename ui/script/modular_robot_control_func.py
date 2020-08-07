@@ -538,6 +538,10 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
     # 获取ros command， 发送至底层
     def __get_ros_command_data(self, data):
+        self.__pos_joints_path_array = data
+        if self.__old_path_array != self.__pos_joints_path_array:
+            self.__old_path_array = self.__pos_joints_path_array
+            self.sin_path_command.emit(self.__pos_joints_path_array)
         pass
 
     # 打开机器人状态反馈界面，开始显示反馈数据
