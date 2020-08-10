@@ -26,6 +26,14 @@ cd  ~/ros/BirlModuleRobot/src/third_modular_robot
 sudo ./install.sh  
 ```
 
+###### 1.2 编译
+``` bash
+cd  ~/ros/BirlModuleRobot/  
+catkin_make  
+```
+
+
+
 ##### 2. ROS安装
 >参考网址：
 > <http://wiki.ros.org/kinetic/Installation/Ubuntu>
