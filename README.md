@@ -14,7 +14,7 @@
 
 ###### 1.1 软件下载与环境配置
 ``` bash
-mkdir -r ~/ros/BirlModuleRobot/src/ && cd ~/ros/BirlModuleRobot/src/  
+mkdir -p ~/ros/BirlModuleRobot/src/ && cd ~/ros/BirlModuleRobot/src/  
 git clone https://github.com/Jiongyu/third_modular_robot.git  
 sudo echo "source ~/ros/BirlModuleRobot/devel/setup.bash">> ~/.bashrc  
 source ~/.bashrc  
