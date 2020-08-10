@@ -5,7 +5,7 @@ sudo modprobe can-dev
 sudo apt-get install module-assistant
 sudo module-assistant prepare
 # 内核版本过高可能编译报错(4.15.0-76-generic 测试通过)
-cd ./usb-to-can_v2_socketcan
+cd ./usb-to-can_socketcan
 make
 sudo make install
 
