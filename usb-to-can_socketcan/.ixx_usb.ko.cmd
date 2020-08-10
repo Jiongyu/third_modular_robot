@@ -1,0 +1,1 @@
+cmd_/home/tan/usb-to-can_socketcan/ixx_usb.ko := ld -r -m elf_x86_64 -z max-page-size=0x200000 -T ./scripts/module-common.lds --build-id  -o /home/tan/usb-to-can_socketcan/ixx_usb.ko /home/tan/usb-to-can_socketcan/ixx_usb.o /home/tan/usb-to-can_socketcan/ixx_usb.mod.o ;  true
