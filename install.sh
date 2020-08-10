@@ -1,11 +1,11 @@
 #! /bin/bash
 
 # 安装通信驱动及相关依赖
-cd ./usb-to-can_v2_socketcan
 sudo modprobe can-dev
 sudo apt-get install module-assistant
 sudo module-assistant prepare
 # 内核版本过高可能编译报错(4.15.0-76-generic 测试通过)
+cd ./usb-to-can_v2_socketcan
 make
 sudo make install
 
