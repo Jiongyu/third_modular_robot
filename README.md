@@ -11,10 +11,21 @@
 
 
 ##### 1. 安装通信驱动及相关依
+
+###### 1.1 软件下载与环境配置
+``` bash
+mkdir -r ~/ros/BirlModuleRobot/src/ && cd ~/ros/BirlModuleRobot/src/  
+git clone https://github.com/Jiongyu/third_modular_robot.git  
+sudo echo "source ~/ros/BirlModuleRobot/devel/setup.bash">> ~/.bashrc  
+source ~/.bashrc  
+```
+
 自动安装脚本：[./install.sh](./install.sh)
+``` bash
+cd  ~/ros/BirlModuleRobot/src/third_modular_robot  
+sudo ./install.sh  
 ```
-sudo ./install.sh
-```
+
 ##### 2. ROS安装
 >参考网址：
 > <http://wiki.ros.org/kinetic/Installation/Ubuntu>
@@ -33,6 +44,6 @@ sudo ./install.sh
 
 ##### 3.3 连接通信启动软件
 ```
-rosrun canopen_communication can_prepare.sh
-roslaunch ui ui_start.launch
+rosrun canopen_communication can_prepare.sh  
+roslaunch ui ui_start.launch  
 ```
