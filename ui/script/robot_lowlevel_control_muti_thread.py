@@ -135,11 +135,9 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         
         while not self.__robot_start:
             sleep(0.5)
-        try:
-            while((not self.__stop) and (not self.__quick_stop)):
-                self.__transimit_feedback_data()  
-        except Exception as e:
-            traceback.print_exc()
+        while((not self.__stop) and (not self.__quick_stop)):
+            self.__transimit_feedback_data()  
+
 
     # 机器人启动
     def __start_communication(self, which_robot):
@@ -172,6 +170,7 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         # self.__I1 = I85(4, self.__eds_file)
         # self.__I1.start()
         # self.__I1.opmode_set('PROFILED POSITION')
+
         except Exception as e:
             # print "__start_communication error"
             self.__mutex.unlock()
@@ -302,13 +301,19 @@ class Robot_lowlevel_control_Muti_thread(QThread):
     def __execute_gripper_command(self):
         if self.__new_G0_gripper_command:
             self.__mutex.lock()
-            self.__G0.sent_current(self.__G0_command)
+            try:
+                self.__G0.sent_current(self.__G0_command)
+            except:
+                self.__G0.sent_current(self.__G0_command)
             self.__mutex.unlock()
             self.__new_G0_gripper_command = False
             
         if self.__new_G6_gripper_command:
             self.__mutex.lock()
-            self.__G6.sent_current(self.__G6_command)
+            try:
+                self.__G6.sent_current(self.__G6_command)
+            except:
+                self.__G6.sent_current(self.__G6_command)
             self.__mutex.unlock()
             self.__new_G6_gripper_command = False
 
@@ -362,20 +367,26 @@ class Robot_lowlevel_control_Muti_thread(QThread):
 
     # 反馈机器人状态
     def __transimit_feedback_data(self):
-        
+            
         self.__mutex.lock()
 
-        for i in range(len(self.__joints)):
-            self.__pos_joints_feeback[i] = self.__joints[i].get_position()
-            self.__vel_joints_feedback[i] = self.__joints[i].get_velocity()
-            self.__current_joints_feedback[i] = self.__joints[i].get_current()
+        try:
 
-        if self.__open_gripper_feedback:
-            self.sin_gripper_feedback.emit([self.__G0.get_current(), self.__G6.get_current()])        
+            for i in range(len(self.__joints)):
+                self.__pos_joints_feeback[i] = self.__joints[i].get_position()
+                self.__vel_joints_feedback[i] = self.__joints[i].get_velocity()
+                self.__current_joints_feedback[i] = self.__joints[i].get_current()
 
+            if self.__open_gripper_feedback:
+                self.sin_gripper_feedback.emit([self.__G0.get_current(), self.__G6.get_current()])        
+
+            self.sin_feedback.emit([self.__pos_joints_feeback, self.__vel_joints_feedback, self.__current_joints_feedback])                   
+            
+        except Exception as e:
+            traceback.print_exc()
+        
         self.__mutex.unlock()
 
-        self.sin_feedback.emit([self.__pos_joints_feeback, self.__vel_joints_feedback, self.__current_joints_feedback])                   
         sleep(0.03) # 30ms  
 
     # 机器人设置位置模式

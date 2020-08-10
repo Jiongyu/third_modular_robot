@@ -617,7 +617,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
         if self.__robot_state_display_flag:
             # 关节位置、速度、电流
-            self.sin_display_feedback_data.emit([self.__pos_joints, data[x1], data[2]])
+            self.sin_display_feedback_data.emit([self.__pos_joints, data[1], data[2]])
         
         if self.__ros_feedback_flag:
             self.__ros_feedback_msg.feedbackPosData = self.__pos_joints
