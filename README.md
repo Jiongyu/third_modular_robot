@@ -21,6 +21,7 @@ git clone https://github.com/Jiongyu/third_modular_robot.git
 自动安装脚本：[./install.sh](./install.sh)
 ``` bash
 cd  ~/ros/BirlModuleRobot/src/third_modular_robot  
+chmod 777 ./install.sh  
 sudo ./install.sh  
 ```
 
