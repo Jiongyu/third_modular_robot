@@ -17,5 +17,9 @@ interface = socketcan
 channel = can0" >> /etc/can.conf
 
 sudo apt-get install can-utils
+
+sudo apt install python-pip
+pip --version
+
 sudo pip install python-can==3.1.1
 sudo pip install canopen==1.0.0
