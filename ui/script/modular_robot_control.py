@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow_modular_robot(object):
     def setupUi(self, MainWindow_modular_robot):
         MainWindow_modular_robot.setObjectName("MainWindow_modular_robot")
-        MainWindow_modular_robot.resize(778, 666)
+        MainWindow_modular_robot.resize(778, 683)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -22,7 +22,7 @@ class Ui_MainWindow_modular_robot(object):
         font = QtGui.QFont()
         font.setPointSize(15)
         MainWindow_modular_robot.setFont(font)
-        MainWindow_modular_robot.setWindowTitle("")
+        MainWindow_modular_robot.setWindowTitle("机器人控制主界面")
         self.centralwidget = QtWidgets.QWidget(MainWindow_modular_robot)
         self.centralwidget.setObjectName("centralwidget")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
@@ -542,7 +542,7 @@ class Ui_MainWindow_modular_robot(object):
         MainWindow_modular_robot.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow_modular_robot)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 778, 36))
-        self.menubar.setDefaultUp(True)
+        self.menubar.setDefaultUp(False)
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
@@ -634,7 +634,7 @@ class Ui_MainWindow_modular_robot(object):
         self.menubar.addAction(self.menu_3.menuAction())
 
         self.retranslateUi(MainWindow_modular_robot)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         self.pushButton.clicked.connect(MainWindow_modular_robot.joint_i1_command)
         self.pushButton_2.clicked.connect(MainWindow_modular_robot.joint_t2_command)
         self.pushButton_3.clicked.connect(MainWindow_modular_robot.joint_t3_command)
