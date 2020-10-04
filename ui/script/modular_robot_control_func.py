@@ -411,9 +411,9 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.__pos_joints_path_array = []
         temp_data = self.textEdit.toPlainText()
         temp_path_process = Path_process(self.__zero_pos_joints, self.__direction_joints, self.__max_path_velocity)
-
         try:
             self.__pos_joints_path_array = temp_path_process.get_trajectory(temp_data) 
+            print self.__pos_joints_path_array
             QMessageBox.about(self,'通知','\n       路径点载入成功!!        \n')
         except:
             QMessageBox.about(self,'错误','\n       路径点格式错误!!        \n')
@@ -590,30 +590,24 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def __get_data_from_windowsSetZeroPoint(self,data):
         for i in range(len(data[0])):
             self.__direction_joints[i] = data[1][i]
-            if self.__direction_joints[i] == 1:
+            if self.__direction_joints[i] == 1 or self.__zero_pos_joints[i] == 0:
                 self.__zero_pos_joints[i] += data[0][i]
-            elif self.__direction_joints[i] == -1:
+            else:
                 self.__zero_pos_joints[i] -= data[0][i]
 
     # 根据零点、关节方向， 计算关节命令
     @staticmethod
     def __user_data_to_motor(command_pos, zero_pos, direction):
         """
-        brief:  （用户值 +/- 零点）* 关节方向    
+        brief:  关节方向 * 用户值 + 零点   
         """
-        if(direction == 1):
-            return round((command_pos + zero_pos),  3)
-        elif(direction == -1):
-            return round((command_pos - zero_pos),  3)
+        return round((direction * command_pos + zero_pos) , 3)
 
     # 更新机器人关节状态
     def __update_feeback_joint_position(self,data):
 
         for i in range(len(self.__pos_joints)):
-            if(self.__direction_joints[i] == 1):
-                self.__pos_joints[i] = ( data[0][i] - self.__zero_pos_joints[i] )
-            if(self.__direction_joints[i] == -1):
-                    self.__pos_joints[i] = (data[0][i] + self.__zero_pos_joints[i])
+            self.__pos_joints[i] = self.__direction_joints[i] * ( data[0][i] - self.__zero_pos_joints[i] )
 
         if self.__robot_state_display_flag:
             # 关节位置、速度、电流

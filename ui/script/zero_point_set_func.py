@@ -48,7 +48,6 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
     # 获取零点，机器人正方向
     def set_zero_point(self):
 
-        self.get_actual_joint_point()
         self.__zero_pos_joints = [  round(float(str(self.lineEdit.text())),3),    \
                                     round(float(str(self.lineEdit_2.text())),3),  \
                                     round(float(str(self.lineEdit_3.text())),3),  \
@@ -83,6 +82,13 @@ class Zero_point_set_func(QWidget,Ui_Form_zero_point):
 
         self.sin_set_zero_point.emit([ self.__zero_pos_joints, \
                                         self.__direction_joints ])
+
+        # 显示零点为零
+        self.lineEdit.setText(str(0))
+        self.lineEdit_2.setText(str(0))
+        self.lineEdit_3.setText(str(0))
+        self.lineEdit_4.setText(str(0))
+        self.lineEdit_5.setText(str(0))
 
     ################# 获取机器人当前关节值 ##################################
     def get_actual_joint_point(self):

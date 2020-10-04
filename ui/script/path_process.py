@@ -38,10 +38,7 @@ class Path_process():
                 temp_data[i] = temp_data[i].split(' ')
                 temp_array = []
                 for j in range(1,len(temp_data[i]) - 1):
-                    if self.__joints_direction[j - 1] == 1:
-                        temp_array.append( (float(str(temp_data[i][j])) + self.__zero_position[j - 1]) ) 
-                    elif self.__joints_direction[j - 1] == -1:
-                        temp_array.append( (float(str(temp_data[i][j])) - self.__zero_position[j - 1]) ) 
+                    temp_array.append((float(str(temp_data[i][j]))) * self.__joints_direction[j - 1] + self.__zero_position[j - 1] )
 
                 self.__joint_pos.append(temp_array)
 
