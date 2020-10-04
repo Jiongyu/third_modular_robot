@@ -413,7 +413,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         temp_path_process = Path_process(self.__zero_pos_joints, self.__direction_joints, self.__max_path_velocity)
         try:
             self.__pos_joints_path_array = temp_path_process.get_trajectory(temp_data) 
-            print self.__pos_joints_path_array
             QMessageBox.about(self,'通知','\n       路径点载入成功!!        \n')
         except:
             QMessageBox.about(self,'错误','\n       路径点格式错误!!        \n')
