@@ -13,6 +13,6 @@ class T85(Modular_joint):
     """
 
     def __init__(self, id, eds_file):
-        self.__reduction_ratio = 188.0
+        self.__reduction_ratio = 188.24
         Modular_joint.__init__(self, id, eds_file, self.__reduction_ratio)
        
