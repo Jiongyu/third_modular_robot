@@ -13,6 +13,6 @@ class I100(Modular_joint):
     """
 
     def __init__(self, id, eds_file):
-        self.__reduction_ratio = 457.0
+        self.__reduction_ratio = 457.14
         Modular_joint.__init__(self, id, eds_file, self.__reduction_ratio)
        
