@@ -239,7 +239,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_7.text())), \
                                                 self.__zero_pos_joints[0],  \
                                                 self.__direction_joints[0]  )
-            self.___joint_velocity_command_posMode[0] = self.__joint_velocity * self.__direction_joints[0]
+            self.___joint_velocity_command_posMode[0] = self.__joint_velocity
             self.__joint_pos_command(self.__joint_position_command)
 
     def joint_t2_command(self):
@@ -248,7 +248,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_8.text())), \
                                                 self.__zero_pos_joints[1],  \
                                                 self.__direction_joints[1]  )
-            self.___joint_velocity_command_posMode[1] = self.__joint_velocity  * self.__direction_joints[1]
+            self.___joint_velocity_command_posMode[1] = self.__joint_velocity
             self.__joint_pos_command(self.__joint_position_command)
 
     def joint_t3_command(self):
@@ -257,7 +257,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_9.text())), \
                                                 self.__zero_pos_joints[2],  \
                                                 self.__direction_joints[2]  )
-            self.___joint_velocity_command_posMode[2] = self.__joint_velocity * self.__direction_joints[2]
+            self.___joint_velocity_command_posMode[2] = self.__joint_velocity
             self.__joint_pos_command(self.__joint_position_command)
 
     def joint_t4_command(self):
@@ -266,7 +266,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_10.text())), \
                                                 self.__zero_pos_joints[3],  \
                                                 self.__direction_joints[3]  )
-            self.___joint_velocity_command_posMode[3] = self.__joint_velocity * self.__direction_joints[3]
+            self.___joint_velocity_command_posMode[3] = self.__joint_velocity
             self.__joint_pos_command(self.__joint_position_command)
 
     def joint_i5_command(self):
@@ -275,7 +275,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_11.text())), \
                                                 self.__zero_pos_joints[4],  \
                                                 self.__direction_joints[4]  )
-            self.___joint_velocity_command_posMode[4] = self.__joint_velocity * self.__direction_joints[4]
+            self.___joint_velocity_command_posMode[4] = self.__joint_velocity
             self.__joint_pos_command(self.__joint_position_command)
 
     def __joint_pos_command(self,data):
@@ -587,12 +587,20 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     
     # 获取零点，更新零点
     def __get_data_from_windowsSetZeroPoint(self,data):
+        
+        # 判断是否为手动修改零点值
+        threshold = 0.1
+        for i in range(len(self.__pos_joints)):
+            if(abs(self.__pos_joints[i] - data[0][i]) > threshold):
+                data[0][i] = - data[0][i]
+        # end
+
         for i in range(len(data[0])):
             self.__direction_joints[i] = data[1][i]
             if self.__direction_joints[i] == 1 or self.__zero_pos_joints[i] == 0:
                 self.__zero_pos_joints[i] += data[0][i]
             else:
-                self.__zero_pos_joints[i] -= data[0][i]
+                self.__zero_pos_joints[i] -= data[0][i]      
 
     # 根据零点、关节方向， 计算关节命令
     @staticmethod
