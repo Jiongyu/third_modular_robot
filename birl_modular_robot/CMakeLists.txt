@@ -19,6 +19,7 @@ add_service_files(
   FILES
   inverse_solution.srv
   positive_solution.srv
+  robot_increTransTool.srv
 
 )
 
@@ -57,3 +58,6 @@ target_link_libraries(inverse_solution_server ${catkin_LIBRARIES})
 
 add_executable(positive_solution_server src/positive_solution_server.cpp)
 target_link_libraries(positive_solution_server ${catkin_LIBRARIES})
+
+add_executable(robot_increTransTool_server src/robot_increTransTool_server.cpp)
+target_link_libraries(robot_increTransTool_server ${catkin_LIBRARIES})

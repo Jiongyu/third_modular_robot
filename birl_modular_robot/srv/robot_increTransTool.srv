@@ -1,0 +1,11 @@
+# 笛卡尔空间当前位置姿态
+#X，Y，Z（mm），Rx，Ry，Rz(deg)
+float32[] current_descartes_postion
+
+# 笛卡尔空间位置姿态命令增量
+# delta(X，Y，Z（mm），Rx，Ry，Rz(deg))
+float32[] incre_descartes_command
+---
+# 笛卡尔空间计算位置姿态命令
+#X，Y，Z（mm），Rx，Ry，Rz(deg)
+float32[] descartes_command

@@ -39,7 +39,7 @@ def Inverse_solution_client( which_robot, which_base, descartes_position_command
     return [joint_position_command, joint_velocity_command]
 
 
-# if __name__ == "__main__":
-#     [temp_1, temp_2] = Inverse_solution_client(1, True, [0.56, 0, 0, 0, 0, 180], [-0.005, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0])
-#     print temp_1
-#     print temp_2
+if __name__ == "__main__":
+    [temp_1, temp_2] = Inverse_solution_client(1, True, [0.56, 0, 0, 0, 0, 180], [-0.005, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0])
+    print temp_1
+    print temp_2

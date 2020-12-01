@@ -2,6 +2,8 @@
 <!-- 启动运动学正解、逆解服务器 -->
 <node  name="inverse_solution_server" pkg="birl_module_robot" type="inverse_solution_server"/>
 <node  name="positive_solution_server" pkg="birl_module_robot" type="positive_solution_server"/>
+<node  name="robot_increTransTool_server" pkg="birl_module_robot" type="robot_increTransTool_server"/>
+
 <!--start the UI-->
 <node  name="start_ui" pkg="ui" type="main.py" required="true"/>
 </launch>
