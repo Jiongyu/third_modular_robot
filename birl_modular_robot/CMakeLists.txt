@@ -19,6 +19,7 @@ add_service_files(
   FILES
   inverse_solution.srv
   positive_solution.srv
+
 )
 
 generate_messages(

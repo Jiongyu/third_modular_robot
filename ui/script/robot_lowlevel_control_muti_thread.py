@@ -260,6 +260,10 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         self.__mutex.lock()
         for i in range(len(self.__joints)):
             self.__joints[i].sent_velocity(self.__joint_velocity[i])
+        # self.__joints[1].sent_velocity(self.__joint_velocity[1])
+        # self.__joints[2].sent_velocity(self.__joint_velocity[2])
+        # self.__joints[3].sent_velocity(self.__joint_velocity[3])
+
             # print self.__joint_velocity[i]
         self.__joint_vel_mode = False
         self.__mutex.unlock()
