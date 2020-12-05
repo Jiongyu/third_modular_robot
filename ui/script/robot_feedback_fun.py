@@ -25,6 +25,8 @@ class Robot_feedback_fun(QWidget, Ui_robotFeedback):
 
     sin_close = pyqtSignal()
 
+
+
     def __init__(self, which_robot):
         super(Robot_feedback_fun,self).__init__()
         self.setupUi(self)
@@ -66,7 +68,6 @@ class Robot_feedback_fun(QWidget, Ui_robotFeedback):
         self.lineEdit_53.setText(str(data[2][2]))        
         self.lineEdit_54.setText(str(data[2][3]))        
         self.lineEdit_56.setText(str(data[2][4]))
-
 
     # 更新夹持器基座
     def update_gripper(self,data):

@@ -234,11 +234,18 @@ class Robot_lowlevel_control_Muti_thread(QThread):
     
     # 离线轨迹槽函数
     def path_command(self,data):
-        self.robot_set_position_mode()
+        self.robot_path_mode()
         self.__path_pos_joints_command = data
         self.__length_path = len(self.__path_pos_joints_command)
         self.__path_point_index = 0
         self.path_command_mode = True
+
+    # 离线轨迹继续运行
+    def continue_path_command(self):
+        if not self.path_command_mode:
+            self.robot_path_mode()
+            self.path_command_mode = True
+
 
     # 执行关节空间位置控制命令
     def __execute_joints_position_command(self):
@@ -253,7 +260,7 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         #     print "execute joint command"
         #     self.__I1.sent_position(self.__pos_joints_command[0],self.__joint_velocity)
         #     self.__new_pos_joints_command[0] = False
-        # ##############################################      
+        # ##############################################     
 
     # 执行关节空间速度控制命令
     def __exeute_joints_velocity_command(self):
@@ -271,9 +278,13 @@ class Robot_lowlevel_control_Muti_thread(QThread):
     # 执行离线轨迹
     def __execute_path_command(self):
 
-        if (0 == self.__path_point_index):
+        if ((0 <= self.__path_point_index) and (self.__length_path > self.__path_point_index) ):
+            
             path_time_location = len(self.__path_pos_joints_command[self.__path_point_index]) - 1
             while self.__path_point_index < self.__length_path:
+                if(self.__path_pos_joints_command[i] == "HALT"):
+                    self.__path_point_index += 1
+                    break
                 self.__mutex.lock()
                 for i in range(len(self.__joints)):
                     self.__joints[i].sent_position( self.__path_pos_joints_command[self.__path_point_index][i],  \
@@ -284,7 +295,6 @@ class Robot_lowlevel_control_Muti_thread(QThread):
                 if ((self.__stop) or (self.__quick_stop)):
                     break
         self.path_command_mode = False
-        self.__joint_pos_mode = False
 
         # ## test code #################################
         # if (0 == self.__path_point_index):
@@ -403,7 +413,6 @@ class Robot_lowlevel_control_Muti_thread(QThread):
                 # print "robot_set_position_mode"
             self.__joint_pos_mode = True
             self.__mutex.unlock()
-        self.__joint_vel_mode = False
 
     # 机器人设置速度模式
     def robot_set_velocity_mode(self):
@@ -415,5 +424,12 @@ class Robot_lowlevel_control_Muti_thread(QThread):
                 # print "robot set vel mode "
             self.__joint_vel_mode = True
             self.__mutex.unlock()
-        self.__joint_pos_mode = False
         # print "robot_set_velocity_mode"
+    
+    def robot_path_mode(self):
+        if not self.path_command_mode:
+            self.__mutex.lock()
+            for i in range(len(self.__joints)):
+                self.__joints[i].opmode_set('PROFILED POSITION')
+            self.__mutex.unlock()
+        

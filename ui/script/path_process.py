@@ -22,6 +22,7 @@ class Path_process():
         self.__max_vel = max_path_velocity
         self.__zero_position = zero_position
         self.__joints_direction = joint_direction
+        self.__halt_index_list = []
 
     def __readfile(self,data):
         """
@@ -29,6 +30,7 @@ class Path_process():
         """
         temp_data = data.split('\n')
         # print temp_data
+        pos_index = 0
         for i in range(len(temp_data)):
             # 判断是否以P开始
             if temp_data[i][0:1] == 'P': 
@@ -41,8 +43,15 @@ class Path_process():
                     temp_array.append((float(str(temp_data[i][j]))) * self.__joints_direction[j - 1] + self.__zero_position[j - 1] )
 
                 self.__joint_pos.append(temp_array)
+                pos_index += 1
 
+            # 获取暂停标志
+            elif(temp_data[i][0:6] == "HALT"):
+                # pos_index += 1
+                self.__halt_index_list.append(pos_index)
+                pass
         # print self.__joint_pos
+        # print self.__halt_index_list  
 
     def __get_joint_position(self):
         """
@@ -112,11 +121,39 @@ class Path_process():
 
         # print self.__joint_pos      
 
+    # 插入暂停标志
+    def __insert_halt_index(self):
+        if(self.__halt_index_list):
+            for i in range(len(self.__halt_index_list)):
+                self.__halt_index_list[i] -= 1
+
+            # print self.__halt_index_list
+
+            halt_index = 0
+            lengthJ = len(self.__joint_pos)
+            index = 0
+            while (index < lengthJ):
+                if(index == self.__halt_index_list[halt_index]):
+                    # print index
+                    self.__joint_pos.insert(index, "HALT");
+                    halt_index += 1
+
+                    for j in range(halt_index, len(self.__halt_index_list)):
+                        self.__halt_index_list[j] += 1
+                    lengthJ += 1
+                    # print self.__halt_index_list
+                    if(halt_index == len(self.__halt_index_list)):
+                        break 
+                
+                index += 1
+            pass
+        # print self.__joint_pos
 
     def get_trajectory(self,data):
         
         self.__readfile(data)
         self.__get_joint_position()
         self.__get_joint_velocity()
+        self.__insert_halt_index()
         return self.__joint_pos
           

@@ -84,7 +84,7 @@ class Modular_joint(object):
 
     def quick_stop(self):
         self.__node.controlword = (self.__controlword & ~( 1 << 2 ))
-        self.stop()
+        # self.stop()
 
     def stop(self):
         self.__node.state = 'SWITCHED ON'
@@ -226,7 +226,7 @@ class Modular_joint(object):
 
     def serve_off(self):
         print "Serve Off."
-        self.__node.state = 'READY TO SWITCH ON'
+        self.__node.state = 'SWITCH ON DISABLED'
 
     def __del__(self):
         pass

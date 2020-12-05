@@ -23,7 +23,7 @@ from get_inverse_solution_thread import Get_inverse_solution_thread
 from path_process import Path_process
 
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMessageBox, QFileDialog, QWidget
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QThread
 from PyQt5.QtGui import QDoubleValidator,QIntValidator
 
 # from string import atof
@@ -56,6 +56,8 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
     # 路径信号
     sin_path_command = pyqtSignal(list)
+    # 离线轨迹继续运行信号
+    sin_continue_path_command = pyqtSignal()
 
     # 反馈数据显示信号
     sin_display_feedback_data = pyqtSignal(list)
@@ -65,6 +67,8 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     # 机器人各关节状态
     # position I1, T2, T3, T4, I5
     __pos_joints = [0, 0, 0, 0, 0]
+
+
 
     def  __init__(self,which_robot):
         super(Modular_robot_control_func,self).__init__()
@@ -136,6 +140,17 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         # 判断机器人是否通过ros反馈状态消息  
         self.__ros_feedback_flag = False
 
+        # 机器人笛卡尔增量控制  位置增量 m
+        self.__position_incre_command = 0.001
+        # 机器人笛卡尔增量控制  姿态增量 deg
+        self.__posture_incre_command = 1
+        # 机器人笛卡尔增量控制  位置姿态默认速度(deg/mm)
+        self.__posi_post_incre_vel = 1  
+
+        #　机器人当前末端笛卡尔位置(position:m, posture:deg)
+        self.__actual_robot_tcp_pos = [0.5864, 0, 0, 0, 0, 180]
+
+
         # 菜单栏信号槽函数链接
         self.action.triggered.connect(self.__open_gripper_control)
         self.action_2.triggered.connect(self.__open_path_point_record)
@@ -160,6 +175,11 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         # 关节电流
         self.__ros_feedback_msg.feedbackCurrData = [0 ,0 ,0 ,0 ,0]
         # end
+
+        # 机器人笛卡尔空间增量求逆解服务声明
+        self.__getInverseSolution_incre = QThread()
+        # 机器人笛卡尔空间选点求逆服务
+        self.__getInverseSolu = QThread()
 
     # 窗口位于屏幕中心
     def __center(self):
@@ -186,6 +206,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.sin_joint_position.connect(self.__lowLevelControl.set_jointPosition)
             self.sin__joint_velocity.connect(self.__lowLevelControl.set_jointVelocity)
             self.sin_path_command.connect(self.__lowLevelControl.path_command)
+            self.sin_continue_path_command.connect(self.__lowLevelControl.continue_path_command)
 
             self.label.setText(self.__string_robot_Enable_ing)
             if not self.__lowLevelControl.isRunning():
@@ -321,6 +342,115 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.sin__joint_velocity.emit(self.___joint_velocity_command_VelMode)  
     #################### 关节空间速度控制界面 关节控制槽函数  end ###################################################
 
+    #################### 笛卡尔位置增量控制界面 槽函数 ##############################################################
+    # self.pushButton_64.clicked.connect(MainWindow_modular_robot.descartes_incre_pos_set)
+    # 笛卡尔空间位置姿态增量设置
+    def descartes_incre_pos_set(self):
+        # mm 转 m
+        scaling = 0.001
+        self.__position_incre_command = abs(float(str(self.lineEdit_96.text()))) * scaling
+        self.__posture_incre_command = abs(float(str(self.lineEdit_95.text()))) 
+        # print self.__position_incre_command
+        # print self.__posture_incre_command
+        pass
+
+    # x 增量 +
+    def descartes_x_incre_add(self):
+        self.__control_robot_by_incre_data(0, self.__position_incre_command)
+        pass
+
+    # x 增量 -
+    def descartes_x_incre_sub(self):
+        self.__control_robot_by_incre_data(0, - self.__position_incre_command)
+        pass
+
+    # y 增量 +
+    def descartes_y_incre_add(self):
+        self.__control_robot_by_incre_data(1, self.__position_incre_command)
+        pass
+
+    # y 增量 -
+    def descartes_y_incre_sub(self):
+        self.__control_robot_by_incre_data(1, - self.__position_incre_command)
+        pass
+
+    # z 增量 +
+    def descartes_z_incre_add(self):
+        self.__control_robot_by_incre_data(2, self.__position_incre_command)
+        pass
+    
+    # z 增量 -
+    def descartes_z_incre_sub(self):
+        self.__control_robot_by_incre_data(2, - self.__position_incre_command)
+        pass
+    
+    # rx 增量 +
+    def descartes_rx_incre_add(self):
+        self.__control_robot_by_incre_data(3, self.__posture_incre_command)
+
+        pass
+    
+    # rx 增量 -
+    def descartes_rx_incre_sub(self):
+        self.__control_robot_by_incre_data(3, - self.__posture_incre_command)
+        pass
+
+    # ry 增量 +
+    def descartes_ry_incre_add(self):
+        self.__control_robot_by_incre_data(4, self.__posture_incre_command)
+        pass
+    
+    # ry 增量 -
+    def descartes_ry_incre_sub(self):
+        self.__control_robot_by_incre_data(4, - self.__posture_incre_command)
+        pass
+    
+    # rz 增量 +
+    def descartes_rz_incre_add(self):
+        self.__control_robot_by_incre_data(5, self.__posture_incre_command)
+        pass
+    
+    # rz 增量 -
+    def descartes_rz_incre_sub(self):
+        self.__control_robot_by_incre_data(5, - self.__posture_incre_command)
+        pass
+    
+    # 发送笛卡尔增量求解逆解
+    def __control_robot_by_incre_data(self, index, increData):
+        if not self.__getInverseSolution_incre.isRunning():
+            self.__actual_robot_tcp_pos[index] += increData
+            # 笛卡尔空间末端速度
+            temp_vel_list = [0] * 6
+            # mm 转　m
+            scaling = 0.001
+            for i in range(len(temp_vel_list)):
+                if(index == i):
+                    # X Y Z
+                    if(index >= 0 and index <= 2):
+                        temp_vel_list[i] = self.__posi_post_incre_vel * scaling
+                    # Rx Ry Rz 
+                    else:
+                        temp_vel_list[i]  = self.__posi_post_incre_vel
+                else:
+                    temp_vel_list[i] = 0
+            # print temp_vel_list
+            self.__getInverseSolution_incre = Get_inverse_solution_thread(  self.__which_robot, \
+                                                                            self.__base_flag, \
+                                                                            self.__actual_robot_tcp_pos, \
+                                                                            temp_vel_list, \
+                                                                            self.__pos_joints)
+
+            self.__getInverseSolution_incre.sin_inverse_solution.connect(self.__receive_and_sent_joint_command)
+            self.__getInverseSolution_incre.start()
+        pass
+
+    def __receive_and_sent_joint_command(self,data):
+        # print data
+        self.__sent_joint_command_to_lowlevel(data[0], data[1])
+        pass
+    
+    #################### 笛卡尔位置增量控制界面 槽函数  end #########################################################
+       
     # 获取逆解槽函数
     def get_inverse_solution(self):
         
@@ -349,9 +479,11 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         # print self.__which_robot
         # print self.__base_flag
 
-        self.__getInverseSolu = Get_inverse_solution_thread(self.__which_robot, self.__base_flag, temp_descartes_postion_command, temp_descartes_velocity_command, self.__pos_joints)
-        self.__getInverseSolu.sin_inverse_solution.connect(self.__show_the_inverse_solution)
-        self.__getInverseSolu.start()
+        # 初始化求逆解
+        if not self.__getInverseSolu.isRunning():
+            self.__getInverseSolu = Get_inverse_solution_thread(self.__which_robot, self.__base_flag, temp_descartes_postion_command, temp_descartes_velocity_command, self.__pos_joints)
+            self.__getInverseSolu.sin_inverse_solution.connect(self.__show_the_inverse_solution)
+            self.__getInverseSolu.start()
 
     # 显示运动学逆解结果
     def __show_the_inverse_solution(self,data):
@@ -379,17 +511,20 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                     float(str(self.lineEdit_66.text())) * self.__direction_joints[4]    ]
 
         temp_pos_command = [    float(str(self.lineEdit_58.text())),    \
-                                float(str(self.lineEdit_61 .text())),   \
+                                float(str(self.lineEdit_61.text())),    \
                                 float(str(self.lineEdit_56.text())),    \
                                 float(str(self.lineEdit_57.text())),    \
                                 float(str(self.lineEdit_60.text()))     ]
-        
-        for i in range(len(temp_pos_command)):
-            temp_pos_command[i] = Modular_robot_control_func.__user_data_to_motor(temp_pos_command[i],self.__zero_pos_joints[i],self.__direction_joints[i])
 
-        # print temp_pos_command
-        # print temp_velocity_command
-        self.sin_joint_position.emit([temp_pos_command, temp_velocity_command])
+        self.__sent_joint_command_to_lowlevel(temp_pos_command, temp_velocity_command)
+
+    # 发送关节控制命令至底层
+    def __sent_joint_command_to_lowlevel(self, postion, velocity):
+        if self.__robot_enabled_flag:
+            for i in range(len(postion)):
+                postion[i] = Modular_robot_control_func.__user_data_to_motor(postion[i],self.__zero_pos_joints[i],self.__direction_joints[i])
+
+            self.sin_joint_position.emit([postion, velocity])
 
     # 关节空间位置控制界面、速度控制界面速度设置
     def joint_velocity_set_posMode(self):
@@ -431,6 +566,12 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             if self.__pos_joints_path_array != self.__old_path_array:
                 self.__old_path_array = self.__pos_joints_path_array
                 self.sin_path_command.emit(self.__pos_joints_path_array)
+
+    # 继续运行离线轨迹
+    def continue_operate_point_data(self):
+        if self.__robot_enabled_flag:
+            self.sin_continue_path_command.emit()
+        pass
 
     # 打开夹持器控制界面
     def __open_gripper_control(self):
@@ -629,11 +770,19 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
     # 输入框　输入限制
     def __input_range_limit(self):
-
+        
         # 离线轨迹最大速度限制
         pIntValidator = QIntValidator(self)
         pIntValidator.setRange(1,30)
         self.lineEdit.setValidator(pIntValidator)
+
+        # 笛卡尔增量控制模式
+        pDoubleDescartesIncre = QDoubleValidator(self)
+        pDoubleDescartesIncre.setRange(0,5)
+        pDoubleDescartesIncre.setNotation(QDoubleValidator.StandardNotation)
+        pDoubleDescartesIncre.setDecimals(2)
+        self.lineEdit_95.setValidator(pDoubleDescartesIncre)
+        self.lineEdit_96.setValidator(pDoubleDescartesIncre)
 
         pDoubleValidator_I = QDoubleValidator(self)
         pDoubleValidator_I.setRange(-360, 360)
@@ -692,6 +841,8 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.lineEdit_33.setValidator(pDoubleValidator_descartes_vel_RXRYRZ)
         self.lineEdit_36.setValidator(pDoubleValidator_descartes_vel_RXRYRZ)
         self.lineEdit_35.setValidator(pDoubleValidator_descartes_vel_RXRYRZ)
+
+
 
     # 界面突出处理信号
     def closeEvent(self, event):
