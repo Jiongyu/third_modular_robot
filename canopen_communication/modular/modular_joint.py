@@ -23,7 +23,7 @@ class Modular_joint(object):
         self.__network = network.Network()
         self.__network.connect(channel='can0', bustype='socketcan')
         self.__network.check()
-        self.__network.sync.start(0.003)        # 5ms
+        self.__network.sync.start(0.005)        # 5ms
         self.__id = id
         self.__eds_file = eds_file
         self.__node = BaseNode402(self.__id, self.__eds_file)
@@ -41,9 +41,7 @@ class Modular_joint(object):
         self.__node.nmt.state = 'RESET COMMUNICATION'
         self.__node.nmt.wait_for_bootup(10)
         self.__node.setup_402_state_machine()
-
         self.__node.reset_from_fault()
-
         self.__node.sdo[0x6076].phys = 1000
         self.__motor_rate_torque    = self.__node.sdo[0x6076].phys  #mN.m
         self.__node.sdo[0x6410][0x0c].phys = 91
@@ -84,7 +82,7 @@ class Modular_joint(object):
 
     def quick_stop(self):
         self.__node.controlword = (self.__controlword & ~( 1 << 2 ))
-        self.stop()
+        # self.stop()
 
     def stop(self):
         self.__node.state = 'SWITCHED ON'
