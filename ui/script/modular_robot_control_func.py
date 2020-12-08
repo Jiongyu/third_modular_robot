@@ -346,9 +346,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     # self.pushButton_64.clicked.connect(MainWindow_modular_robot.descartes_incre_pos_set)
     # 笛卡尔空间位置姿态增量设置
     def descartes_incre_pos_set(self):
-        # mm 转 m
-        scaling = 0.001
-        self.__position_incre_command = abs(float(str(self.lineEdit_96.text()))) * scaling
+        self.__position_incre_command = abs(float(str(self.lineEdit_96.text())))
         self.__posture_incre_command = abs(float(str(self.lineEdit_95.text()))) 
         # print self.__position_incre_command
         # print self.__posture_incre_command
@@ -421,13 +419,12 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.__actual_robot_tcp_pos[index] += increData
             # 笛卡尔空间末端速度
             temp_vel_list = [0] * 6
-            # mm 转　m
-            scaling = 0.001
+
             for i in range(len(temp_vel_list)):
                 if(index == i):
                     # X Y Z
                     if(index >= 0 and index <= 2):
-                        temp_vel_list[i] = self.__posi_post_incre_vel * scaling
+                        temp_vel_list[i] = self.__posi_post_incre_vel
                     # Rx Ry Rz 
                     else:
                         temp_vel_list[i]  = self.__posi_post_incre_vel
@@ -454,21 +451,18 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     # 获取逆解槽函数
     def get_inverse_solution(self):
         
-        # mm单位 转换到 m单位
-        scale = 0.001
-
         temp_descartes_postion_command = []
-        temp_descartes_postion_command.append(float(str(self.lineEdit_26.text())) * scale)  # X
-        temp_descartes_postion_command.append(float(str(self.lineEdit_27.text())) * scale)  # Y
-        temp_descartes_postion_command.append(float(str(self.lineEdit_28.text())) * scale)  # Z
+        temp_descartes_postion_command.append(float(str(self.lineEdit_26.text())))  # X
+        temp_descartes_postion_command.append(float(str(self.lineEdit_27.text())))  # Y
+        temp_descartes_postion_command.append(float(str(self.lineEdit_28.text())))  # Z
         temp_descartes_postion_command.append(float(str(self.lineEdit_29.text())))  # RX
         temp_descartes_postion_command.append(float(str(self.lineEdit_30.text())))  # RY
         temp_descartes_postion_command.append(float(str(self.lineEdit_31.text())))  # RZ
 
         temp_descartes_velocity_command = []
-        temp_descartes_velocity_command.append(float(str(self.lineEdit_34.text())) * scale)  # X
-        temp_descartes_velocity_command.append(float(str(self.lineEdit_37.text())) * scale)  # Y
-        temp_descartes_velocity_command.append(float(str(self.lineEdit_32.text())) * scale)  # Z
+        temp_descartes_velocity_command.append(float(str(self.lineEdit_34.text())))  # X
+        temp_descartes_velocity_command.append(float(str(self.lineEdit_37.text())))  # Y
+        temp_descartes_velocity_command.append(float(str(self.lineEdit_32.text())))  # Z
         temp_descartes_velocity_command.append(float(str(self.lineEdit_33.text())))  # RX
         temp_descartes_velocity_command.append(float(str(self.lineEdit_36.text())))  # RY
         temp_descartes_velocity_command.append(float(str(self.lineEdit_35.text())))  # RZ

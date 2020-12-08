@@ -4,10 +4,10 @@ int16 which_robot
 # Select which one gripper as the base (true : gripper0 , flase :gripper6)
 bool base
 
-# descartes point psotion command(X Y Z RX RY RZ) m,degree
+# descartes point psotion command(X Y Z RX RY RZ) mm,degree
 float32[] descartes_pos_commands
 
-# descartes point psotion command(X Y Z RX RY RZ) m/s,degree/s
+# descartes point psotion command(X Y Z RX RY RZ) mm/s,degree/s
 float32[] descartes_vel_commands 
 
 # Current joint position of the robot

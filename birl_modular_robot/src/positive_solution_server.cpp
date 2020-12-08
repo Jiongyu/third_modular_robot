@@ -20,23 +20,23 @@ bool handle_function(   birl_module_robot::positive_solution::Request &req,
 
     static double Robot_Link_Len[6]; 
     if(req.which_robot == 0){
-        //climbing robot link length
-        Robot_Link_Len[0] = 0.1764; 
-        Robot_Link_Len[1] = 0.2568; 
-        Robot_Link_Len[2] = 0.2932; 
-        Robot_Link_Len[3] = 0.2932; 
-        Robot_Link_Len[4] = 0.2568; 
-        Robot_Link_Len[5] = 0.1764; 
+        //climbing robot link length mm
+        Robot_Link_Len[0] = 176.4; 
+        Robot_Link_Len[1] = 256.8; 
+        Robot_Link_Len[2] = 293.2; 
+        Robot_Link_Len[3] = 293.2; 
+        Robot_Link_Len[4] = 256.8; 
+        Robot_Link_Len[5] = 176.4; 
 
     }                 
     else if(req.which_robot == 1){
-        // biped robot link length
-        Robot_Link_Len[0] = 0.1764; 
-        Robot_Link_Len[1] = 0.2568; 
-        Robot_Link_Len[2] = 0.2932; 
-        Robot_Link_Len[3] = 0.2932; 
-        Robot_Link_Len[4] = 0.2568; 
-        Robot_Link_Len[5] = 0.1764; 
+        // biped robot link length mm
+        Robot_Link_Len[0] = 176.4; 
+        Robot_Link_Len[1] = 256.8; 
+        Robot_Link_Len[2] = 293.2; 
+        Robot_Link_Len[3] = 293.2; 
+        Robot_Link_Len[4] = 256.8; 
+        Robot_Link_Len[5] = 176.4; 
     }
     else{
         ROS_INFO_STREAM("Server Request about which_robot must be 0 or 1, else error!");  
@@ -48,7 +48,7 @@ bool handle_function(   birl_module_robot::positive_solution::Request &req,
     robot5d_G0.Set_Length(Robot_Link_Len);
     robot5d_G6.Set_Length(Robot_Link_Len);
 
-    static double decartes_position_value[6] ; // (xyzwpr) unit:(meter,degree)
+    static double decartes_position_value[6] ; // (xyzwpr) unit:(mm,degree)
     static double current_joint_value[5];  //unit:degree
 
     current_joint_value[0] = req.current_joint_state[0];

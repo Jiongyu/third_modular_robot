@@ -33,12 +33,10 @@ class Robot_feedback_fun(QWidget, Ui_robotFeedback):
         self.sin_get_positive_solution.connect(self.get_descartes_pos)
         self.__get_positive_soluition = Get_positive_solution_thread()
         self.__get_positive_soluition.sin_positive_solution.connect(self.display_descartes_position)
-        self.__descartes_position = [0.5864,0,0,0,0,180]
+        self.__descartes_position = [586.4,0,0,0,0,180]
         self.__which_base = False
         self.__which_robot = which_robot
 
-        # m 转为 mm
-        self.__scale = 1000
         pass
 
     def open_robot_state_feedback(self):
@@ -83,9 +81,9 @@ class Robot_feedback_fun(QWidget, Ui_robotFeedback):
     # 显示运动学正解数据
     def display_descartes_position(self,data):
         # 笛卡尔 X Y Z RX RY RZ
-        self.lineEdit_44.setText(str(data[0] * self.__scale))
-        self.lineEdit_47.setText(str(data[1] * self.__scale))        
-        self.lineEdit_42.setText(str(data[2] * self.__scale))        
+        self.lineEdit_44.setText(str(data[0]))
+        self.lineEdit_47.setText(str(data[1]))        
+        self.lineEdit_42.setText(str(data[2]))        
         self.lineEdit_43.setText(str(data[3]))        
         self.lineEdit_46.setText(str(data[4]))        
         self.lineEdit_45.setText(str(data[5]))    
