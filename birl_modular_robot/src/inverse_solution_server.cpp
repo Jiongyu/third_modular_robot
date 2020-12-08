@@ -32,12 +32,12 @@ bool handle_function(   birl_module_robot::inverse_solution::Request &req,
     }                 
     else if(req.which_robot == 1){
         // biped robot link length
-        Robot_Link_Len[0] = 176.4; 
+        Robot_Link_Len[0] = 72.2; 
         Robot_Link_Len[1] = 256.8; 
         Robot_Link_Len[2] = 293.2; 
         Robot_Link_Len[3] = 293.2; 
         Robot_Link_Len[4] = 256.8; 
-        Robot_Link_Len[5] = 176.4;  
+        Robot_Link_Len[5] = 72.2;  
     }
     else{
         ROS_INFO_STREAM("Server Request about which_robot must be 0 or 1, else error!");  
@@ -77,12 +77,24 @@ bool handle_function(   birl_module_robot::inverse_solution::Request &req,
     current_top_velocity[5] = req.descartes_vel_commands[5]; // RZ_v
     // ROS_INFO_STREAM("convert request data success.");                   
 
-    if(req.base)
-        if(! robot5d_G0.IKine(new_decartes_point,current_joint_value,new_joint_value))
-            ROS_INFO_STREAM("G0 IKine success");  
-    else
-        if(! robot5d_G6.IKine(new_decartes_point,current_joint_value,new_joint_value))
-            ROS_INFO_STREAM("G6 IKine success");  
+    if(req.base){
+        if(! robot5d_G0.IKine(new_decartes_point,current_joint_value,new_joint_value)){
+            ROS_INFO_STREAM("G0 IKine success");
+            res.ifGetSolve = true;
+        }else
+        {
+            res.ifGetSolve = false;
+        }
+    }     
+    else{
+        if(! robot5d_G6.IKine(new_decartes_point,current_joint_value,new_joint_value)){
+            ROS_INFO_STREAM("G6 IKine success"); 
+            res.ifGetSolve = true;
+        }else
+        {
+            res.ifGetSolve = false;
+        }
+    }
 
     res.joint_pos_commands.clear();
     res.joint_pos_commands.push_back(new_joint_value[0]);  // I1
@@ -91,12 +103,25 @@ bool handle_function(   birl_module_robot::inverse_solution::Request &req,
     res.joint_pos_commands.push_back(new_joint_value[3]);  // T4
     res.joint_pos_commands.push_back(new_joint_value[4]);  // I5
     
-    if(req.base)
-        if(! robot5d_G0.Vel_IKine(new_joint_value,current_top_velocity,new_joint_velocity))
+    if(req.base){
+        if(! robot5d_G0.Vel_IKine(new_joint_value,current_top_velocity,new_joint_velocity)){
             ROS_INFO_STREAM("G0 Vel_IKine success");  
-    else
+            res.ifGetSolve = true;
+        }else
+        {
+            res.ifGetSolve = false;
+        }
+    }  
+    else{
         if(! robot5d_G6.Vel_IKine(new_joint_value,current_top_velocity,new_joint_velocity))
+        {
             ROS_INFO_STREAM("G6 Vel_IKine success");  
+            res.ifGetSolve = true;
+        }else
+        {
+            res.ifGetSolve = false;
+        }
+    }
 
     res.joint_vel_commands.clear();
     res.joint_vel_commands.push_back(new_joint_velocity[0]);
