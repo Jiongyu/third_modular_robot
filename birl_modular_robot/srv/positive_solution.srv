@@ -9,5 +9,8 @@ bool base
 float32[] current_joint_state
 
 ---
+# if get solve
+bool ifGetSolve
+
 # descartes point psotion command(X Y Z RX RY RZ)
 float32[] descartes_pos_state

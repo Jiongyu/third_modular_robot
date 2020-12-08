@@ -15,6 +15,9 @@ float32[] descartes_vel_commands
 float32[] current_joint_state
 
 ---
+# if get solve
+bool ifGetSolve
+
 # robot joint position commands 
 # I1 T2 T3 T4 I5 deg
 float32[] joint_pos_commands 
