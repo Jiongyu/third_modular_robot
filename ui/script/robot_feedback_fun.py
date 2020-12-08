@@ -32,7 +32,7 @@ class Robot_feedback_fun(QWidget, Ui_robotFeedback):
         self.__get_positive_soluition = Get_positive_solution_thread()
         self.__get_positive_soluition.sin_positive_solution.connect(self.display_descartes_position)
         self.__descartes_position = [586.4,0,0,0,0,180]
-        self.__which_base = False
+        self.__which_base = True
         self.__which_robot = which_robot
 
         pass
