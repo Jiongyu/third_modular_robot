@@ -324,21 +324,18 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     # 获取逆解槽函数
     def get_inverse_solution(self):
         
-        # mm单位 转换到 m单位
-        scale = 0.001
-
         temp_descartes_postion_command = []
-        temp_descartes_postion_command.append(float(str(self.lineEdit_26.text())) * scale)  # X
-        temp_descartes_postion_command.append(float(str(self.lineEdit_27.text())) * scale)  # Y
-        temp_descartes_postion_command.append(float(str(self.lineEdit_28.text())) * scale)  # Z
+        temp_descartes_postion_command.append(float(str(self.lineEdit_26.text())))  # X
+        temp_descartes_postion_command.append(float(str(self.lineEdit_27.text())))  # Y
+        temp_descartes_postion_command.append(float(str(self.lineEdit_28.text())))  # Z
         temp_descartes_postion_command.append(float(str(self.lineEdit_29.text())))  # RX
         temp_descartes_postion_command.append(float(str(self.lineEdit_30.text())))  # RY
         temp_descartes_postion_command.append(float(str(self.lineEdit_31.text())))  # RZ
 
         temp_descartes_velocity_command = []
-        temp_descartes_velocity_command.append(float(str(self.lineEdit_34.text())) * scale)  # X
-        temp_descartes_velocity_command.append(float(str(self.lineEdit_37.text())) * scale)  # Y
-        temp_descartes_velocity_command.append(float(str(self.lineEdit_32.text())) * scale)  # Z
+        temp_descartes_velocity_command.append(float(str(self.lineEdit_34.text())))  # X
+        temp_descartes_velocity_command.append(float(str(self.lineEdit_37.text())))  # Y
+        temp_descartes_velocity_command.append(float(str(self.lineEdit_32.text())))  # Z
         temp_descartes_velocity_command.append(float(str(self.lineEdit_33.text())))  # RX
         temp_descartes_velocity_command.append(float(str(self.lineEdit_36.text())))  # RY
         temp_descartes_velocity_command.append(float(str(self.lineEdit_35.text())))  # RZ
