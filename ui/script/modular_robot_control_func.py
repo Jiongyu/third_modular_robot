@@ -141,11 +141,14 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.__ros_feedback_flag = False
 
         # 机器人笛卡尔增量控制  位置增量 m
-        self.__position_incre_command = 0.001
+        self.__position_incre_positon = 0.001
         # 机器人笛卡尔增量控制  姿态增量 deg
-        self.__posture_incre_command = 1
+        self.__posture_incre_position = 1
         # 机器人笛卡尔增量控制  位置姿态默认速度(deg/mm)
-        self.__posi_post_incre_vel = 1  
+        # mm
+        self.__position_incre_velocity = 1
+        # deg
+        self.__posture_incre_velocity = 1  
 
         #　机器人当前末端笛卡尔位置(position:m, posture:deg)
         self.__actual_robot_tcp_pos = [0.5864, 0, 0, 0, 0, 180]
@@ -346,71 +349,78 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     # self.pushButton_64.clicked.connect(MainWindow_modular_robot.descartes_incre_pos_set)
     # 笛卡尔空间位置姿态增量设置
     def descartes_incre_pos_set(self):
-        self.__position_incre_command = abs(float(str(self.lineEdit_96.text())))
-        self.__posture_incre_command = abs(float(str(self.lineEdit_95.text()))) 
-        # print self.__position_incre_command
-        # print self.__posture_incre_command
+        self.__position_incre_positon = abs(float(str(self.lineEdit_96.text())))
+        self.__posture_incre_position = abs(float(str(self.lineEdit_95.text()))) 
+        # print self.__position_incre_positon
+        # print self.__posture_incre_position
         pass
+
+    # 笛卡尔增量速度设置
+    def descartes_incre_vel_set(self):
+        self.__position_incre_velocity = abs(float(str(self.lineEdit_98.text())))
+        self.__posture_incre_velocity = abs(float(str(self.lineEdit_97.text())))
+        # print self.__position_incre_velocity
+        # print self.__posture_incre_velocity 
 
     # x 增量 +
     def descartes_x_incre_add(self):
-        self.__control_robot_by_incre_data(0, self.__position_incre_command)
+        self.__control_robot_by_incre_data(0, self.__position_incre_positon)
         pass
 
     # x 增量 -
     def descartes_x_incre_sub(self):
-        self.__control_robot_by_incre_data(0, - self.__position_incre_command)
+        self.__control_robot_by_incre_data(0, - self.__position_incre_positon)
         pass
 
     # y 增量 +
     def descartes_y_incre_add(self):
-        self.__control_robot_by_incre_data(1, self.__position_incre_command)
+        self.__control_robot_by_incre_data(1, self.__position_incre_positon)
         pass
 
     # y 增量 -
     def descartes_y_incre_sub(self):
-        self.__control_robot_by_incre_data(1, - self.__position_incre_command)
+        self.__control_robot_by_incre_data(1, - self.__position_incre_positon)
         pass
 
     # z 增量 +
     def descartes_z_incre_add(self):
-        self.__control_robot_by_incre_data(2, self.__position_incre_command)
+        self.__control_robot_by_incre_data(2, self.__position_incre_positon)
         pass
     
     # z 增量 -
     def descartes_z_incre_sub(self):
-        self.__control_robot_by_incre_data(2, - self.__position_incre_command)
+        self.__control_robot_by_incre_data(2, - self.__position_incre_positon)
         pass
     
     # rx 增量 +
     def descartes_rx_incre_add(self):
-        self.__control_robot_by_incre_data(3, self.__posture_incre_command)
+        self.__control_robot_by_incre_data(3, self.__posture_incre_position)
 
         pass
     
     # rx 增量 -
     def descartes_rx_incre_sub(self):
-        self.__control_robot_by_incre_data(3, - self.__posture_incre_command)
+        self.__control_robot_by_incre_data(3, - self.__posture_incre_position)
         pass
 
     # ry 增量 +
     def descartes_ry_incre_add(self):
-        self.__control_robot_by_incre_data(4, self.__posture_incre_command)
+        self.__control_robot_by_incre_data(4, self.__posture_incre_position)
         pass
     
     # ry 增量 -
     def descartes_ry_incre_sub(self):
-        self.__control_robot_by_incre_data(4, - self.__posture_incre_command)
+        self.__control_robot_by_incre_data(4, - self.__posture_incre_position)
         pass
     
     # rz 增量 +
     def descartes_rz_incre_add(self):
-        self.__control_robot_by_incre_data(5, self.__posture_incre_command)
+        self.__control_robot_by_incre_data(5, self.__posture_incre_position)
         pass
     
     # rz 增量 -
     def descartes_rz_incre_sub(self):
-        self.__control_robot_by_incre_data(5, - self.__posture_incre_command)
+        self.__control_robot_by_incre_data(5, - self.__posture_incre_position)
         pass
     
     # 发送笛卡尔增量求解逆解
@@ -424,10 +434,10 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                 if(index == i):
                     # X Y Z
                     if(index >= 0 and index <= 2):
-                        temp_vel_list[i] = self.__posi_post_incre_vel
+                        temp_vel_list[i] = self.__position_incre_velocity
                     # Rx Ry Rz 
                     else:
-                        temp_vel_list[i]  = self.__posi_post_incre_vel
+                        temp_vel_list[i]  = self.__posture_incre_velocity
                 else:
                     temp_vel_list[i] = 0
             # print temp_vel_list
@@ -772,12 +782,15 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
         # 笛卡尔增量控制模式
         pDoubleDescartesIncre = QDoubleValidator(self)
-        pDoubleDescartesIncre.setRange(0,5)
+        pDoubleDescartesIncre.setRange(0,10)
         pDoubleDescartesIncre.setNotation(QDoubleValidator.StandardNotation)
         pDoubleDescartesIncre.setDecimals(2)
         self.lineEdit_95.setValidator(pDoubleDescartesIncre)
         self.lineEdit_96.setValidator(pDoubleDescartesIncre)
 
+        self.lineEdit_98.setValidator(pDoubleDescartesIncre)
+        self.lineEdit_97.setValidator(pDoubleDescartesIncre)    
+        
         pDoubleValidator_I = QDoubleValidator(self)
         pDoubleValidator_I.setRange(-360, 360)
         pDoubleValidator_I.setNotation(QDoubleValidator.StandardNotation)
@@ -895,6 +908,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def set_base_0(self):
         self.__base_flag = True
         self.radioButton_2.setChecked(False)
+        self.radioButton_4.setChecked(False)
         self.sin_update_gripper_base.emit(self.__base_flag)
 
         pass
@@ -902,6 +916,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def set_base_6(self):
         self.__base_flag = False
         self.radioButton.setChecked(False)
+        self.radioButton_3.setChecked(False)
         self.sin_update_gripper_base.emit(self.__base_flag)
         pass
     ############## 更新逆运动学基座  end ###############################################
