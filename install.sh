@@ -9,6 +9,17 @@ cd ./usb-to-can_socketcan
 make
 sudo make install
 
+canConfFile='/etc/can.conf'
+
+if [ -f ${canConfFile} ];then
+  echo ${canConfFile} "文件存在"
+  echo "删除文件" ${canConfFile}
+  sudo rm -rf ${canConfFile}
+else
+  echo ${canConfFile} "文件不存在"
+fi
+
+echo "新建文件" ${canConfFile}
 sudo touch /etc/can.conf
 sudo chmod a+w /etc/can.conf
 
