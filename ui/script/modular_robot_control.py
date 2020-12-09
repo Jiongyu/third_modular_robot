@@ -832,7 +832,6 @@ class Ui_MainWindow_modular_robot(object):
         self.tabWidget.currentChanged['int'].connect(MainWindow_modular_robot.tab_change)
         self.pushButton_18.clicked.connect(MainWindow_modular_robot.set_path_max_velovity)
         self.pushButton_41.clicked.connect(MainWindow_modular_robot.continue_operate_point_data)
-        self.pushButton_100.clicked.connect(MainWindow_modular_robot.continue_operate_point_data)
         self.pushButton_44.clicked.connect(MainWindow_modular_robot.descartes_x_incre_add)
         self.pushButton_50.clicked.connect(MainWindow_modular_robot.descartes_x_incre_sub)
         self.pushButton_45.clicked.connect(MainWindow_modular_robot.descartes_y_incre_add)

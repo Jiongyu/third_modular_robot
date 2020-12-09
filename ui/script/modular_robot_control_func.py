@@ -20,6 +20,7 @@ from robot_feedback_fun import Robot_feedback_fun
 from receive_ros_command_func import Receive_ros_command_func
 from robot_lowlevel_control_muti_thread import Robot_lowlevel_control_Muti_thread
 from get_inverse_solution_thread import Get_inverse_solution_thread
+from get_positive_solution_thread import Get_positive_solution_thread
 from path_process import Path_process
 
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMessageBox, QFileDialog, QWidget
@@ -150,8 +151,8 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         # deg
         self.__posture_incre_velocity = 1  
 
-        #　机器人当前末端笛卡尔位置(position:m, posture:deg)
-        self.__actual_robot_tcp_pos = [0.5864, 0, 0, 0, 0, 180]
+        #　机器人当前末端笛卡尔位置(position:mm, posture:deg)
+        self.__actual_robot_tcp_pos = [586.4, 0, 0, 0, 0, 180]
 
 
         # 菜单栏信号槽函数链接
@@ -183,6 +184,8 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.__getInverseSolution_incre = QThread()
         # 机器人笛卡尔空间选点求逆服务
         self.__getInverseSolu = QThread()
+        # 获取机器人当前tcp位置服务
+        self.__getActualTcpPosSolu = QThread()
 
     # 窗口位于屏幕中心
     def __center(self):
@@ -441,6 +444,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                 else:
                     temp_vel_list[i] = 0
             # print temp_vel_list
+
             self.__getInverseSolution_incre = Get_inverse_solution_thread(  self.__which_robot, \
                                                                             self.__base_flag, \
                                                                             self.__actual_robot_tcp_pos, \
@@ -921,7 +925,46 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         pass
     ############## 更新逆运动学基座  end ###############################################
 
+    # 请求获取机器人当前tcp位姿
+    def __request_upadte_tcp_position(self):
+        if not self.__getActualTcpPosSolu.isRunning():
+            self.__getActualTcpPosSolu = Get_positive_solution_thread()
+            self.__getActualTcpPosSolu.update_joint_state(self.__which_robot, self.__base_flag, self.__pos_joints)
+            self.__getActualTcpPosSolu.sin_positive_solution.connect(self.__upadte_tcp_position)
+            self.__getActualTcpPosSolu.start()
+            pass
+
+    # 更新机器人当前tcp
+    def __upadte_tcp_position(self,data):
+        # 笛卡尔位置控制更新更新tcp
+        self.lineEdit_26.setText(str(round(data[0], 3)))
+        self.lineEdit_27.setText(str(round(data[1], 3)))
+        self.lineEdit_28.setText(str(round(data[2], 3)))
+        self.lineEdit_29.setText(str(round(data[3], 3)))
+        self.lineEdit_30.setText(str(round(data[4], 3)))
+        self.lineEdit_31.setText(str(round(data[5], 3)))
+
+        # 笛卡尔增量控制界面更新tcp
+        self.__actual_robot_tcp_pos = data
+        pass
 
     # tab 页数改变
     def tab_change(self, data):
+        if data == 0:
+            # 关节位置控制
+            pass
+        elif data == 1:
+            # 关节速度控制
+            pass
+        elif data == 2:
+            # 离线数据控制
+            pass
+        elif data == 3:
+            # 笛卡尔位置控制
+            self.__request_upadte_tcp_position()
+            pass
+        elif data == 4:
+            # 笛卡尔增量控制
+            self.__request_upadte_tcp_position()
+            pass
         pass

@@ -94,6 +94,9 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         # 机器人启动标志
         self.__robot_start = False
 
+        # 离线轨迹模式下，判断是否微调
+        self.__if_fine_tune = False
+
     def run(self):
         # 发送命令线程
         self.thread_command = threading.Thread(target = self.thread_command_func, args= (None,))
@@ -239,12 +242,15 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         self.__length_path = len(self.__path_pos_joints_command)
         self.__path_point_index = 0
         self.path_command_mode = True
+        self.__if_fine_tune = False
+
 
     # 离线轨迹继续运行
     def continue_path_command(self):
         if not self.path_command_mode:
             self.robot_path_mode()
             self.path_command_mode = True
+            self.__if_fine_tune = True
 
 
     # 执行关节空间位置控制命令
@@ -282,9 +288,14 @@ class Robot_lowlevel_control_Muti_thread(QThread):
             
             path_time_location = len(self.__path_pos_joints_command[self.__path_point_index]) - 1
             while self.__path_point_index < self.__length_path:
-                if(self.__path_pos_joints_command[i] == "HALT"):
+                if(self.__path_pos_joints_command[self.__path_point_index] == "HALT"):
                     self.__path_point_index += 1
                     break
+
+                # 判断机器人暂停后，是否人为调整，从而更新计算相应的延迟时间
+                if self.__if_fine_tune:
+                    self.__if_add_time_for_path_command()
+
                 self.__mutex.lock()
                 for i in range(len(self.__joints)):
                     self.__joints[i].sent_position( self.__path_pos_joints_command[self.__path_point_index][i],  \
@@ -295,6 +306,35 @@ class Robot_lowlevel_control_Muti_thread(QThread):
                 if ((self.__stop) or (self.__quick_stop)):
                     break
         self.path_command_mode = False
+
+    # 笛卡尔空间调整后，更新轨迹延时参数，防止轨迹中断
+    def __if_add_time_for_path_command(self):
+        temp_time = []
+        self.__mutex.lock()
+        # 计算当前关节位置与下一个路径点之间的延迟时间
+        max_vel = max(self.__path_pos_joints_command[self.__path_point_index][5:9])
+        for i in range(len(self.__joints)):
+            temp =  abs(self.__pos_joints_feeback[i] - self.__path_pos_joints_command[self.__path_point_index][i])
+            if( max_vel != 0):
+                temp_time.append(temp / max_vel)
+            else:
+                temp_time.append(0)
+
+        # 比较最新延迟时间与预设延迟时间，更新
+        path_time_location = len(self.__path_pos_joints_command[self.__path_point_index]) - 1
+        if(max(temp_time) != self.__path_pos_joints_command[self.__path_point_index][path_time_location]):
+            self.__path_pos_joints_command[self.__path_point_index][path_time_location] = max(temp_time)
+            pass
+    
+        # 更新各关节路径点速度
+        for i in range(len(self.__joints)):
+            temp =  abs(self.__pos_joints_feeback[i] - self.__path_pos_joints_command[self.__path_point_index][i])
+            temp_vel = temp / self.__path_pos_joints_command[self.__path_point_index][path_time_location]
+            self.__path_pos_joints_command[self.__path_point_index][i + 5] = temp_vel
+
+        self.__mutex.unlock()
+        self.__if_fine_tune = False
+        pass
 
         # ## test code #################################
         # if (0 == self.__path_point_index):

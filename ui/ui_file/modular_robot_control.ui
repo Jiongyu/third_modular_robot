@@ -2336,8 +2336,8 @@
    <slot>get_inverse_solution()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>489</x>
-     <y>423</y>
+     <x>491</x>
+     <y>526</y>
     </hint>
     <hint type="destinationlabel">
      <x>584</x>
@@ -2454,22 +2454,6 @@
     <hint type="destinationlabel">
      <x>585</x>
      <y>527</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_100</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow_modular_robot</receiver>
-   <slot>continue_operate_point_data()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>328</x>
-     <y>262</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>578</x>
-     <y>235</y>
     </hint>
    </hints>
   </connection>
@@ -2704,8 +2688,8 @@
    <slot>set_base_0()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>294</x>
-     <y>540</y>
+     <x>296</x>
+     <y>527</y>
     </hint>
     <hint type="destinationlabel">
      <x>561</x>
@@ -2720,8 +2704,8 @@
    <slot>set_base_6()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>293</x>
-     <y>588</y>
+     <x>295</x>
+     <y>577</y>
     </hint>
     <hint type="destinationlabel">
      <x>565</x>
