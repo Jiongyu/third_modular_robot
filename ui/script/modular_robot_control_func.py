@@ -119,9 +119,9 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.lineEdit_23.setText(str(self.__joint_velocity))
 
         # 位置模式界面
-        self.___joint_velocity_command_posMode = [0,0,0,0,0]
+        self.__joint_velocity_command_posMode = [0,0,0,0,0]
         # 速度模式界面
-        self.___joint_velocity_command_VelMode = [0,0,0,0,0]
+        self.__joint_velocity_command_VelMode = [0,0,0,0,0]
 
         # 关节位置命令
         self.__joint_position_command = [0,0,0,0,0]
@@ -154,6 +154,10 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         #　机器人当前末端笛卡尔位置(position:mm, posture:deg)
         self.__actual_robot_tcp_pos = [586.4, 0, 0, 0, 0, 180]
 
+        # 双爪电流状态记录
+        self.__last_G0_cur = 0
+        self.__last_G6_cur = 0
+
 
         # 菜单栏信号槽函数链接
         self.action.triggered.connect(self.__open_gripper_control)
@@ -178,6 +182,8 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.__ros_feedback_msg.feedbackVelData = [0 ,0 ,0 ,0 ,0]
         # 关节电流
         self.__ros_feedback_msg.feedbackCurrData = [0 ,0 ,0 ,0 ,0]
+        # 双爪夹紧状态
+        self.__ros_feedback_msg.isGrasping = [False, False]
         # end
 
         # 机器人笛卡尔空间增量求逆解服务声明
@@ -266,7 +272,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_7.text())), \
                                                 self.__zero_pos_joints[0],  \
                                                 self.__direction_joints[0]  )
-            self.___joint_velocity_command_posMode[0] = self.__joint_velocity
+            self.__joint_velocity_command_posMode[0] = self.__joint_velocity
             self.__joint_pos_command(self.__joint_position_command)
 
     def joint_t2_command(self):
@@ -275,7 +281,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_8.text())), \
                                                 self.__zero_pos_joints[1],  \
                                                 self.__direction_joints[1]  )
-            self.___joint_velocity_command_posMode[1] = self.__joint_velocity
+            self.__joint_velocity_command_posMode[1] = self.__joint_velocity
             self.__joint_pos_command(self.__joint_position_command)
 
     def joint_t3_command(self):
@@ -284,7 +290,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_9.text())), \
                                                 self.__zero_pos_joints[2],  \
                                                 self.__direction_joints[2]  )
-            self.___joint_velocity_command_posMode[2] = self.__joint_velocity
+            self.__joint_velocity_command_posMode[2] = self.__joint_velocity
             self.__joint_pos_command(self.__joint_position_command)
 
     def joint_t4_command(self):
@@ -293,7 +299,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_10.text())), \
                                                 self.__zero_pos_joints[3],  \
                                                 self.__direction_joints[3]  )
-            self.___joint_velocity_command_posMode[3] = self.__joint_velocity
+            self.__joint_velocity_command_posMode[3] = self.__joint_velocity
             self.__joint_pos_command(self.__joint_position_command)
 
     def joint_i5_command(self):
@@ -302,50 +308,50 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                                                 float(str(self.lineEdit_11.text())), \
                                                 self.__zero_pos_joints[4],  \
                                                 self.__direction_joints[4]  )
-            self.___joint_velocity_command_posMode[4] = self.__joint_velocity
+            self.__joint_velocity_command_posMode[4] = self.__joint_velocity
             self.__joint_pos_command(self.__joint_position_command)
 
     def __joint_pos_command(self,data):
-        self.sin_joint_position.emit([data, self.___joint_velocity_command_posMode])
+        self.sin_joint_position.emit([data, self.__joint_velocity_command_posMode])
 
     #################### 关节空间位置控制界面 关节控制槽函数 end ###################################################
 
     #################### 关节空间速度控制界面 关节控制槽函数 #######################################################
     def joint_i1_vel_command(self,data):
         if not data:
-            self.___joint_velocity_command_VelMode[0] = 0
+            self.__joint_velocity_command_VelMode[0] = 0
         else:
-            self.___joint_velocity_command_VelMode[0] = self.__joint_velocity * self.__direction_joints[0]
-        self.sin__joint_velocity.emit(self.___joint_velocity_command_VelMode)
+            self.__joint_velocity_command_VelMode[0] = self.__joint_velocity * self.__direction_joints[0]
+        self.sin__joint_velocity.emit(self.__joint_velocity_command_VelMode)
 
     def joint_t2_vel_command(self,data):
         if not data:
-            self.___joint_velocity_command_VelMode[1] = 0
+            self.__joint_velocity_command_VelMode[1] = 0
         else:
-            self.___joint_velocity_command_VelMode[1] = self.__joint_velocity * self.__direction_joints[1]
-        self.sin__joint_velocity.emit(self.___joint_velocity_command_VelMode)
-        # print self.___joint_velocity_command_VelMode
+            self.__joint_velocity_command_VelMode[1] = self.__joint_velocity * self.__direction_joints[1]
+        self.sin__joint_velocity.emit(self.__joint_velocity_command_VelMode)
+        # print self.__joint_velocity_command_VelMode
 
     def joint_t3_vel_command(self,data):
         if not data:
-            self.___joint_velocity_command_VelMode[2] = 0
+            self.__joint_velocity_command_VelMode[2] = 0
         else:
-            self.___joint_velocity_command_VelMode[2] = self.__joint_velocity * self.__direction_joints[2]
-        self.sin__joint_velocity.emit(self.___joint_velocity_command_VelMode)
+            self.__joint_velocity_command_VelMode[2] = self.__joint_velocity * self.__direction_joints[2]
+        self.sin__joint_velocity.emit(self.__joint_velocity_command_VelMode)
 
     def joint_t4_vel_command(self,data):
         if not data:
-            self.___joint_velocity_command_VelMode[3] = 0
+            self.__joint_velocity_command_VelMode[3] = 0
         else:
-            self.___joint_velocity_command_VelMode[3] = self.__joint_velocity * self.__direction_joints[3]
-        self.sin__joint_velocity.emit(self.___joint_velocity_command_VelMode)
+            self.__joint_velocity_command_VelMode[3] = self.__joint_velocity * self.__direction_joints[3]
+        self.sin__joint_velocity.emit(self.__joint_velocity_command_VelMode)
 
     def joint_i5_vel_command(self,data):
         if not data:
-            self.___joint_velocity_command_VelMode[4] = 0
+            self.__joint_velocity_command_VelMode[4] = 0
         else:
-            self.___joint_velocity_command_VelMode[4] = self.__joint_velocity * self.__direction_joints[4]
-        self.sin__joint_velocity.emit(self.___joint_velocity_command_VelMode)  
+            self.__joint_velocity_command_VelMode[4] = self.__joint_velocity * self.__direction_joints[4]
+        self.sin__joint_velocity.emit(self.__joint_velocity_command_VelMode)  
     #################### 关节空间速度控制界面 关节控制槽函数  end ###################################################
 
     #################### 笛卡尔位置增量控制界面 槽函数 ##############################################################
@@ -704,10 +710,20 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def __get_G0_torque_from_windowsGripperControl(self,data):
         if self.__robot_enabled_flag:
             self.sin_G0_command.emit(data)
+            if (self.__last_G0_cur == 0) & (data < 0):
+                self.__ros_feedback_msg.isGrasping[0] = True
+            if (self.__last_G0_cur > 0) & (data == 0):
+                self.__ros_feedback_msg.isGrasping[0] = False
+            self.__last_G0_cur = data
 
     def __get_G6_torque_from_windowsGripperControl(self,data):
         if self.__robot_enabled_flag:
             self.sin_G6_command.emit(data)
+            if (self.__last_G6_cur == 0) & (data < 0):
+                self.__ros_feedback_msg.isGrasping[1] = True
+            if (self.__last_G6_cur > 0) & (data == 0):
+                self.__ros_feedback_msg.isGrasping[1] = False
+            self.__last_G6_cur = data
     ####################### 获取夹持器界面控制数据，并发送至底层 end ########################
 
     # 界面退出

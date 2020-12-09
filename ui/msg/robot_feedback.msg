@@ -6,4 +6,5 @@ float32[] feedbackPosData
 float32[] feedbackVelData
 # 反馈关节电流数据
 float32[] feedbackCurrData
-
+# 双爪抓夹情况(true:处于抓紧状态；false:处于松开状态),顺序：G0、G6
+bool[] isGrasping
