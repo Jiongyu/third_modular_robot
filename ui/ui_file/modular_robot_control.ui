@@ -1897,6 +1897,7 @@
     <addaction name="action_3"/>
     <addaction name="action_8"/>
     <addaction name="action_11"/>
+    <addaction name="action_13"/>
    </widget>
    <widget class="QMenu" name="menuROS">
     <property name="title">
@@ -2047,6 +2048,19 @@
   <action name="action_12">
    <property name="text">
     <string>控制命令</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_13">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>爬壁机器人接收控制</string>
    </property>
    <property name="font">
     <font>

@@ -39,7 +39,8 @@ class Get_inverse_solution_thread(QThread):
         # print self.__descartes_position_command
         # print self.__descartes_velocity_command
         # print self.__current_joint_position
-        [joint_pos_command, joint_vel_command] = Inverse_solution_client(   self.__which_robot, self.__which_base, \
+        ifgetSolve = False
+        [joint_pos_command, joint_vel_command, ifgetSolve] = Inverse_solution_client(   self.__which_robot, self.__which_base, \
                                                                             self.__descartes_position_command, \
                                                                             self.__descartes_velocity_command, \
                                                                             self.__current_joint_position)

@@ -21,6 +21,8 @@ from receive_ros_command_func import Receive_ros_command_func
 from robot_lowlevel_control_muti_thread import Robot_lowlevel_control_Muti_thread
 from get_inverse_solution_thread import Get_inverse_solution_thread
 from get_positive_solution_thread import Get_positive_solution_thread
+from biped_receive_control_command_func import Biped_receive_control_command_func
+
 from path_process import Path_process
 
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMessageBox, QFileDialog, QWidget
@@ -40,6 +42,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     sin_close_windowsSetZero        = pyqtSignal()
     sin_close_windowsGripper        = pyqtSignal()
     sin_close_windowsFeedback       = pyqtSignal()
+    sin_close_windowsBipedReceive   = pyqtSignal()
     
     # 停止、急停、运行信号
     sin_stop_robot_operation            = pyqtSignal()
@@ -49,7 +52,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     # 关节位置命令信号
     sin_joint_position = pyqtSignal(list)
     # 关节速度命令信号
-    sin__joint_velocity = pyqtSignal(list)
+    sin_joint_velocity = pyqtSignal(list)
 
     # 夹持器信号
     sin_G0_command = pyqtSignal(int)
@@ -64,6 +67,10 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     sin_display_feedback_data = pyqtSignal(list)
     # 更新爪子基座
     sin_update_gripper_base = pyqtSignal(bool)
+
+
+    # 更新 爬壁机器人接收控制命令窗口 机器人状态
+    sin_update_biped_robot_state = pyqtSignal(list)
 
     # 机器人各关节状态
     # position I1, T2, T3, T4, I5
@@ -89,12 +96,14 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.__window_zero_point_set = QWidget()
         self.__window_robot_state_feedback = QWidget()
         self.__window_receive_ros_robot_command = QWidget()
+        self.__window_biped_receive_command = QWidget()
         # 判断窗口是否打开
         self.__window_gripper_control_flag = False
         self.__window_path_point_record_flag = False
         self.__window_zero_point_set_flag = False
         self.__window_robot_state_feedback_flag = False
         self.__window_receive_ros_robot_command_flag = False
+        self.__window_biped_receive_command_flag = False
 
         # 区别攀爬、爬壁
         self.__which_robot = which_robot
@@ -170,6 +179,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.action_6.triggered.connect(self.__ros_state_feedback_Set)
         self.action_10.triggered.connect(self.__about)
         self.action_12.triggered.connect(self.__open_ros_command)
+        self.action_13.triggered.connect(self.__open_biped_receive_command)
         # end
 
         # ros 反馈初始化
@@ -216,7 +226,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.sin_stop_robot_operation.connect(self.__lowLevelControl.robot_stop)
             self.sin_halt_robot_operation.connect(self.__lowLevelControl.robot_halt)
             self.sin_joint_position.connect(self.__lowLevelControl.set_jointPosition)
-            self.sin__joint_velocity.connect(self.__lowLevelControl.set_jointVelocity)
+            self.sin_joint_velocity.connect(self.__lowLevelControl.set_jointVelocity)
             self.sin_path_command.connect(self.__lowLevelControl.path_command)
             self.sin_continue_path_command.connect(self.__lowLevelControl.continue_path_command)
 
@@ -322,14 +332,14 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.__joint_velocity_command_VelMode[0] = 0
         else:
             self.__joint_velocity_command_VelMode[0] = self.__joint_velocity * self.__direction_joints[0]
-        self.sin__joint_velocity.emit(self.__joint_velocity_command_VelMode)
+        self.sin_joint_velocity.emit(self.__joint_velocity_command_VelMode)
 
     def joint_t2_vel_command(self,data):
         if not data:
             self.__joint_velocity_command_VelMode[1] = 0
         else:
             self.__joint_velocity_command_VelMode[1] = self.__joint_velocity * self.__direction_joints[1]
-        self.sin__joint_velocity.emit(self.__joint_velocity_command_VelMode)
+        self.sin_joint_velocity.emit(self.__joint_velocity_command_VelMode)
         # print self.__joint_velocity_command_VelMode
 
     def joint_t3_vel_command(self,data):
@@ -337,21 +347,21 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.__joint_velocity_command_VelMode[2] = 0
         else:
             self.__joint_velocity_command_VelMode[2] = self.__joint_velocity * self.__direction_joints[2]
-        self.sin__joint_velocity.emit(self.__joint_velocity_command_VelMode)
+        self.sin_joint_velocity.emit(self.__joint_velocity_command_VelMode)
 
     def joint_t4_vel_command(self,data):
         if not data:
             self.__joint_velocity_command_VelMode[3] = 0
         else:
             self.__joint_velocity_command_VelMode[3] = self.__joint_velocity * self.__direction_joints[3]
-        self.sin__joint_velocity.emit(self.__joint_velocity_command_VelMode)
+        self.sin_joint_velocity.emit(self.__joint_velocity_command_VelMode)
 
     def joint_i5_vel_command(self,data):
         if not data:
             self.__joint_velocity_command_VelMode[4] = 0
         else:
             self.__joint_velocity_command_VelMode[4] = self.__joint_velocity * self.__direction_joints[4]
-        self.sin__joint_velocity.emit(self.__joint_velocity_command_VelMode)  
+        self.sin_joint_velocity.emit(self.__joint_velocity_command_VelMode)  
     #################### 关节空间速度控制界面 关节控制槽函数  end ###################################################
 
     #################### 笛卡尔位置增量控制界面 槽函数 ##############################################################
@@ -706,6 +716,51 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def __auto_gripper_pole(self):       
         pass
     
+    ####################### 爬壁机器人接收控制命令窗口 ###########################
+    # 爬壁机器人接收控制命令
+    def __open_biped_receive_command(self):
+        if not self.__window_biped_receive_command_flag:
+            self.__window_biped_receive_command_flag = True
+            # 爬壁机器人
+            if self.__which_robot == 1:
+                self.__window_biped_receive_command = Biped_receive_control_command_func(  self.__which_robot, self.__base_flag, \
+                                                                                    self.__pos_joints, self.__direction_joints, \
+                                                                                    self.__zero_pos_joints )
+                self.__window_biped_receive_command.sin_joint_position.connect(self.__biped_sent_command)
+                self.__window_biped_receive_command.sin_close.connect(self.__open_biped_receive_command_close_flag)
+                self.__window_biped_receive_command.sin_update_robot_base_flag.connect(self.__update_robot_base_flag)
+                self.__window_biped_receive_command.sin_request_update_robot_state.connect(self.__response_update_robot_state)
+                self.sin_close_windowsBipedReceive.connect(self.__window_biped_receive_command.close_windows)
+                self.sin_update_biped_robot_state.connect(self.__window_biped_receive_command.update_robot_state)
+                self.__window_biped_receive_command.show()
+                pass
+            pass
+
+    def __open_biped_receive_command_close_flag(self):
+        self.__window_biped_receive_command_flag = False
+
+    # 更新机器人基坐标base
+    def __update_robot_base_flag(self, flag):
+        self.__base_flag = flag
+
+    # 爬壁机器人接收控制命令 发送至底层
+    def __biped_sent_command(self, data):
+        # 爬壁机器人
+        if self.__which_robot == 1 and self.__robot_enabled_flag:
+            self.sin_joint_position.emit(data[0], data[1])
+            pass
+        pass
+    
+    # 更新 爬壁机器人接收控制命令窗口 机器人状态
+    def __response_update_robot_state(self):
+        self.sin_update_biped_robot_state.emit([    \
+            self.__zero_pos_joints,
+            self.__direction_joints,
+            self.__pos_joints
+        ])
+        pass
+    ####################### 爬壁机器人接收控制命令窗口 end #########################
+    
     ####################### 获取夹持器界面控制数据，并发送至底层 ###########################
     def __get_G0_torque_from_windowsGripperControl(self,data):
         if self.__robot_enabled_flag:
@@ -733,6 +788,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.sin_close_windowsPathRecoder.emit()
         self.sin_close_windowsSetZero.emit()
         self.sin_close_windowsFeedback.emit()
+        self.sin_close_windowsBipedReceive.emit()
 
         self.close()
         pass
@@ -869,8 +925,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.lineEdit_36.setValidator(pDoubleValidator_descartes_vel_RXRYRZ)
         self.lineEdit_35.setValidator(pDoubleValidator_descartes_vel_RXRYRZ)
 
-
-
     # 界面突出处理信号
     def closeEvent(self, event):
         result = QMessageBox.question(self, "模块化机器人上位机", '\n       退出?        \n', QMessageBox.Yes | QMessageBox.No)
@@ -879,6 +933,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.sin_close_windowsPathRecoder.emit()
             self.sin_close_windowsSetZero.emit()
             self.sin_close_windowsFeedback.emit()
+            self.sin_close_windowsBipedReceive.emit()
             if self.__string_robot_Enabled:
                 self.sin_stop_robot_operation.emit()
             event.accept()
