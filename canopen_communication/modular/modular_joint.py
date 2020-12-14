@@ -83,8 +83,7 @@ class Modular_joint(object):
         pass
 
     def quick_stop(self):
-        self.__node.controlword = (self.__controlword & ~( 1 << 2 ))
-        # self.stop()
+        self.__node.sdo[0x6040].raw = (self.__node.sdo[0x6040].raw & ~( 1 << 2 ))
 
     def stop(self):
         self.__node.state = 'SWITCHED ON'
