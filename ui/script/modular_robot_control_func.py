@@ -576,8 +576,8 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         except:
             QMessageBox.about(self,'错误','\n       路径点格式错误!!        \n')
             return 
-        for i in range(len(self.__pos_joints_path_array)):
-            print self.__pos_joints_path_array[i]
+        # for i in range(len(self.__pos_joints_path_array)):
+        #     print self.__pos_joints_path_array[i]
 
     # 设置离线轨迹最大速度
     def set_path_max_velovity(self):
