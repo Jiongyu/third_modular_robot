@@ -235,9 +235,9 @@ class Modular_joint(object):
 
     def __param_config(self):
         # pos loop
-        self.__node.sdo[0x6083].phys =  500 * 4096 / 10     # acc 10 counts/s^2
-        self.__node.sdo[0x6084].phys =  500 * 4096 / 10     # dcc 10 counts/s^2
-        self.__node.sdo[0x6086].phys =  0                   # rotate motor
+        self.__node.sdo[0x6083].phys =  500     # acc 10 counts/s^2
+        self.__node.sdo[0x6084].phys =  500     # dcc 10 counts/s^2
+        self.__node.sdo[0x6086].phys =  0       # rotate motor
 
         # motor data
         # self.__node.sdo[0x6410][0x0b].phys = 45000     # max velocity 0.1counts/s

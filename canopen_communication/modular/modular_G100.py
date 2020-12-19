@@ -34,7 +34,7 @@ class G100(object):
         start communication
         """
         self.__node.nmt.state = 'RESET'
-        self.__node.nmt.wait_for_bootup(10)
+        self.__node.nmt.wait_for_bootup(15)
 
         error_log = self.__node.sdo[0x1003]
         for error in error_log.values():
