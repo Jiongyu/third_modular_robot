@@ -239,6 +239,10 @@ class Modular_joint(object):
         self.__node.sdo[0x6084].phys =  500     # dcc 10 counts/s^2
         self.__node.sdo[0x6086].phys =  0       # rotate motor
 
+        # 急停加减速度
+        self.__node.sdo[0x605a].phys = 0x03
+        # 暂停加减速度
+        self.__node.sdo[0x605d].phys = 0x02
         # motor data
         # self.__node.sdo[0x6410][0x0b].phys = 45000     # max velocity 0.1counts/s
         self.__node.sdo[0x6410][0x0d].phys = 1200      # max torque mN.m
