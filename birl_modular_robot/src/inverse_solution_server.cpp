@@ -104,7 +104,7 @@ bool handle_function(   birl_module_robot::inverse_solution::Request &req,
     res.joint_pos_commands.push_back(new_joint_value[4]);  // I5
     
     if(req.base){
-        if(! robot5d_G0.Vel_IKine(new_joint_value,current_top_velocity,new_joint_velocity)){
+        if(! robot5d_G0.Vel_IKine(current_joint_value,current_top_velocity,new_joint_velocity)){
             ROS_INFO_STREAM("G0 Vel_IKine success");  
             res.ifGetSolve = true;
         }else
@@ -113,7 +113,7 @@ bool handle_function(   birl_module_robot::inverse_solution::Request &req,
         }
     }  
     else{
-        if(! robot5d_G6.Vel_IKine(new_joint_value,current_top_velocity,new_joint_velocity))
+        if(! robot5d_G6.Vel_IKine(current_joint_value,current_top_velocity,new_joint_velocity))
         {
             ROS_INFO_STREAM("G6 Vel_IKine success");  
             res.ifGetSolve = true;

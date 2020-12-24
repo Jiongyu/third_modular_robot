@@ -39,8 +39,7 @@ def Inverse_solution_client( which_robot, which_base, descartes_position_command
     inverse_solution_tag = resp.ifGetSolve
     return [joint_position_command, joint_velocity_command, inverse_solution_tag]
 
-
 if __name__ == "__main__":
-    [temp_1, temp_2, inverse_solution_tag] = Inverse_solution_client(1, True, [560, 0, 0, 0, 0, 180], [-5, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0])
+    [temp_1, temp_2, inverse_solution_tag] = Inverse_solution_client(1, True, [550, 0, 100, 0, 0, 180], [0, 0, 10, 0, 0, 0], [0.0, 20.29, -40.59, 20.29, 0.0])
     print temp_1
     print temp_2
