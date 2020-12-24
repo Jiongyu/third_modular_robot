@@ -1,5 +1,5 @@
-ï»¿/*****************************************************************************
- *        Robotè¿åŠ¨å­¦ç±»åº“                                                    *
+/*****************************************************************************
+ *        RobotÔË¶¯Ñ§Àà¿â                                                    *
  *        SCUT, 2010                                                         *
  *        Author :                                                           *
  *        Version number :  0.10                                             *
@@ -21,29 +21,29 @@ using namespace std;
 int GetMatrixnum = 0;
 
 /*****************************************************************************
- * å‡½æ•°ï¼šKine()
- * åŠŸèƒ½ï¼šæ„é€ å‡½æ•°
+ * º¯Êı£ºKine()
+ * ¹¦ÄÜ£º¹¹Ôìº¯Êı
  *****************************************************************************/
 Kine::Kine()
 {
 }
 
 /*****************************************************************************
- * å‡½æ•°ï¼š~Kine()
- * åŠŸèƒ½ï¼šææ„å‡½æ•°
+ * º¯Êı£º~Kine()
+ * ¹¦ÄÜ£ºÎö¹¹º¯Êı
  *****************************************************************************/
 Kine::~Kine()
 {
 }
 
 /*****************************************************************************
- * å‡½æ•°ï¼šRadInRange()
- * åŠŸèƒ½ï¼šç”±å½“å‰è½¬è§’ä¼˜åŒ–è®¡ç®—è½¬è§’
- *           - ä¸å½“å‰å€¼æ¯”è¾ƒ,å°†è§’åº¦å˜æ¢ä¸º(-360,0)æˆ–(0,+360)èŒƒå›´å†…
+ * º¯Êı£ºRadInRange()
+ * ¹¦ÄÜ£ºÓÉµ±Ç°×ª½ÇÓÅ»¯¼ÆËã×ª½Ç
+ *           - Óëµ±Ç°Öµ±È½Ï,½«½Ç¶È±ä»»Îª(-360,0)»ò(0,+360)·¶Î§ÄÚ
  *
- * è¾“å…¥ï¼šdouble* id_rad - è®¡ç®—è½¬è§’(å¼§åº¦)
- *       double* id_deg - å½“å‰è½¬è§’(è§’åº¦)
- * è¾“å‡ºï¼šdouble* id_rad - è®¡ç®—è½¬è§’(å¼§åº¦)
+ * ÊäÈë£ºdouble* id_rad - ¼ÆËã×ª½Ç(»¡¶È)
+ *       double* id_deg - µ±Ç°×ª½Ç(½Ç¶È)
+ * Êä³ö£ºdouble* id_rad - ¼ÆËã×ª½Ç(»¡¶È)
  *****************************************************************************/
 void Kine::RadInRange(double* pdRad, double* pdDeg)
 {
@@ -86,14 +86,14 @@ void Kine::RadInRange(double* pdRad, double* pdDeg)
 }
 
 /******************************************************************************
- * å‡½æ•°ï¼šSet_Length()
- * åŠŸèƒ½ï¼šè®¾ç½®æ†é•¿
+ * º¯Êı£ºSet_Length()
+ * ¹¦ÄÜ£ºÉèÖÃ¸Ë³¤
  *
- * è¾“å…¥ï¼šdouble l1 - æ†é•¿L1
- *       double l2 - æ†é•¿L2
- *       double l3 - æ†é•¿L3
- *       double l4 - æ†é•¿L4
- *       double l5 - æ†é•¿L5
+ * ÊäÈë£ºdouble l1 - ¸Ë³¤L1
+ *       double l2 - ¸Ë³¤L2
+ *       double l3 - ¸Ë³¤L3
+ *       double l4 - ¸Ë³¤L4
+ *       double l5 - ¸Ë³¤L5
  ******************************************************************************/
 void Kine_IR_FiveDoF::Set_Length(double gdLen[])
 {
@@ -114,13 +114,13 @@ void Kine_IR_FiveDoF::Set_Tool(double gdTool[])
 	}
 }
 /******************************************************************************
- * å‡½æ•°ï¼šFKine()
- * åŠŸèƒ½ï¼šæ­£è§£
+ * º¯Êı£ºFKine()
+ * ¹¦ÄÜ£ºÕı½â
  *
- * è¾“å…¥ï¼šdouble* gdJPos - å…³èŠ‚è½¬è§’, 5å…³èŠ‚
- * è¾“å‡ºï¼šdouble* gdCPos - æ­£è§£ä½å§¿, (x,y,z,w,p,r),X-Y-Zå›ºå®šè§’,
+ * ÊäÈë£ºdouble* gdJPos - ¹Ø½Ú×ª½Ç, 5¹Ø½Ú
+ * Êä³ö£ºdouble* gdCPos - Õı½âÎ»×Ë, (x,y,z,w,p,r),X-Y-Z¹Ì¶¨½Ç,
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ,
+ * ·µ»Ø£ºint - 0³É¹¦,
  ******************************************************************************/
 int Kine_IR_FiveDoF::FKine(double gdJPos[], double gdCPos[])
 {
@@ -128,84 +128,84 @@ int Kine_IR_FiveDoF::FKine(double gdJPos[], double gdCPos[])
 	return kine.FKine(gdJPos, gdCPos);
 #endif
 
-	// å…³èŠ‚è§’åº¦ - å…³èŠ‚å¼§åº¦ - æ‰‹è…•çŸ©é˜µ - TcpçŸ©é˜µ - ä½å§¿
+	// ¹Ø½Ú½Ç¶È - ¹Ø½Ú»¡¶È - ÊÖÍó¾ØÕó - Tcp¾ØÕó - Î»×Ë
 	// id_jPos  -   jRad   - lm_Wrist - lm_Tcp  - id_cPos
 	double ld_jRad[5];// = gd_rad[0];
 	
 	double c23, s23;
 	
-	double ld_temp[8];     // ä¸­é—´å˜é‡
-	MtxKine lm_Wrist;      // ä¸­é—´å˜é‡,æ‰‹è…•çŸ©é˜µ
-	MtxKine lm_Tool;       // ä¸­é—´å˜é‡,å·¥å…·çŸ©é˜µ
-	MtxKine lm_Tcp;        // ä¸­é—´å˜é‡,TCPçŸ©é˜µ
+	double ld_temp[8];     // ÖĞ¼ä±äÁ¿
+	MtxKine lm_Wrist;      // ÖĞ¼ä±äÁ¿,ÊÖÍó¾ØÕó
+	MtxKine lm_Tool;       // ÖĞ¼ä±äÁ¿,¹¤¾ß¾ØÕó
+	MtxKine lm_Tcp;        // ÖĞ¼ä±äÁ¿,TCP¾ØÕó
 
-    //--------------------- å…³èŠ‚å¼§åº¦ -------------------------//
+    //--------------------- ¹Ø½Ú»¡¶È -------------------------//
 	ld_jRad[0] = gdJPos[0] * PI_RAD;
 	ld_jRad[1] = gdJPos[1] * PI_RAD;
 	ld_jRad[2] = gdJPos[2] * PI_RAD;
 	ld_jRad[3] = gdJPos[3] * PI_RAD;
 	ld_jRad[4] = gdJPos[4] * PI_RAD;
 
-    //--------------------- æ‰‹è…•çŸ©é˜µ -------------------------//
+    //--------------------- ÊÖÍó¾ØÕó -------------------------//
     c23 = cos(ld_jRad[1]+ld_jRad[2]);
     s23 = sin(ld_jRad[1]+ld_jRad[2]);	
 
-    // è®¡ç®—r11 //
+    // ¼ÆËãr11 //
 	lm_Wrist.R11 = cos(ld_jRad[0]) * c23 * cos(ld_jRad[3]) * cos(ld_jRad[4]) 
 		+ sin(ld_jRad[0]) * sin(ld_jRad[3]) * cos(ld_jRad[4])
 		- cos(ld_jRad[0]) * s23 * sin(ld_jRad[4]);
   
-     // è®¡ç®—r12 //
+     // ¼ÆËãr12 //
 	lm_Wrist.R12 = - cos(ld_jRad[0]) * c23 * sin(ld_jRad[3])
 				   + sin(ld_jRad[0]) * cos(ld_jRad[3]);
 
-     // è®¡ç®—r13 //
+     // ¼ÆËãr13 //
 	lm_Wrist.R13 = cos(ld_jRad[0]) * c23 * cos(ld_jRad[3]) * sin(ld_jRad[4]) 
 		+ sin(ld_jRad[0]) * sin(ld_jRad[3]) * sin(ld_jRad[4])
 		+ cos(ld_jRad[0]) * s23 * cos(ld_jRad[4]);
         
-    // è®¡ç®—r21 //
+    // ¼ÆËãr21 //
 	lm_Wrist.R21 = sin(ld_jRad[0]) * c23 * cos(ld_jRad[3]) * cos(ld_jRad[4]) 
 		- cos(ld_jRad[0]) * sin(ld_jRad[3]) * cos(ld_jRad[4])
 		- sin(ld_jRad[0]) * s23 * sin(ld_jRad[4]);
 
-    // è®¡ç®—r22 //    
+    // ¼ÆËãr22 //    
 	lm_Wrist.R22 = - sin(ld_jRad[0]) * c23 * sin(ld_jRad[3])
 				   - cos(ld_jRad[0]) * cos(ld_jRad[3]);
         
-    // è®¡ç®—r23 //    
+    // ¼ÆËãr23 //    
 	lm_Wrist.R23 = sin(ld_jRad[0]) * c23 * cos(ld_jRad[3]) * sin(ld_jRad[4]) 
 		- cos(ld_jRad[0]) * sin(ld_jRad[3]) * sin(ld_jRad[4])
 		+ sin(ld_jRad[0]) * s23 * cos(ld_jRad[4]);
         
-    // è®¡ç®—r31 //
+    // ¼ÆËãr31 //
 	lm_Wrist.R31 = s23 * cos(ld_jRad[3]) * cos(ld_jRad[4]) 
 		+ c23 * sin(ld_jRad[4]);
 
-    // è®¡ç®—r32 //    
+    // ¼ÆËãr32 //    
 	lm_Wrist.R32 = - s23 * sin(ld_jRad[3]);
     
-    // è®¡ç®—r33 //
+    // ¼ÆËãr33 //
 	lm_Wrist.R33 = + s23 * cos(ld_jRad[3]) * sin(ld_jRad[4]) 
         - c23 * cos(ld_jRad[4]);
 
-    // è®¡ç®—x //
+    // ¼ÆËãx //
 	lm_Wrist.X = lm_Wrist.R13 * m_dL5
 		+ cos(ld_jRad[0]) * s23 * (m_dL3 + m_dL4)
 		+ cos(ld_jRad[0]) * cos(ld_jRad[1]) * m_dL2;
 
-    // è®¡ç®—y //
+    // ¼ÆËãy //
 	lm_Wrist.Y = lm_Wrist.R23 * m_dL5
 		+ sin(ld_jRad[0]) * s23 * (m_dL3 + m_dL4)
 		+ sin(ld_jRad[0]) * cos(ld_jRad[1]) * m_dL2;
     
-    // è®¡ç®—z //
+    // ¼ÆËãz //
 	lm_Wrist.Z = lm_Wrist.R33 * m_dL5
 		- c23 * (m_dL3 + m_dL4)
 		+ sin(ld_jRad[1]) * m_dL2;
 
-    //--------------------- TcpçŸ©é˜µ -------------------------//
-    // è®¡ç®—å·¥å…·çš„å˜æ¢çŸ©é˜µ //
+    //--------------------- Tcp¾ØÕó -------------------------//
+    // ¼ÆËã¹¤¾ßµÄ±ä»»¾ØÕó //
 	ld_temp[1] = sin(m_dTool[3] * PI_RAD);//0
 	ld_temp[2] = cos(m_dTool[3] * PI_RAD);//1
 	ld_temp[3] = sin(m_dTool[4] * PI_RAD);//0
@@ -223,7 +223,7 @@ int Kine_IR_FiveDoF::FKine(double gdJPos[], double gdCPos[])
     lm_Tool.R32 = ld_temp[4] * ld_temp[5];                                       //0
     lm_Tool.R33 = ld_temp[4] * ld_temp[6];                                       //1
 
-    // è®¡ç®—Tcpå§¿æ€çŸ©é˜µçš„å‚æ•° //
+    // ¼ÆËãTcp×ËÌ¬¾ØÕóµÄ²ÎÊı //
     lm_Tcp.R11 = lm_Wrist.R11 * lm_Tool.R11 + lm_Wrist.R12 * lm_Tool.R21 + lm_Wrist.R13 * lm_Tool.R31;
     lm_Tcp.R21 = lm_Wrist.R21 * lm_Tool.R11 + lm_Wrist.R22 * lm_Tool.R21 + lm_Wrist.R23 * lm_Tool.R31;
     lm_Tcp.R31 = lm_Wrist.R31 * lm_Tool.R11 + lm_Wrist.R32 * lm_Tool.R21 + lm_Wrist.R33 * lm_Tool.R31;
@@ -232,7 +232,7 @@ int Kine_IR_FiveDoF::FKine(double gdJPos[], double gdCPos[])
     lm_Tcp.R12 = lm_Wrist.R11 * lm_Tool.R12 + lm_Wrist.R12 * lm_Tool.R22 + lm_Wrist.R13 * lm_Tool.R32;
     lm_Tcp.R22 = lm_Wrist.R21 * lm_Tool.R12 + lm_Wrist.R22 * lm_Tool.R22 + lm_Wrist.R23 * lm_Tool.R32;
 
-    // è®¡ç®—Tcpä½ç½® //
+    // ¼ÆËãTcpÎ»ÖÃ //
 	lm_Tcp.X = lm_Wrist.X + lm_Wrist.R11 * (m_dTool[0])
                           + lm_Wrist.R12 * (m_dTool[1])
                           + lm_Wrist.R13 * (m_dTool[2]);//lm_Wrist.X
@@ -244,8 +244,8 @@ int Kine_IR_FiveDoF::FKine(double gdJPos[], double gdCPos[])
                           + lm_Wrist.R33 * (m_dTool[2]);//lm_Wrist.Z
 
 
-    //--------------------- Tcpä½å§¿ -------------------------//
-    // è®¡ç®—å·¥å…·åæ ‡ç³»RPYè§’ï¼ˆX-Y-Zå›ºå®šè§’åæ ‡ç³»ï¼‰ - rad //
+    //--------------------- TcpÎ»×Ë -------------------------//
+    // ¼ÆËã¹¤¾ß×ø±êÏµRPY½Ç£¨X-Y-Z¹Ì¶¨½Ç×ø±êÏµ£© - rad //
 	ld_temp[5] = atan2(-lm_Tcp.R31, sqrt(lm_Tcp.R11 * lm_Tcp.R11 + lm_Tcp.R21 * lm_Tcp.R21));
 
     if (fabs(ld_temp[5] - PI / 2) < RT_LITTLE)
@@ -299,12 +299,12 @@ int Kine_IR_FiveDoF::FKine(double gdJPos[], double gdCPos[])
 
 
 /******************************************************************************
- * å‡½æ•°ï¼šFKineMatrix()
- * åŠŸèƒ½ï¼šæ­£è§£,è¾“å‡º4Ã—4çŸ©é˜µ
+ * º¯Êı£ºFKineMatrix()
+ * ¹¦ÄÜ£ºÕı½â,Êä³ö4¡Á4¾ØÕó
  *
- * è¾“å…¥ï¼šdouble* TransfMatrix - å…³èŠ‚è½¬è§’, 5å…³èŠ‚
+ * ÊäÈë£ºdouble* TransfMatrix - ¹Ø½Ú×ª½Ç, 5¹Ø½Ú
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ,
+ * ·µ»Ø£ºint - 0³É¹¦,
  ******************************************************************************/
 void Kine_IR_FiveDoF::FKineMatrix(double gdJPos[])
 {
@@ -320,84 +320,84 @@ void Kine_IR_FiveDoF::FKineMatrix(double gdJPos[])
 	{
 		m_dTool[i] = 0;//gdTool[i];
 	}
-	// å…³èŠ‚è§’åº¦ - å…³èŠ‚å¼§åº¦ - æ‰‹è…•çŸ©é˜µ - TcpçŸ©é˜µ - ä½å§¿
+	// ¹Ø½Ú½Ç¶È - ¹Ø½Ú»¡¶È - ÊÖÍó¾ØÕó - Tcp¾ØÕó - Î»×Ë
 	// id_jPos  -   jRad   - lm_Wrist - lm_Tcp  - id_cPos
 	double ld_jRad[5]={0};// = gd_rad[0];
 	double gdCPos[6]={0};
 	double c23=0, s23=0;
 
-	double ld_temp[8]={0};     // ä¸­é—´å˜é‡
-	MtxKine lm_Wrist;      // ä¸­é—´å˜é‡,æ‰‹è…•çŸ©é˜µ
-	MtxKine lm_Tool;       // ä¸­é—´å˜é‡,å·¥å…·çŸ©é˜µ
-	MtxKine lm_Tcp;        // ä¸­é—´å˜é‡,TCPçŸ©é˜µ
+	double ld_temp[8]={0};     // ÖĞ¼ä±äÁ¿
+	MtxKine lm_Wrist;      // ÖĞ¼ä±äÁ¿,ÊÖÍó¾ØÕó
+	MtxKine lm_Tool;       // ÖĞ¼ä±äÁ¿,¹¤¾ß¾ØÕó
+	MtxKine lm_Tcp;        // ÖĞ¼ä±äÁ¿,TCP¾ØÕó
 
-	//--------------------- å…³èŠ‚å¼§åº¦ -------------------------//
+	//--------------------- ¹Ø½Ú»¡¶È -------------------------//
 	ld_jRad[0] = gdJPos[0] * PI_RAD;
 	ld_jRad[1] = gdJPos[1] * PI_RAD;
 	ld_jRad[2] = gdJPos[2] * PI_RAD;
 	ld_jRad[3] = gdJPos[3] * PI_RAD;
 	ld_jRad[4] = gdJPos[4] * PI_RAD;
 
-	//--------------------- æ‰‹è…•çŸ©é˜µ -------------------------//
+	//--------------------- ÊÖÍó¾ØÕó -------------------------//
 	c23 = cos(ld_jRad[1]+ld_jRad[2]);
 	s23 = sin(ld_jRad[1]+ld_jRad[2]);	
 
-	// è®¡ç®—r11 //
+	// ¼ÆËãr11 //
 	lm_Wrist.R11 = cos(ld_jRad[0]) * c23 * cos(ld_jRad[3]) * cos(ld_jRad[4]) 
 		+ sin(ld_jRad[0]) * sin(ld_jRad[3]) * cos(ld_jRad[4])
 		- cos(ld_jRad[0]) * s23 * sin(ld_jRad[4]);
 
-	// è®¡ç®—r12 //
+	// ¼ÆËãr12 //
 	lm_Wrist.R12 = - cos(ld_jRad[0]) * c23 * sin(ld_jRad[3])
 		+ sin(ld_jRad[0]) * cos(ld_jRad[3]);
 
-	// è®¡ç®—r13 //
+	// ¼ÆËãr13 //
 	lm_Wrist.R13 = cos(ld_jRad[0]) * c23 * cos(ld_jRad[3]) * sin(ld_jRad[4]) 
 		+ sin(ld_jRad[0]) * sin(ld_jRad[3]) * sin(ld_jRad[4])
 		+ cos(ld_jRad[0]) * s23 * cos(ld_jRad[4]);
 
-	// è®¡ç®—r21 //
+	// ¼ÆËãr21 //
 	lm_Wrist.R21 = sin(ld_jRad[0]) * c23 * cos(ld_jRad[3]) * cos(ld_jRad[4]) 
 		- cos(ld_jRad[0]) * sin(ld_jRad[3]) * cos(ld_jRad[4])
 		- sin(ld_jRad[0]) * s23 * sin(ld_jRad[4]);
 
-	// è®¡ç®—r22 //    
+	// ¼ÆËãr22 //    
 	lm_Wrist.R22 = - sin(ld_jRad[0]) * c23 * sin(ld_jRad[3])
 		- cos(ld_jRad[0]) * cos(ld_jRad[3]);
 
-	// è®¡ç®—r23 //    
+	// ¼ÆËãr23 //    
 	lm_Wrist.R23 = sin(ld_jRad[0]) * c23 * cos(ld_jRad[3]) * sin(ld_jRad[4]) 
 		- cos(ld_jRad[0]) * sin(ld_jRad[3]) * sin(ld_jRad[4])
 		+ sin(ld_jRad[0]) * s23 * cos(ld_jRad[4]);
 
-	// è®¡ç®—r31 //
+	// ¼ÆËãr31 //
 	lm_Wrist.R31 = + s23 * cos(ld_jRad[3]) * cos(ld_jRad[4]) 
 		+ c23 * sin(ld_jRad[4]);
 
-	// è®¡ç®—r32 //    
+	// ¼ÆËãr32 //    
 	lm_Wrist.R32 = - s23 * sin(ld_jRad[3]);
 
-	// è®¡ç®—r33 //
+	// ¼ÆËãr33 //
 	lm_Wrist.R33 = + s23 * cos(ld_jRad[3]) * sin(ld_jRad[4]) 
 		- c23 * cos(ld_jRad[4]);
 
-	// è®¡ç®—x //
+	// ¼ÆËãx //
 	lm_Wrist.X = lm_Wrist.R13 * m_dL_GetMatrix[5]
 		+ cos(ld_jRad[0]) * s23 * (m_dL_GetMatrix[3] + m_dL_GetMatrix[4])
 		+ cos(ld_jRad[0]) * cos(ld_jRad[1]) * m_dL_GetMatrix[2];
 
-	// è®¡ç®—y //
+	// ¼ÆËãy //
 	lm_Wrist.Y = lm_Wrist.R23 * m_dL_GetMatrix[5]
 		+ sin(ld_jRad[0]) * s23 * (m_dL_GetMatrix[3] + m_dL_GetMatrix[4])
 		+ sin(ld_jRad[0]) * cos(ld_jRad[1]) * m_dL_GetMatrix[2];
 
-	// è®¡ç®—z //
+	// ¼ÆËãz //
 	lm_Wrist.Z = lm_Wrist.R33 * m_dL_GetMatrix[5]
 		- c23 * (m_dL_GetMatrix[3] + m_dL_GetMatrix[4])
 		+ sin(ld_jRad[1]) * m_dL_GetMatrix[2];
 
-	//--------------------- TcpçŸ©é˜µ -------------------------//
-	// è®¡ç®—å·¥å…·çš„å˜æ¢çŸ©é˜µ //
+	//--------------------- Tcp¾ØÕó -------------------------//
+	// ¼ÆËã¹¤¾ßµÄ±ä»»¾ØÕó //
 	ld_temp[1] = sin(m_dTool[3] * PI_RAD);//0
 	ld_temp[2] = cos(m_dTool[3] * PI_RAD);//1
 	ld_temp[3] = sin(m_dTool[4] * PI_RAD);//0
@@ -415,7 +415,7 @@ void Kine_IR_FiveDoF::FKineMatrix(double gdJPos[])
 	lm_Tool.R32 = ld_temp[4] * ld_temp[5];                                       //0
 	lm_Tool.R33 = ld_temp[4] * ld_temp[6];                                       //1
 
-	// è®¡ç®—Tcpå§¿æ€çŸ©é˜µçš„å‚æ•° //
+	// ¼ÆËãTcp×ËÌ¬¾ØÕóµÄ²ÎÊı //
 	lm_Tcp.R11 = lm_Wrist.R11 * lm_Tool.R11 + lm_Wrist.R12 * lm_Tool.R21 + lm_Wrist.R13 * lm_Tool.R31;//lm_Wrist.R11
 	lm_Tcp.R21 = lm_Wrist.R21 * lm_Tool.R11 + lm_Wrist.R22 * lm_Tool.R21 + lm_Wrist.R23 * lm_Tool.R31;//lm_Wrist.R21
 	lm_Tcp.R31 = lm_Wrist.R31 * lm_Tool.R11 + lm_Wrist.R32 * lm_Tool.R21 + lm_Wrist.R33 * lm_Tool.R31;//lm_Wrist.R31
@@ -424,7 +424,7 @@ void Kine_IR_FiveDoF::FKineMatrix(double gdJPos[])
 	lm_Tcp.R12 = lm_Wrist.R11 * lm_Tool.R12 + lm_Wrist.R12 * lm_Tool.R22 + lm_Wrist.R13 * lm_Tool.R32;//lm_Wrist.R12
 	lm_Tcp.R22 = lm_Wrist.R21 * lm_Tool.R12 + lm_Wrist.R22 * lm_Tool.R22 + lm_Wrist.R23 * lm_Tool.R32;//lm_Wrist.R22
 
-	// è®¡ç®—Tcpä½ç½® //
+	// ¼ÆËãTcpÎ»ÖÃ //
 	lm_Tcp.X = lm_Wrist.X + lm_Wrist.R11 * (m_dTool[0])
 		+ lm_Wrist.R12 * (m_dTool[1])
 		+ lm_Wrist.R13 * (m_dTool[2]);//lm_Wrist.X
@@ -435,7 +435,7 @@ void Kine_IR_FiveDoF::FKineMatrix(double gdJPos[])
 		+ lm_Wrist.R32 * (m_dTool[1])
 		+ lm_Wrist.R33 * (m_dTool[2]);//lm_Wrist.Z
 
-	////æµ‹è¯•
+	////²âÊÔ
 	//lm_Tcp.R11 =  -0.1210526305284929;//lm_Wrist.R11
 	//lm_Tcp.R21 = -0.99245557933853790;//lm_Wrist.R21
 	//lm_Tcp.R31 = -0.019446945311264285;//lm_Wrist.R31
@@ -448,8 +448,8 @@ void Kine_IR_FiveDoF::FKineMatrix(double gdJPos[])
 	//lm_Tcp.Y = 84.29;//lm_Wrist.Y
 	//lm_Tcp.Z = 318.58;//lm_Wrist.Z
 
-	//--------------------- Tcpä½å§¿ -------------------------//
-	// è®¡ç®—å·¥å…·åæ ‡ç³»RPYè§’ - rad //
+	//--------------------- TcpÎ»×Ë -------------------------//
+	// ¼ÆËã¹¤¾ß×ø±êÏµRPY½Ç - rad //
 	ld_temp[5] = atan2(-lm_Tcp.R31, sqrt(lm_Tcp.R11 * lm_Tcp.R11 + lm_Tcp.R21 * lm_Tcp.R21));
 
 	if (fabs(ld_temp[5] - PI / 2) < RT_LITTLE)
@@ -530,14 +530,14 @@ void Kine_IR_FiveDoF::FKineMatrix(double gdJPos[])
 }
 
 /******************************************************************************
- * å‡½æ•°ï¼šIKine()
- * åŠŸèƒ½ï¼šé€†è§£
+ * º¯Êı£ºIKine()
+ * ¹¦ÄÜ£ºÄæ½â
  *
- * è¾“å…¥ï¼šdouble* gdCPos  - ä½å§¿æ•°ç»„, (x,y,z,w,p,r)
- *       double* gdJCurr - å½“å‰å…³èŠ‚è½¬è§’, 5å…³èŠ‚
- * è¾“å‡ºï¼šdouble* id_jPos  - é€†è§£å…³èŠ‚è½¬è§’, 5å…³èŠ‚
+ * ÊäÈë£ºdouble* gdCPos  - Î»×ËÊı×é, (x,y,z,w,p,r)
+ *       double* gdJCurr - µ±Ç°¹Ø½Ú×ª½Ç, 5¹Ø½Ú
+ * Êä³ö£ºdouble* id_jPos  - Äæ½â¹Ø½Ú×ª½Ç, 5¹Ø½Ú
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ, å…¶ä»–é”™è¯¯
+ * ·µ»Ø£ºint - 0³É¹¦, ÆäËû´íÎó
  ******************************************************************************/
 int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 {
@@ -547,21 +547,21 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 #endif
 
 
-	// ä½å§¿ - TcpçŸ©é˜µ - æ‰‹è…•çŸ©é˜µ - å…³èŠ‚å¼§åº¦ - å…³èŠ‚è§’åº¦
+	// Î»×Ë - Tcp¾ØÕó - ÊÖÍó¾ØÕó - ¹Ø½Ú»¡¶È - ¹Ø½Ú½Ç¶È
 	// id_cPos - lm_Tcp - lm_Wrist    - ld_jRad     - id_jPos
 	int i;
 	int result;
-	int li_flag[4] = {0};      // å››ç»„è§£çš„æƒ…å†µ,0ä¸ºæœ‰è§£
+	int li_flag[4] = {0};      // ËÄ×é½âµÄÇé¿ö,0ÎªÓĞ½â
 
 	double s1,c1,s3,c3, s4, c4, s5, c5, s23, c23;
 
-	double ld_temp[8];       // ä¸­é—´å˜é‡
-	MtxKine lm_Wrist;        // ä¸­é—´å˜é‡,æ‰‹è…•çŸ©é˜µ
-	MtxKine lm_Tool;         // ä¸­é—´å˜é‡,å·¥å…·çŸ©é˜µ
-	MtxKine lm_Tcp;          // ä¸­é—´å˜é‡,TCPçŸ©é˜µ
-	double gd_rad[4][5];     // ä¸­é—´å˜é‡,å››ç»„é€†è§£
+	double ld_temp[8];       // ÖĞ¼ä±äÁ¿
+	MtxKine lm_Wrist;        // ÖĞ¼ä±äÁ¿,ÊÖÍó¾ØÕó
+	MtxKine lm_Tool;         // ÖĞ¼ä±äÁ¿,¹¤¾ß¾ØÕó
+	MtxKine lm_Tcp;          // ÖĞ¼ä±äÁ¿,TCP¾ØÕó
+	double gd_rad[4][5];     // ÖĞ¼ä±äÁ¿,ËÄ×éÄæ½â
 
-    //--------------------- TCPçŸ©é˜µ -------------------------//
+    //--------------------- TCP¾ØÕó -------------------------//
 // 	gdCPos[3]=169.534;
 // 	gdCPos[4]=-0.245618;
 // 	gdCPos[5]=179.999;
@@ -583,8 +583,8 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Tcp.R32 = ld_temp[4] * ld_temp[5];
     lm_Tcp.R33 = ld_temp[4] * ld_temp[6];
 
-    //--------------------- å·¥å…·çŸ©é˜µ -------------------------//
-    // è®¡ç®—å·¥å…·çš„å˜æ¢çŸ©é˜µ //
+    //--------------------- ¹¤¾ß¾ØÕó -------------------------//
+    // ¼ÆËã¹¤¾ßµÄ±ä»»¾ØÕó //
 	ld_temp[1] = sin(m_dTool[3] * PI_RAD);
 	ld_temp[2] = cos(m_dTool[3] * PI_RAD);
 	ld_temp[3] = sin(m_dTool[4] * PI_RAD);
@@ -602,7 +602,7 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Tool.R32 = ld_temp[4] * ld_temp[5];
     lm_Tool.R33 = ld_temp[4] * ld_temp[6];
 
-    // å§¿æ€æ±‚é€† //
+    // ×ËÌ¬ÇóÄæ //
     ld_temp[1] = lm_Tool.R12;
     lm_Tool.R12 = lm_Tool.R21;
     lm_Tool.R21 = ld_temp[1];
@@ -615,7 +615,7 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Tool.R23 = lm_Tool.R32;
     lm_Tool.R32 = ld_temp[1];
     
-	// ä½ç½®æ±‚é€† //
+	// Î»ÖÃÇóÄæ //
 	lm_Tool.X = -( lm_Tool.R11 * m_dTool[0] + 
 				   lm_Tool.R12 * m_dTool[1] +
                    lm_Tool.R13 * m_dTool[2] );
@@ -626,8 +626,8 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 				   lm_Tool.R32 * m_dTool[1] +
                    lm_Tool.R33 * m_dTool[2] );
 
-    //--------------------- æ‰‹è…•çŸ©é˜µ -------------------------//
-    // å§¿æ€çŸ©é˜µ //
+    //--------------------- ÊÖÍó¾ØÕó -------------------------//
+    // ×ËÌ¬¾ØÕó //
     lm_Wrist.R11 = lm_Tcp.R11 * lm_Tool.R11 + lm_Tcp.R12 * lm_Tool.R21 + lm_Tcp.R13 * lm_Tool.R31;
     lm_Wrist.R12 = lm_Tcp.R11 * lm_Tool.R12 + lm_Tcp.R12 * lm_Tool.R22 + lm_Tcp.R13 * lm_Tool.R32;
     lm_Wrist.R13 = lm_Tcp.R11 * lm_Tool.R13 + lm_Tcp.R12 * lm_Tool.R23 + lm_Tcp.R13 * lm_Tool.R33;
@@ -638,7 +638,7 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Wrist.R32 = lm_Tcp.R31 * lm_Tool.R12 + lm_Tcp.R32 * lm_Tool.R22 + lm_Tcp.R33 * lm_Tool.R32;
     lm_Wrist.R33 = lm_Tcp.R31 * lm_Tool.R13 + lm_Tcp.R32 * lm_Tool.R23 + lm_Tcp.R33 * lm_Tool.R33;
 
-    // ä½ç½® //
+    // Î»ÖÃ //
 	lm_Wrist.X = lm_Tcp.R11 * lm_Tool.X + lm_Tcp.R12 * lm_Tool.Y + lm_Tcp.R13 * lm_Tool.Z
 		+ gdCPos[0] - lm_Wrist.R13 * m_dL5;
 	lm_Wrist.Y = lm_Tcp.R21 * lm_Tool.X + lm_Tcp.R22 * lm_Tool.Y + lm_Tcp.R23 * lm_Tool.Z
@@ -646,8 +646,8 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 	lm_Wrist.Z = lm_Tcp.R31 * lm_Tool.X + lm_Tcp.R32 * lm_Tool.Y + lm_Tcp.R33 * lm_Tool.Z
 		+ (gdCPos[2] - m_dL1) - lm_Wrist.R33 * m_dL5;
 
-    //--------------------- å…³èŠ‚å¼§åº¦ -------------------------//
-    //------ è½¬è§’1 -------//
+    //--------------------- ¹Ø½Ú»¡¶È -------------------------//
+    //------ ×ª½Ç1 -------//
 	ld_temp[0] = atan2(lm_Wrist.Y, lm_Wrist.X);
 	ld_temp[1] = atan2(- lm_Wrist.Y, - lm_Wrist.X);
 	RadInRange(&ld_temp[0], &gdJCurr[0]);
@@ -656,7 +656,7 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 	gd_rad[0][0] = gd_rad[1][0] = ld_temp[0];
 	gd_rad[2][0] = gd_rad[3][0] = ld_temp[1];
 
-    //------ è½¬è§’3 ------//
+    //------ ×ª½Ç3 ------//
     for (i=0; i<2; i++)
     {
         s1 = sin(gd_rad[2*i][0]);
@@ -695,27 +695,27 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 		}
         else
         {
-			li_flag[2*i]   = 1;     // æ ‡å¿— - æ­¤ç»„è§£æ— è§£
+			li_flag[2*i]   = 1;     // ±êÖ¾ - ´Ë×é½âÎŞ½â
 			li_flag[2*i+1] = 1;
         }
     }
     if (li_flag[0] && li_flag[2])
     {
-        return ERR_NOINV; //  è…°å…³èŠ‚æ— å¯ç”¨é€†è§£å€¼ //
+        return ERR_NOINV; //  Ñü¹Ø½ÚÎŞ¿ÉÓÃÄæ½âÖµ //
     }
 
-    //------ è½¬è§’2,4,5 ------//
+    //------ ×ª½Ç2,4,5 ------//
     for (i=0; i<4; i++)
     {
 		if(li_flag[i] == 0)
 		{
-			// è½¬è§’1å’Œè½¬è§’3çš„æ­£ä½™å¼¦å€¼ //
+			// ×ª½Ç1ºÍ×ª½Ç3µÄÕıÓàÏÒÖµ //
 			s1 = sin(gd_rad[i][0]);
 			c1 = cos(gd_rad[i][0]);
 			s3 = sin(gd_rad[i][2]);
 			c3 = cos(gd_rad[i][2]);
 
-			// è®¡ç®—è½¬è§’2å’Œè½¬è§’3çš„å’Œ //
+			// ¼ÆËã×ª½Ç2ºÍ×ª½Ç3µÄºÍ //
 			ld_temp[0] = c1 * lm_Wrist.X + s1 * lm_Wrist.Y;
 			ld_temp[1] = m_dL3 + m_dL4 + s3 * m_dL2;
 
@@ -724,12 +724,12 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 			s23 = (ld_temp[0] * ld_temp[1] + lm_Wrist.Z * c3 * m_dL2) * ld_temp[2];
 			c23 = (ld_temp[0] * c3 * m_dL2 - lm_Wrist.Z * ld_temp[1]) * ld_temp[2];
     
-			// è®¡ç®—è½¬è§’2 //
+			// ¼ÆËã×ª½Ç2 //
 			ld_temp[5] = atan2(s23, c23) - gd_rad[i][2];
 			RadInRange(&ld_temp[5], &gdJCurr[1]);
 			gd_rad[i][1] = ld_temp[5];
 
-			// è®¡ç®—è½¬è§’4 //			
+			// ¼ÆËã×ª½Ç4 //			
 			//s4 = - lm_Wrist.R12 * c1 * c23 - lm_Wrist.R22 * s1 * c23 - lm_Wrist.R32 * s23;
 			//c4 = + lm_Wrist.R12 * s1 - lm_Wrist.R22 * c1;
 			s4 = + lm_Wrist.R13 * s1 - lm_Wrist.R23 * c1;
@@ -738,7 +738,7 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 			RadInRange(&ld_temp[5], &gdJCurr[3]);
 			gd_rad[i][3] = ld_temp[5];
 
-			// è®¡ç®—è½¬è§’5 //
+			// ¼ÆËã×ª½Ç5 //
 			s4 = sin(gd_rad[i][3]);
 			c4 = cos(gd_rad[i][3]);
 
@@ -761,10 +761,10 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 		}
 	}
 	
-	//------ æœ€ä½³ç»“æœ ------//
+	//------ ×î¼Ñ½á¹û ------//
 	for (i=0; i<4; i++)
 	{
-		if (0 == li_flag[i])  // æ±‚å–ç›¸å¯¹ç»å¯¹å€¼
+		if (0 == li_flag[i])  // ÇóÈ¡Ïà¶Ô¾ø¶ÔÖµ
 		{
 			ld_temp[i] = fabs(gd_rad[i][0] - gdJCurr[0] * PI_RAD) + 
 			      	     fabs(gd_rad[i][1] - gdJCurr[1] * PI_RAD) + 
@@ -777,21 +777,21 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 	{
 		if (0 == li_flag[i])
 		{
-			s1 = ld_temp[i]; // ç”¨ç¬¬ä¸€ä¸ªæœ‰æ•ˆå€¼ æ¥ åˆå§‹åŒ– ä¸­é—´å˜é‡s1
+			s1 = ld_temp[i]; // ÓÃµÚÒ»¸öÓĞĞ§Öµ À´ ³õÊ¼»¯ ÖĞ¼ä±äÁ¿s1
 			result = i;
-			break;           // æ¨å‡ºåˆå§‹åŒ–
+			break;           // ÍÆ³ö³õÊ¼»¯
 		}
 	}
 	for (i=0; i<4; i++)
 	{
-		if ((0 == li_flag[i]) && (ld_temp[i] <= s1))  // æœ‰æ•ˆå€¼ | ç›¸å¯¹ç»å¯¹å€¼æœ€å°
+		if ((0 == li_flag[i]) && (ld_temp[i] <= s1))  // ÓĞĞ§Öµ | Ïà¶Ô¾ø¶ÔÖµ×îĞ¡
 		{
 			//ld_jRad = gd_rad[i];
 			s1 = ld_temp[i];
 			result = i;
 		}
 	}
-	//------ å…³èŠ‚è§’åº¦ ------//
+	//------ ¹Ø½Ú½Ç¶È ------//
 	gdJPos[0] = gd_rad[result][0] * PI_DEG;
 	gdJPos[1] = gd_rad[result][1] * PI_DEG;
 	gdJPos[2] = gd_rad[result][2] * PI_DEG;
@@ -801,24 +801,24 @@ int Kine_IR_FiveDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 	return Ok;
 }
 
-// æ‹§èºæ¯ä½œä¸šçš„ç‰¹æ®Šé€†è§£ï¼ˆæ‘‡æ†æ›²æŸ„ç»“æ„ï¼Œåªæ±‚theta2\theta3ï¼Œå…¶å®ƒå…³èŠ‚è§’ä¸å˜ï¼‰
+// Å¡ÂİÄ¸×÷ÒµµÄÌØÊâÄæ½â£¨Ò¡¸ËÇú±ú½á¹¹£¬Ö»Çótheta2\theta3£¬ÆäËü¹Ø½Ú½Ç²»±ä£©
 int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
 {
-	// ä½å§¿ - TcpçŸ©é˜µ - æ‰‹è…•çŸ©é˜µ - å…³èŠ‚å¼§åº¦ - å…³èŠ‚è§’åº¦
+	// Î»×Ë - Tcp¾ØÕó - ÊÖÍó¾ØÕó - ¹Ø½Ú»¡¶È - ¹Ø½Ú½Ç¶È
 	// id_cPos - lm_Tcp - lm_Wrist    - ld_jRad     - id_jPos
 	int i;
 	int result;
-	int li_flag[4] = {0};      // å››ç»„è§£çš„æƒ…å†µ,0ä¸ºæœ‰è§£
+	int li_flag[4] = {0};      // ËÄ×é½âµÄÇé¿ö,0ÎªÓĞ½â
 
 	double s1,c1,s3,c3, s4, c4, s5, c5, s23, c23;
 
-	double ld_temp[8];       // ä¸­é—´å˜é‡
-	MtxKine lm_Wrist;        // ä¸­é—´å˜é‡,æ‰‹è…•çŸ©é˜µ
-	MtxKine lm_Tool;         // ä¸­é—´å˜é‡,å·¥å…·çŸ©é˜µ
-	MtxKine lm_Tcp;          // ä¸­é—´å˜é‡,TCPçŸ©é˜µ
-	double gd_rad[4][5];     // ä¸­é—´å˜é‡,å››ç»„é€†è§£
+	double ld_temp[8];       // ÖĞ¼ä±äÁ¿
+	MtxKine lm_Wrist;        // ÖĞ¼ä±äÁ¿,ÊÖÍó¾ØÕó
+	MtxKine lm_Tool;         // ÖĞ¼ä±äÁ¿,¹¤¾ß¾ØÕó
+	MtxKine lm_Tcp;          // ÖĞ¼ä±äÁ¿,TCP¾ØÕó
+	double gd_rad[4][5];     // ÖĞ¼ä±äÁ¿,ËÄ×éÄæ½â
 
-    //--------------------- TCPçŸ©é˜µ -------------------------//
+    //--------------------- TCP¾ØÕó -------------------------//
 	ld_temp[1] = sin(gdCPos[3] * PI_RAD);
 	ld_temp[2] = cos(gdCPos[3] * PI_RAD);
 	ld_temp[3] = sin(gdCPos[4] * PI_RAD);
@@ -836,8 +836,8 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Tcp.R32 = ld_temp[4] * ld_temp[5];
     lm_Tcp.R33 = ld_temp[4] * ld_temp[6];
 
-    //--------------------- å·¥å…·çŸ©é˜µ -------------------------//
-    // è®¡ç®—å·¥å…·çš„å˜æ¢çŸ©é˜µ //
+    //--------------------- ¹¤¾ß¾ØÕó -------------------------//
+    // ¼ÆËã¹¤¾ßµÄ±ä»»¾ØÕó //
 	ld_temp[1] = sin(m_dTool[3] * PI_RAD);
 	ld_temp[2] = cos(m_dTool[3] * PI_RAD);
 	ld_temp[3] = sin(m_dTool[4] * PI_RAD);
@@ -855,7 +855,7 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Tool.R32 = ld_temp[4] * ld_temp[5];
     lm_Tool.R33 = ld_temp[4] * ld_temp[6];
 
-    // å§¿æ€æ±‚é€† //
+    // ×ËÌ¬ÇóÄæ //
     ld_temp[1] = lm_Tool.R12;
     lm_Tool.R12 = lm_Tool.R21;
     lm_Tool.R21 = ld_temp[1];
@@ -868,7 +868,7 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Tool.R23 = lm_Tool.R32;
     lm_Tool.R32 = ld_temp[1];
     
-	// ä½ç½®æ±‚é€† //
+	// Î»ÖÃÇóÄæ //
 	lm_Tool.X = -( lm_Tool.R11 * m_dTool[0] + 
 				   lm_Tool.R12 * m_dTool[1] +
                    lm_Tool.R13 * m_dTool[2] );
@@ -879,8 +879,8 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
 				   lm_Tool.R32 * m_dTool[1] +
                    lm_Tool.R33 * m_dTool[2] );
 
-    //--------------------- æ‰‹è…•çŸ©é˜µ -------------------------//
-    // å§¿æ€çŸ©é˜µ //
+    //--------------------- ÊÖÍó¾ØÕó -------------------------//
+    // ×ËÌ¬¾ØÕó //
     lm_Wrist.R11 = lm_Tcp.R11 * lm_Tool.R11 + lm_Tcp.R12 * lm_Tool.R21 + lm_Tcp.R13 * lm_Tool.R31;
     lm_Wrist.R12 = lm_Tcp.R11 * lm_Tool.R12 + lm_Tcp.R12 * lm_Tool.R22 + lm_Tcp.R13 * lm_Tool.R32;
     lm_Wrist.R13 = lm_Tcp.R11 * lm_Tool.R13 + lm_Tcp.R12 * lm_Tool.R23 + lm_Tcp.R13 * lm_Tool.R33;
@@ -891,7 +891,7 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Wrist.R32 = lm_Tcp.R31 * lm_Tool.R12 + lm_Tcp.R32 * lm_Tool.R22 + lm_Tcp.R33 * lm_Tool.R32;
     lm_Wrist.R33 = lm_Tcp.R31 * lm_Tool.R13 + lm_Tcp.R32 * lm_Tool.R23 + lm_Tcp.R33 * lm_Tool.R33;
 
-    // ä½ç½® //
+    // Î»ÖÃ //
 	lm_Wrist.X = lm_Tcp.R11 * lm_Tool.X + lm_Tcp.R12 * lm_Tool.Y + lm_Tcp.R13 * lm_Tool.Z
 		+ gdCPos[0] - lm_Wrist.R13 * m_dL5;
 	lm_Wrist.Y = lm_Tcp.R21 * lm_Tool.X + lm_Tcp.R22 * lm_Tool.Y + lm_Tcp.R23 * lm_Tool.Z
@@ -899,8 +899,8 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
 	lm_Wrist.Z = lm_Tcp.R31 * lm_Tool.X + lm_Tcp.R32 * lm_Tool.Y + lm_Tcp.R33 * lm_Tool.Z
 		+ (gdCPos[2] - m_dL1) - lm_Wrist.R33 * m_dL5;
 
-    //--------------------- å…³èŠ‚å¼§åº¦ -------------------------//
-    //------ è½¬è§’1 -------//
+    //--------------------- ¹Ø½Ú»¡¶È -------------------------//
+    //------ ×ª½Ç1 -------//
 	ld_temp[0] = atan2(lm_Wrist.Y, lm_Wrist.X);
 	ld_temp[1] = atan2(- lm_Wrist.Y, - lm_Wrist.X);
 	RadInRange(&ld_temp[0], &gdJCurr[0]);
@@ -909,7 +909,7 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
 	gd_rad[0][0] = gd_rad[1][0] = ld_temp[0] = gdJCurr[0];									//SSS: add "= gdJCurr[0]" keep theta1
 	gd_rad[2][0] = gd_rad[3][0] = ld_temp[1] = gdJCurr[0];									//SSS: add "= gdJCurr[0]" keep theta1
 
-    //------ è½¬è§’3 ------//
+    //------ ×ª½Ç3 ------//
     for (i=0; i<2; i++)
     {
         s1 = sin(gd_rad[2*i][0]);
@@ -948,27 +948,27 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
 		}
         else
         {
-			li_flag[2*i]   = 1;     // æ ‡å¿— - æ­¤ç»„è§£æ— è§£
+			li_flag[2*i]   = 1;     // ±êÖ¾ - ´Ë×é½âÎŞ½â
 			li_flag[2*i+1] = 1;
         }
     }
     if (li_flag[0] && li_flag[2])
     {
-        return ERR_NOINV; //  è…°å…³èŠ‚æ— å¯ç”¨é€†è§£å€¼ //
+        return ERR_NOINV; //  Ñü¹Ø½ÚÎŞ¿ÉÓÃÄæ½âÖµ //
     }
 
-    //------ è½¬è§’2,4,5 ------//
+    //------ ×ª½Ç2,4,5 ------//
     for (i=0; i<4; i++)
     {
 		if(li_flag[i] == 0)
 		{
-			// è½¬è§’1å’Œè½¬è§’3çš„æ­£ä½™å¼¦å€¼ //
+			// ×ª½Ç1ºÍ×ª½Ç3µÄÕıÓàÏÒÖµ //
 			s1 = sin(gd_rad[i][0]);
 			c1 = cos(gd_rad[i][0]);
 			s3 = sin(gd_rad[i][2]);
 			c3 = cos(gd_rad[i][2]);
 
-			// è®¡ç®—è½¬è§’2å’Œè½¬è§’3çš„å’Œ //
+			// ¼ÆËã×ª½Ç2ºÍ×ª½Ç3µÄºÍ //
 			ld_temp[0] = c1 * lm_Wrist.X + s1 * lm_Wrist.Y;
 			ld_temp[1] = m_dL3 + m_dL4 + s3 * m_dL2;
 
@@ -977,12 +977,12 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
 			s23 = (ld_temp[0] * ld_temp[1] + lm_Wrist.Z * c3 * m_dL2) * ld_temp[2];
 			c23 = (ld_temp[0] * c3 * m_dL2 - lm_Wrist.Z * ld_temp[1]) * ld_temp[2];
     
-			// è®¡ç®—è½¬è§’2 //
+			// ¼ÆËã×ª½Ç2 //
 			ld_temp[5] = atan2(s23, c23) - gd_rad[i][2];
 			RadInRange(&ld_temp[5], &gdJCurr[1]);
 			gd_rad[i][1] = ld_temp[5];
 
-			// è®¡ç®—è½¬è§’4 //			
+			// ¼ÆËã×ª½Ç4 //			
 			//s4 = - lm_Wrist.R12 * c1 * c23 - lm_Wrist.R22 * s1 * c23 - lm_Wrist.R32 * s23;
 			//c4 = + lm_Wrist.R12 * s1 - lm_Wrist.R22 * c1;
 			s4 = + lm_Wrist.R13 * s1 - lm_Wrist.R23 * c1;
@@ -991,7 +991,7 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
 			RadInRange(&ld_temp[5], &gdJCurr[3]);
 			gd_rad[i][3] = ld_temp[5] = gdJCurr[3];																//SSS: add "= gdJCurr[3]" keep theta4
 
-			// è®¡ç®—è½¬è§’5 //
+			// ¼ÆËã×ª½Ç5 //
 			s4 = sin(gd_rad[i][3]);
 			c4 = cos(gd_rad[i][3]);
 
@@ -1014,10 +1014,10 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
 		}
 	}
 	
-	//------ æœ€ä½³ç»“æœ ------//
+	//------ ×î¼Ñ½á¹û ------//
 	for (i=0; i<4; i++)
 	{
-		if (0 == li_flag[i])  // æ±‚å–ç›¸å¯¹ç»å¯¹å€¼
+		if (0 == li_flag[i])  // ÇóÈ¡Ïà¶Ô¾ø¶ÔÖµ
 		{
 			ld_temp[i] = fabs(gd_rad[i][0] - gdJCurr[0] * PI_RAD) + 
 			      	     fabs(gd_rad[i][1] - gdJCurr[1] * PI_RAD) + 
@@ -1030,21 +1030,21 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
 	{
 		if (0 == li_flag[i])
 		{
-			s1 = ld_temp[i]; // ç”¨ç¬¬ä¸€ä¸ªæœ‰æ•ˆå€¼ æ¥ åˆå§‹åŒ– ä¸­é—´å˜é‡s1
+			s1 = ld_temp[i]; // ÓÃµÚÒ»¸öÓĞĞ§Öµ À´ ³õÊ¼»¯ ÖĞ¼ä±äÁ¿s1
 			result = i;
-			break;           // æ¨å‡ºåˆå§‹åŒ–
+			break;           // ÍÆ³ö³õÊ¼»¯
 		}
 	}
 	for (i=0; i<4; i++)
 	{
-		if ((0 == li_flag[i]) && (ld_temp[i] <= s1))  // æœ‰æ•ˆå€¼ | ç›¸å¯¹ç»å¯¹å€¼æœ€å°
+		if ((0 == li_flag[i]) && (ld_temp[i] <= s1))  // ÓĞĞ§Öµ | Ïà¶Ô¾ø¶ÔÖµ×îĞ¡
 		{
 			//ld_jRad = gd_rad[i];
 			s1 = ld_temp[i];
 			result = i;
 		}
 	}
-	//------ å…³èŠ‚è§’åº¦ ------//
+	//------ ¹Ø½Ú½Ç¶È ------//
 	gdJPos[0] = gd_rad[result][0] * PI_DEG;
 	gdJPos[1] = gd_rad[result][1] * PI_DEG;
 	gdJPos[2] = gd_rad[result][2] * PI_DEG;
@@ -1055,14 +1055,14 @@ int Kine_IR_FiveDoF::IKine_s(double gdCPos[], double gdJCurr[], double gdJPos[])
 }
 
 /******************************************************************************
- * å‡½æ•°ï¼šVel_FKine()
- * åŠŸèƒ½ï¼šé€Ÿåº¦é€†è§£, å·¥å…·åæ ‡ç³»é€Ÿåº¦
+ * º¯Êı£ºVel_FKine()
+ * ¹¦ÄÜ£ºËÙ¶ÈÄæ½â, ¹¤¾ß×ø±êÏµËÙ¶È
  *
- * è¾“å…¥ï¼šdouble* gdJPos - å½“å‰å…³èŠ‚è½¬è§’, 5å…³èŠ‚, deg
- *       double* gdJVel - å½“å‰å…³èŠ‚é€Ÿåº¦, 5å…³èŠ‚, deg/s
- * è¾“å‡ºï¼šdouble* gdCVel - æœ«ç«¯é€Ÿåº¦, [vx,vy,vz,wx,wy,wz], mm/s, deg/s
+ * ÊäÈë£ºdouble* gdJPos - µ±Ç°¹Ø½Ú×ª½Ç, 5¹Ø½Ú, deg
+ *       double* gdJVel - µ±Ç°¹Ø½ÚËÙ¶È, 5¹Ø½Ú, deg/s
+ * Êä³ö£ºdouble* gdCVel - Ä©¶ËËÙ¶È, [vx,vy,vz,wx,wy,wz], mm/s, deg/s
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ, å…¶ä»–é”™è¯¯
+ * ·µ»Ø£ºint - 0³É¹¦, ÆäËû´íÎó
  ******************************************************************************/
 int Kine_IR_FiveDoF::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVel[])
 {
@@ -1121,7 +1121,7 @@ int Kine_IR_FiveDoF::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVel[]
 			  + s4 * s5 * v[2]
 			  + c5 * v[3];
 
-	// è½¬æ¢ä¸ºè§’åº¦
+	// ×ª»»Îª½Ç¶È
 	gdCVel[3] *= PI_DEG;
 	gdCVel[4] *= PI_DEG;
 	gdCVel[5] *= PI_DEG;
@@ -1130,14 +1130,14 @@ int Kine_IR_FiveDoF::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVel[]
 }
 
 /******************************************************************************
- * å‡½æ•°ï¼šVel_IKine()
- * åŠŸèƒ½ï¼šé€Ÿåº¦é€†è§£
+ * º¯Êı£ºVel_IKine()
+ * ¹¦ÄÜ£ºËÙ¶ÈÄæ½â
  *
- * è¾“å…¥ï¼šdouble gdJPos[] - å½“å‰å…³èŠ‚è½¬è§’, 5å…³èŠ‚, deg
- *       double gdCVel[] - å½“å‰æœ«ç«¯é€Ÿåº¦, [vx,vy,vz,wx,wy,wz], mm/s, deg/s
- * è¾“å‡ºï¼šdouble gdJVel[] - å…³èŠ‚é€Ÿåº¦, 5å…³èŠ‚, deg/s
+ * ÊäÈë£ºdouble gdJPos[] - µ±Ç°¹Ø½Ú×ª½Ç, 5¹Ø½Ú, deg
+ *       double gdCVel[] - µ±Ç°Ä©¶ËËÙ¶È, [vx,vy,vz,wx,wy,wz], mm/s, deg/s
+ * Êä³ö£ºdouble gdJVel[] - ¹Ø½ÚËÙ¶È, 5¹Ø½Ú, deg/s
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ, å…¶ä»–é”™è¯¯
+ * ·µ»Ø£ºint - 0³É¹¦, ÆäËû´íÎó
  ******************************************************************************/
 int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel[5])
 {
@@ -1163,7 +1163,7 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 	lm_cvel.Mtx[5] = gdCVel[5] * PI_RAD;
 	
 	
-    //------------------------- å…³èŠ‚å¼§åº¦ -----------------------------//
+    //------------------------- ¹Ø½Ú»¡¶È -----------------------------//
 	for(i=0; i<5; i++)
 	{		
 		rad[i] = (gdJPos[i]) * PI_RAD;
@@ -1187,7 +1187,7 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 	l34 = m_dL3 + m_dL4;
 	l5 = m_dL5;
 	
-	//--------------------------- ç¬¬äº”åˆ— -------------------------------//
+	//--------------------------- µÚÎåÁĞ -------------------------------//
 	// [0,4]-[5,4]
 	lm_Jacobian.Mtx[0*5 + 4] = l5;
 	lm_Jacobian.Mtx[1*5 + 4] = 0;
@@ -1196,7 +1196,7 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 	lm_Jacobian.Mtx[4*5 + 4] = 1;
 	lm_Jacobian.Mtx[5*5 + 4] = 0;
 	
-	//--------------------------- ç¬¬å››åˆ— -------------------------------//
+	//--------------------------- µÚËÄÁĞ -------------------------------//
 	// [0,3]-[5,3]
 	lm_Jacobian.Mtx[0*5 + 3] =  0;
 	lm_Jacobian.Mtx[1*5 + 3] =  l5*s5;
@@ -1205,7 +1205,7 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 	lm_Jacobian.Mtx[4*5 + 3] =  0;
 	lm_Jacobian.Mtx[5*5 + 3] =  c5;
 	
-	//--------------------------- ç¬¬ä¸‰åˆ— -------------------------------//
+	//--------------------------- µÚÈıÁĞ -------------------------------//
 	// [0,2]
 	lm_Jacobian.Mtx[0*5 + 2] =  l34*c4*c5 + l5*c4;
 	lm_Jacobian.Mtx[1*5 + 2] = -l34*s4 - l5*s4*c5;
@@ -1214,7 +1214,7 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 	lm_Jacobian.Mtx[4*5 + 2] =  c4;
 	lm_Jacobian.Mtx[5*5 + 2] =  s4*s5;
 	
-	//--------------------------- ç¬¬äºŒåˆ— -------------------------------//
+	//--------------------------- µÚ¶şÁĞ -------------------------------//
 	// [0,1]
 	lm_Jacobian.Mtx[0*5 + 1] =  l2*s3*c4*c5 + l34*c4*c5 + l2*c3*s5 + l5*c4;
 	lm_Jacobian.Mtx[1*5 + 1] = -l2*s3*s4 - l34*s4 - l5*s4*c5;
@@ -1223,7 +1223,7 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 	lm_Jacobian.Mtx[4*5 + 1] =  c4;	
 	lm_Jacobian.Mtx[5*5 + 1] =  s4*s5;
 	
-	//---------------------------- ç¬¬ä¸€åˆ— --------------------------------//
+	//---------------------------- µÚÒ»ÁĞ --------------------------------//
 	// [0,0]
 	lm_Jacobian.Mtx[0*5 + 0] = -l2*c2*s4*c5 - l34*s23*s4*c5 - l5*s23*s4;
 	lm_Jacobian.Mtx[1*5 + 0] = -l2*c2*c4 - l34*s23*c4 - l5*(s23*c4*c5+c23*s5);
@@ -1243,7 +1243,7 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 	}
 
 /*
-	double c2 = cos((gdJPos[1]) * PI_RAD);  // è½¬æ¢ä¸ºå¼§åº¦
+	double c2 = cos((gdJPos[1]) * PI_RAD);  // ×ª»»Îª»¡¶È
 	double s23 = sin((gdJPos[1] + gdJPos[2]) * PI_RAD);
 	double c23 = cos((gdJPos[1] + gdJPos[2]) * PI_RAD);
 	double s3 = sin(gdJPos[2] * PI_RAD);
@@ -1310,7 +1310,7 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 	gdJVel[3] = wz * c5 - wx * s5 + c23 * gdJVel[0];
 	gdJVel[4] = wy + s23 * s4 * gdJVel[0] - c4 * (gdJVel[1] + gdJVel[2]);
 	
-	// è½¬æ¢ä¸ºè§’åº¦
+	// ×ª»»Îª½Ç¶È
 	gdJVel[0] *= PI_DEG;
 	gdJVel[1] *= PI_DEG;
 	gdJVel[2] *= PI_DEG;
@@ -1319,7 +1319,7 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 */
 
 /*
-	double c2 = cos(gdJPos[1] * PI_RAD);  // è½¬æ¢ä¸ºå¼§åº¦
+	double c2 = cos(gdJPos[1] * PI_RAD);  // ×ª»»Îª»¡¶È
 	double s23 = sin((gdJPos[1] + gdJPos[2]) * PI_RAD);
 	double c23 = cos((gdJPos[1] + gdJPos[2]) * PI_RAD);
 	double s3 = sin(gdJPos[2] * PI_RAD);
@@ -1333,14 +1333,14 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 	double s6 = 0;
 	double c6 = 1;
 	
-	double vel[6];       // ç¬›å¡å°”é€Ÿåº¦
-	double jacobian[36]; // é›…å…‹æ¯”çŸ©é˜µæ•°ç»„
+	double vel[6];       // µÑ¿¨¶ûËÙ¶È
+	double jacobian[36]; // ÑÅ¿Ë±È¾ØÕóÊı×é
 
-	Matrix lm_vel;   // TCPé€Ÿåº¦çŸ©é˜µ
-	Matrix lm_jac;   // é›…å…‹æ¯”çŸ©é˜µ
-	Matrix lm_jv(6, 1);    // å…³èŠ‚é€Ÿåº¦çŸ©é˜µ
+	Matrix lm_vel;   // TCPËÙ¶È¾ØÕó
+	Matrix lm_jac;   // ÑÅ¿Ë±È¾ØÕó
+	Matrix lm_jv(6, 1);    // ¹Ø½ÚËÙ¶È¾ØÕó
 
-	// TCPé€Ÿåº¦
+	// TCPËÙ¶È
 	vel[0] = gdCVel[0];
 	vel[1] = gdCVel[1];
 	vel[2] = gdCVel[2];
@@ -1348,7 +1348,7 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 	vel[4] = gdCVel[4] * PI_RAD;
 	vel[5] = gdCVel[5] * PI_RAD;
 
-	// TCPé€Ÿåº¦çŸ©é˜µåˆå§‹åŒ–
+	// TCPËÙ¶È¾ØÕó³õÊ¼»¯
 	lm_vel.Init(6, 1, vel);
 
 	// vx
@@ -1415,10 +1415,10 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 	jacobian[34] = 0;
 	jacobian[35] = 1;
 
-	// é›…å…‹æ¯”çŸ©é˜µåˆå§‹åŒ–
+	// ÑÅ¿Ë±È¾ØÕó³õÊ¼»¯
 	lm_jac.Init(6, 6, jacobian);
 
-	Matrix lm_inv_jac(6, 6); // é›…å…‹æ¯”ä½ çŸ©é˜µ
+	Matrix lm_inv_jac(6, 6); // ÑÅ¿Ë±ÈÄã¾ØÕó
 
 	if (0 != Inv(&lm_jac, &lm_inv_jac))
 	{
@@ -1427,7 +1427,7 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 
 	lm_jv = lm_inv_jac * lm_vel;
 
-	// è½¬æ¢ä¸ºè§’åº¦
+	// ×ª»»Îª½Ç¶È
 	gdJVel[0] = lm_jv.Get(0, 0) * PI_DEG;
 	gdJVel[1] = lm_jv.Get(1, 0) * PI_DEG;
 	gdJVel[2] = lm_jv.Get(2, 0) * PI_DEG;
@@ -1440,10 +1440,10 @@ int Kine_IR_FiveDoF::Vel_IKine(double gdJPos[5], double gdCVel[6], double gdJVel
 }
 
 /******************************************************************************
- * å‡½æ•°ï¼šSet_Length()
- * åŠŸèƒ½ï¼šè®¾ç½®æ†é•¿
+ * º¯Êı£ºSet_Length()
+ * ¹¦ÄÜ£ºÉèÖÃ¸Ë³¤
  *
- * è¾“å…¥ï¼šdouble gdLen[] - æ†é•¿L1,L2,L3,L4,L5,L6
+ * ÊäÈë£ºdouble gdLen[] - ¸Ë³¤L1,L2,L3,L4,L5,L6
  ******************************************************************************/
 void Kine_IR_SixDoF::Set_Length(double gdLen[])
 {
@@ -1464,28 +1464,28 @@ void Kine_IR_SixDoF::Set_Tool(double gdTool[])
 }
 
 /******************************************************************************
- * å‡½æ•°ï¼šFKine()
- * åŠŸèƒ½ï¼šæ­£è§£
+ * º¯Êı£ºFKine()
+ * ¹¦ÄÜ£ºÕı½â
  *
- * è¾“å…¥ï¼šdouble* gdJPos - å…³èŠ‚è½¬è§’, 5å…³èŠ‚
- * è¾“å‡ºï¼šdouble* gdCPos - æ­£è§£ä½å§¿, (x,y,z,w,p,r)
+ * ÊäÈë£ºdouble* gdJPos - ¹Ø½Ú×ª½Ç, 5¹Ø½Ú
+ * Êä³ö£ºdouble* gdCPos - Õı½âÎ»×Ë, (x,y,z,w,p,r)
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ,
+ * ·µ»Ø£ºint - 0³É¹¦,
  ******************************************************************************/
 int Kine_IR_SixDoF::FKine(double gdJPos[], double gdCPos[])
 {
-	// å…³èŠ‚è§’åº¦ - å…³èŠ‚å¼§åº¦ - æ‰‹è…•çŸ©é˜µ - TcpçŸ©é˜µ - ä½å§¿
+	// ¹Ø½Ú½Ç¶È - ¹Ø½Ú»¡¶È - ÊÖÍó¾ØÕó - Tcp¾ØÕó - Î»×Ë
 	// id_jPos  -   jRad   - lm_Wrist - lm_Tcp  - id_cPos
 	double ld_jRad[6];// = gd_rad[0];
 	
 	double c23, s23;
 	
-	double ld_temp[8];     // ä¸­é—´å˜é‡
-	MtxKine lm_Wrist;      // ä¸­é—´å˜é‡,æ‰‹è…•çŸ©é˜µ
-	MtxKine lm_Tool;       // ä¸­é—´å˜é‡,å·¥å…·çŸ©é˜µ
-	MtxKine lm_Tcp;        // ä¸­é—´å˜é‡,TCPçŸ©é˜µ
+	double ld_temp[8];     // ÖĞ¼ä±äÁ¿
+	MtxKine lm_Wrist;      // ÖĞ¼ä±äÁ¿,ÊÖÍó¾ØÕó
+	MtxKine lm_Tool;       // ÖĞ¼ä±äÁ¿,¹¤¾ß¾ØÕó
+	MtxKine lm_Tcp;        // ÖĞ¼ä±äÁ¿,TCP¾ØÕó
 
-    //--------------------- å…³èŠ‚å¼§åº¦ -------------------------//
+    //--------------------- ¹Ø½Ú»¡¶È -------------------------//
 	ld_jRad[0] = gdJPos[0] * PI_RAD;
 	ld_jRad[1] = gdJPos[1] * PI_RAD;
 	ld_jRad[2] = gdJPos[2] * PI_RAD;
@@ -1493,7 +1493,7 @@ int Kine_IR_SixDoF::FKine(double gdJPos[], double gdCPos[])
 	ld_jRad[4] = gdJPos[4] * PI_RAD;
 	ld_jRad[5] = gdJPos[5] * PI_RAD;
 
-    //--------------------- æ‰‹è…•çŸ©é˜µ -------------------------//
+    //--------------------- ÊÖÍó¾ØÕó -------------------------//
     c23 = cos(ld_jRad[1]+ld_jRad[2]);
     s23 = sin(ld_jRad[1]+ld_jRad[2]);	
 
@@ -1503,15 +1503,15 @@ int Kine_IR_SixDoF::FKine(double gdJPos[], double gdCPos[])
 	ld_temp[2] = - cos(ld_jRad[0]) * c23 * sin(ld_jRad[3])
 				 + sin(ld_jRad[0]) * cos(ld_jRad[3]);
 
-    // è®¡ç®—r11 //
+    // ¼ÆËãr11 //
 	lm_Wrist.R11 = ld_temp[1] * cos(ld_jRad[5])
 				 + ld_temp[2] * sin(ld_jRad[5]);
   
-     // è®¡ç®—r12 //
+     // ¼ÆËãr12 //
 	lm_Wrist.R12 = - ld_temp[1] * sin(ld_jRad[5])
 				   + ld_temp[2] * cos(ld_jRad[5]);
 
-     // è®¡ç®—r13 //
+     // ¼ÆËãr13 //
 	lm_Wrist.R13 = cos(ld_jRad[0]) * c23 * cos(ld_jRad[3]) * sin(ld_jRad[4]) 
 		+ sin(ld_jRad[0]) * sin(ld_jRad[3]) * sin(ld_jRad[4])
 		+ cos(ld_jRad[0]) * s23 * cos(ld_jRad[4]);
@@ -1522,15 +1522,15 @@ int Kine_IR_SixDoF::FKine(double gdJPos[], double gdCPos[])
 	ld_temp[2] = - sin(ld_jRad[0]) * c23 * sin(ld_jRad[3])
 		- cos(ld_jRad[0]) * cos(ld_jRad[3]);
 
-    // è®¡ç®—r21 //
+    // ¼ÆËãr21 //
 	lm_Wrist.R21 = ld_temp[1] * cos(ld_jRad[5])
 				 + ld_temp[2] * sin(ld_jRad[5]);
 
-    // è®¡ç®—r22 //    
+    // ¼ÆËãr22 //    
 	lm_Wrist.R22 = - ld_temp[1] * sin(ld_jRad[5])
 				   + ld_temp[2] * cos(ld_jRad[5]);
         
-    // è®¡ç®—r23 //    
+    // ¼ÆËãr23 //    
 	lm_Wrist.R23 = sin(ld_jRad[0]) * c23 * cos(ld_jRad[3]) * sin(ld_jRad[4]) 
 		- cos(ld_jRad[0]) * sin(ld_jRad[3]) * sin(ld_jRad[4])
 		+ sin(ld_jRad[0]) * s23 * cos(ld_jRad[4]);
@@ -1539,35 +1539,35 @@ int Kine_IR_SixDoF::FKine(double gdJPos[], double gdCPos[])
 		+ c23 * sin(ld_jRad[4]);
 	ld_temp[2] = - s23 * sin(ld_jRad[3]);
 
-    // è®¡ç®—r31 //
+    // ¼ÆËãr31 //
 	lm_Wrist.R31 = ld_temp[1] * cos(ld_jRad[5])
 				 + ld_temp[2] * sin(ld_jRad[5]);
 
-    // è®¡ç®—r32 //    
+    // ¼ÆËãr32 //    
 	lm_Wrist.R32 = - ld_temp[1] * sin(ld_jRad[5])
 				   + ld_temp[2] * cos(ld_jRad[5]);
     
-    // è®¡ç®—r33 //
+    // ¼ÆËãr33 //
 	lm_Wrist.R33 = + s23 * cos(ld_jRad[3]) * sin(ld_jRad[4]) 
         - c23 * cos(ld_jRad[4]);
 
-    // è®¡ç®—x //
+    // ¼ÆËãx //
 	lm_Wrist.X = lm_Wrist.R13 * (m_dL5 +m_dL6)
 		+ cos(ld_jRad[0]) * s23 * (m_dL3 + m_dL4)
 		+ cos(ld_jRad[0]) * cos(ld_jRad[1]) * m_dL2;
 
-    // è®¡ç®—y //
+    // ¼ÆËãy //
 	lm_Wrist.Y = lm_Wrist.R23 * (m_dL5 +m_dL6)
 		+ sin(ld_jRad[0]) * s23 * (m_dL3 + m_dL4)
 		+ sin(ld_jRad[0]) * cos(ld_jRad[1]) * m_dL2;
     
-    // è®¡ç®—z //
+    // ¼ÆËãz //
 	lm_Wrist.Z = lm_Wrist.R33 * (m_dL5 +m_dL6)
 		- c23 * (m_dL3 + m_dL4)
 		+ sin(ld_jRad[1]) * m_dL2;
 
-    //--------------------- TcpçŸ©é˜µ -------------------------//
-    // è®¡ç®—å·¥å…·çš„å˜æ¢çŸ©é˜µ //
+    //--------------------- Tcp¾ØÕó -------------------------//
+    // ¼ÆËã¹¤¾ßµÄ±ä»»¾ØÕó //
 	ld_temp[1] = sin(m_dTool[3] * PI_RAD);
 	ld_temp[2] = cos(m_dTool[3] * PI_RAD);
 	ld_temp[3] = sin(m_dTool[4] * PI_RAD);
@@ -1585,7 +1585,7 @@ int Kine_IR_SixDoF::FKine(double gdJPos[], double gdCPos[])
     lm_Tool.R32 = ld_temp[4] * ld_temp[5];
     lm_Tool.R33 = ld_temp[4] * ld_temp[6];
 
-    // è®¡ç®—Tcpå§¿æ€çŸ©é˜µçš„å‚æ•° //
+    // ¼ÆËãTcp×ËÌ¬¾ØÕóµÄ²ÎÊı //
     lm_Tcp.R11 = lm_Wrist.R11 * lm_Tool.R11 + lm_Wrist.R12 * lm_Tool.R21 + lm_Wrist.R13 * lm_Tool.R31;
     lm_Tcp.R21 = lm_Wrist.R21 * lm_Tool.R11 + lm_Wrist.R22 * lm_Tool.R21 + lm_Wrist.R23 * lm_Tool.R31;
     lm_Tcp.R31 = lm_Wrist.R31 * lm_Tool.R11 + lm_Wrist.R32 * lm_Tool.R21 + lm_Wrist.R33 * lm_Tool.R31;
@@ -1594,7 +1594,7 @@ int Kine_IR_SixDoF::FKine(double gdJPos[], double gdCPos[])
     lm_Tcp.R12 = lm_Wrist.R11 * lm_Tool.R12 + lm_Wrist.R12 * lm_Tool.R22 + lm_Wrist.R13 * lm_Tool.R32;
     lm_Tcp.R22 = lm_Wrist.R21 * lm_Tool.R12 + lm_Wrist.R22 * lm_Tool.R22 + lm_Wrist.R23 * lm_Tool.R32;
 
-    // è®¡ç®—Tcpä½ç½® //
+    // ¼ÆËãTcpÎ»ÖÃ //
 	lm_Tcp.X = lm_Wrist.X + lm_Wrist.R11 * (m_dTool[0])
                           + lm_Wrist.R12 * (m_dTool[1])
                           + lm_Wrist.R13 * (m_dTool[2]);
@@ -1605,8 +1605,8 @@ int Kine_IR_SixDoF::FKine(double gdJPos[], double gdCPos[])
                           + lm_Wrist.R32 * (m_dTool[1])
                           + lm_Wrist.R33 * (m_dTool[2]);
 
-    //--------------------- Tcpä½å§¿ -------------------------//
-    // è®¡ç®—å·¥å…·åæ ‡ç³»RPYè§’ - rad //
+    //--------------------- TcpÎ»×Ë -------------------------//
+    // ¼ÆËã¹¤¾ß×ø±êÏµRPY½Ç - rad //
 	ld_temp[5] = atan2(-lm_Tcp.R31, sqrt(lm_Tcp.R11 * lm_Tcp.R11 + lm_Tcp.R21 * lm_Tcp.R21));
 
     if (fabs(ld_temp[5] - PI / 2) < RT_LITTLE)
@@ -1659,32 +1659,32 @@ int Kine_IR_SixDoF::FKine(double gdJPos[], double gdCPos[])
 }
 
 /******************************************************************************
- * å‡½æ•°ï¼šIKine()
- * åŠŸèƒ½ï¼šé€†è§£
+ * º¯Êı£ºIKine()
+ * ¹¦ÄÜ£ºÄæ½â
  *
- * è¾“å…¥ï¼šdouble* gdCPos  - ä½å§¿æ•°ç»„, (x,y,z,w,p,r)
- *       double* gdJCurr - å½“å‰å…³èŠ‚è½¬è§’, 5å…³èŠ‚
- * è¾“å‡ºï¼šdouble* id_jPos  - é€†è§£å…³èŠ‚è½¬è§’, 5å…³èŠ‚
+ * ÊäÈë£ºdouble* gdCPos  - Î»×ËÊı×é, (x,y,z,w,p,r)
+ *       double* gdJCurr - µ±Ç°¹Ø½Ú×ª½Ç, 5¹Ø½Ú
+ * Êä³ö£ºdouble* id_jPos  - Äæ½â¹Ø½Ú×ª½Ç, 5¹Ø½Ú
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ, å…¶ä»–é”™è¯¯
+ * ·µ»Ø£ºint - 0³É¹¦, ÆäËû´íÎó
  ******************************************************************************/
 int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 {
-	// ä½å§¿ - TcpçŸ©é˜µ - æ‰‹è…•çŸ©é˜µ - å…³èŠ‚å¼§åº¦ - å…³èŠ‚è§’åº¦
+	// Î»×Ë - Tcp¾ØÕó - ÊÖÍó¾ØÕó - ¹Ø½Ú»¡¶È - ¹Ø½Ú½Ç¶È
 	// id_cPos - lm_Tcp - lm_Wrist    - ld_jRad     - id_jPos
 	int i;
 	int result;
-	int li_flag[8] = {0};      // å››ç»„è§£çš„æƒ…å†µ,0ä¸ºæœ‰è§£
+	int li_flag[8] = {0};      // ËÄ×é½âµÄÇé¿ö,0ÎªÓĞ½â
 
 	double s1,c1,s3,c3, s4, c4, s5, c5, s23, c23, s6, c6;
 
-	double ld_temp[8];       // ä¸­é—´å˜é‡
-	MtxKine lm_Wrist;        // ä¸­é—´å˜é‡,æ‰‹è…•çŸ©é˜µ
-	MtxKine lm_Tool;         // ä¸­é—´å˜é‡,å·¥å…·çŸ©é˜µ
-	MtxKine lm_Tcp;          // ä¸­é—´å˜é‡,TCPçŸ©é˜µ
-	double gd_rad[8][6];     // ä¸­é—´å˜é‡ï¼Œå››ç»„é€†è§£
+	double ld_temp[8];       // ÖĞ¼ä±äÁ¿
+	MtxKine lm_Wrist;        // ÖĞ¼ä±äÁ¿,ÊÖÍó¾ØÕó
+	MtxKine lm_Tool;         // ÖĞ¼ä±äÁ¿,¹¤¾ß¾ØÕó
+	MtxKine lm_Tcp;          // ÖĞ¼ä±äÁ¿,TCP¾ØÕó
+	double gd_rad[8][6];     // ÖĞ¼ä±äÁ¿£¬ËÄ×éÄæ½â
 
-    //--------------------- TCPçŸ©é˜µ -------------------------//
+    //--------------------- TCP¾ØÕó -------------------------//
 	ld_temp[1] = sin(gdCPos[3] * PI_RAD);
 	ld_temp[2] = cos(gdCPos[3] * PI_RAD);
 	ld_temp[3] = sin(gdCPos[4] * PI_RAD);
@@ -1702,8 +1702,8 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Tcp.R32 = ld_temp[4] * ld_temp[5];
     lm_Tcp.R33 = ld_temp[4] * ld_temp[6];
 
-    //--------------------- å·¥å…·çŸ©é˜µ -------------------------//
-    // è®¡ç®—å·¥å…·çš„å˜æ¢çŸ©é˜µ //
+    //--------------------- ¹¤¾ß¾ØÕó -------------------------//
+    // ¼ÆËã¹¤¾ßµÄ±ä»»¾ØÕó //
 	ld_temp[1] = sin(m_dTool[3] * PI_RAD);
 	ld_temp[2] = cos(m_dTool[3] * PI_RAD);
 	ld_temp[3] = sin(m_dTool[4] * PI_RAD);
@@ -1721,7 +1721,7 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Tool.R32 = ld_temp[4] * ld_temp[5];
     lm_Tool.R33 = ld_temp[4] * ld_temp[6];
 
-    // å§¿æ€æ±‚é€† //
+    // ×ËÌ¬ÇóÄæ //
     ld_temp[1] = lm_Tool.R12;
     lm_Tool.R12 = lm_Tool.R21;
     lm_Tool.R21 = ld_temp[1];
@@ -1734,7 +1734,7 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Tool.R23 = lm_Tool.R32;
     lm_Tool.R32 = ld_temp[1];
     
-	// ä½ç½®æ±‚é€† //
+	// Î»ÖÃÇóÄæ //
 	lm_Tool.X = -( lm_Tool.R11 * m_dTool[0] + 
 				   lm_Tool.R12 * m_dTool[1] +
                    lm_Tool.R13 * m_dTool[2] );
@@ -1745,8 +1745,8 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 				   lm_Tool.R32 * m_dTool[1] +
                    lm_Tool.R33 * m_dTool[2] );
 
-    //--------------------- æ‰‹è…•çŸ©é˜µ -------------------------//
-    // å§¿æ€çŸ©é˜µ //
+    //--------------------- ÊÖÍó¾ØÕó -------------------------//
+    // ×ËÌ¬¾ØÕó //
     lm_Wrist.R11 = lm_Tcp.R11 * lm_Tool.R11 + lm_Tcp.R12 * lm_Tool.R21 + lm_Tcp.R13 * lm_Tool.R31;
     lm_Wrist.R12 = lm_Tcp.R11 * lm_Tool.R12 + lm_Tcp.R12 * lm_Tool.R22 + lm_Tcp.R13 * lm_Tool.R32;
     lm_Wrist.R13 = lm_Tcp.R11 * lm_Tool.R13 + lm_Tcp.R12 * lm_Tool.R23 + lm_Tcp.R13 * lm_Tool.R33;
@@ -1757,7 +1757,7 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
     lm_Wrist.R32 = lm_Tcp.R31 * lm_Tool.R12 + lm_Tcp.R32 * lm_Tool.R22 + lm_Tcp.R33 * lm_Tool.R32;
     lm_Wrist.R33 = lm_Tcp.R31 * lm_Tool.R13 + lm_Tcp.R32 * lm_Tool.R23 + lm_Tcp.R33 * lm_Tool.R33;
 
-    // ä½ç½® //
+    // Î»ÖÃ //
 	lm_Wrist.X = lm_Tcp.R11 * lm_Tool.X + lm_Tcp.R12 * lm_Tool.Y + lm_Tcp.R13 * lm_Tool.Z
 		+ gdCPos[0] - lm_Wrist.R13 * (m_dL5 + m_dL6);
 	lm_Wrist.Y = lm_Tcp.R21 * lm_Tool.X + lm_Tcp.R22 * lm_Tool.Y + lm_Tcp.R23 * lm_Tool.Z
@@ -1765,8 +1765,8 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 	lm_Wrist.Z = lm_Tcp.R31 * lm_Tool.X + lm_Tcp.R32 * lm_Tool.Y + lm_Tcp.R33 * lm_Tool.Z
 		+ (gdCPos[2] - m_dL1) - lm_Wrist.R33 * (m_dL5 + m_dL6);
 
-    //--------------------- å…³èŠ‚å¼§åº¦ -------------------------//
-    //------ è½¬è§’1 -------//
+    //--------------------- ¹Ø½Ú»¡¶È -------------------------//
+    //------ ×ª½Ç1 -------//
 	ld_temp[0] = atan2(lm_Wrist.Y, lm_Wrist.X);
 	ld_temp[1] = atan2(- lm_Wrist.Y, - lm_Wrist.X);
 	RadInRange(&ld_temp[0], &gdJCurr[0]);
@@ -1775,7 +1775,7 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 	gd_rad[0][0] = gd_rad[1][0] = ld_temp[0];
 	gd_rad[2][0] = gd_rad[3][0] = ld_temp[1];
 
-    //------ è½¬è§’3 ------//
+    //------ ×ª½Ç3 ------//
     for (i=0; i<2; i++)
     {
         s1 = sin(gd_rad[2*i][0]);
@@ -1814,27 +1814,27 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 		}
         else
         {
-			li_flag[2*i]   = 1;     // æ ‡å¿— - æ­¤ç»„è§£æ— è§£
+			li_flag[2*i]   = 1;     // ±êÖ¾ - ´Ë×é½âÎŞ½â
 			li_flag[2*i+1] = 1;
         }
     }
     if (li_flag[0] && li_flag[2])
     {
-        return ERR_NOINV; //  è…°å…³èŠ‚æ— å¯ç”¨é€†è§£å€¼ //
+        return ERR_NOINV; //  Ñü¹Ø½ÚÎŞ¿ÉÓÃÄæ½âÖµ //
     }
 
-    //------ è½¬è§’2,4,5,6 ------//
+    //------ ×ª½Ç2,4,5,6 ------//
     for (i=0; i<4; i++)
     {
 		if(li_flag[i] == 0)
 		{
-			// è½¬è§’1å’Œè½¬è§’3çš„æ­£ä½™å¼¦å€¼ //
+			// ×ª½Ç1ºÍ×ª½Ç3µÄÕıÓàÏÒÖµ //
 			s1 = sin(gd_rad[i][0]);
 			c1 = cos(gd_rad[i][0]);
 			s3 = sin(gd_rad[i][2]);
 			c3 = cos(gd_rad[i][2]);
 
-			// è®¡ç®—è½¬è§’2å’Œè½¬è§’3çš„å’Œ //
+			// ¼ÆËã×ª½Ç2ºÍ×ª½Ç3µÄºÍ //
 			ld_temp[0] = c1 * lm_Wrist.X + s1 * lm_Wrist.Y;
 			ld_temp[1] = m_dL3 + m_dL4 + s3 * m_dL2;
 
@@ -1843,19 +1843,19 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 			s23 = (ld_temp[0] * ld_temp[1] + lm_Wrist.Z * c3 * m_dL2) * ld_temp[2];
 			c23 = (ld_temp[0] * c3 * m_dL2 - lm_Wrist.Z * ld_temp[1]) * ld_temp[2];
     
-			// è®¡ç®—è½¬è§’2 //
+			// ¼ÆËã×ª½Ç2 //
 			ld_temp[5] = atan2(s23, c23) - gd_rad[i][2];
 			RadInRange(&ld_temp[5], &gdJCurr[1]);
 			gd_rad[i][1] = ld_temp[5];
 
-			// è®¡ç®—è½¬è§’4 //			
+			// ¼ÆËã×ª½Ç4 //			
 			s4 = + lm_Wrist.R13 * s1 - lm_Wrist.R23 * c1;
 			c4 = + lm_Wrist.R13 * c1 * c23 + lm_Wrist.R23 * s1 * c23 + lm_Wrist.R33 * s23;
 			ld_temp[5] = atan2(s4, c4);
 			RadInRange(&ld_temp[5], &gdJCurr[3]);
 			gd_rad[i][3] = ld_temp[5];
 
-			// è®¡ç®—è½¬è§’5 //
+			// ¼ÆËã×ª½Ç5 //
 			s4 = sin(gd_rad[i][3]);
 			c4 = cos(gd_rad[i][3]);
 
@@ -1869,7 +1869,7 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 			RadInRange(&ld_temp[5], &gdJCurr[4]);
 			gd_rad[i][4] = ld_temp[5];
 
-			// è®¡ç®—è½¬è§’6 //
+			// ¼ÆËã×ª½Ç6 //
 			s6 =  lm_Wrist.R11 * (- c1 * c23 * s4 + s1 * c4)
 				+ lm_Wrist.R21 * (- s1 * c23 * s4 - c1 * c4)
 				+ lm_Wrist.R31 * (- s23 * s4);
@@ -1881,7 +1881,7 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 			RadInRange(&ld_temp[6], &gdJCurr[5]);
 			gd_rad[i][5] = ld_temp[6];
 
-			// ç¬¬4ã€6å…³èŠ‚â€œç¿»è½¬â€ //
+			// µÚ4¡¢6¹Ø½Ú¡°·­×ª¡± //
 			gd_rad[i+4][0] = gd_rad[i][0];
 			gd_rad[i+4][1] = gd_rad[i][1];
 			gd_rad[i+4][2] = gd_rad[i][2];
@@ -1898,10 +1898,10 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 		}
 	}
 	
-	//------ æœ€ä½³ç»“æœ ------//
+	//------ ×î¼Ñ½á¹û ------//
 	for (i=0; i<8; i++)
 	{
-		if (0 == li_flag[i])  // æ±‚å–ç›¸å¯¹ç»å¯¹å€¼
+		if (0 == li_flag[i])  // ÇóÈ¡Ïà¶Ô¾ø¶ÔÖµ
 		{
 			ld_temp[i] = fabs(gd_rad[i][0] - gdJCurr[0] * PI_RAD) + 
 			      	     fabs(gd_rad[i][1] - gdJCurr[1] * PI_RAD) + 
@@ -1914,21 +1914,21 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 	{
 		if (0 == li_flag[i])
 		{
-			s1 = ld_temp[i]; // ç”¨ç¬¬ä¸€ä¸ªæœ‰æ•ˆå€¼ æ¥ åˆå§‹åŒ– ä¸­é—´å˜é‡s1
+			s1 = ld_temp[i]; // ÓÃµÚÒ»¸öÓĞĞ§Öµ À´ ³õÊ¼»¯ ÖĞ¼ä±äÁ¿s1
 			result = i;
-			break;           // æ¨å‡ºåˆå§‹åŒ–
+			break;           // ÍÆ³ö³õÊ¼»¯
 		}
 	}
 	for (i=0; i<8; i++)
 	{
-		if ((0 == li_flag[i]) && (ld_temp[i] <= s1))  // æœ‰æ•ˆå€¼ | ç›¸å¯¹ç»å¯¹å€¼æœ€å°
+		if ((0 == li_flag[i]) && (ld_temp[i] <= s1))  // ÓĞĞ§Öµ | Ïà¶Ô¾ø¶ÔÖµ×îĞ¡
 		{
 			//ld_jRad = gd_rad[i];
 			s1 = ld_temp[i];
 			result = i;
 		}
 	}
-	//------ å…³èŠ‚è§’åº¦ ------//
+	//------ ¹Ø½Ú½Ç¶È ------//
 	gdJPos[0] = gd_rad[result][0] * PI_DEG;
 	gdJPos[1] = gd_rad[result][1] * PI_DEG;
 	gdJPos[2] = gd_rad[result][2] * PI_DEG;
@@ -1939,14 +1939,14 @@ int Kine_IR_SixDoF::IKine(double gdCPos[], double gdJCurr[], double gdJPos[])
 	return Ok;
 }
 /******************************************************************************
- * å‡½æ•°ï¼šVel_FKine()
- * åŠŸèƒ½ï¼šé€Ÿåº¦é€†è§£, å·¥å…·åæ ‡ç³»é€Ÿåº¦
+ * º¯Êı£ºVel_FKine()
+ * ¹¦ÄÜ£ºËÙ¶ÈÄæ½â, ¹¤¾ß×ø±êÏµËÙ¶È
  *
- * è¾“å…¥ï¼šdouble* gdJPos - å½“å‰å…³èŠ‚è½¬è§’, 5å…³èŠ‚, deg
- *       double* gdJVel - å½“å‰å…³èŠ‚é€Ÿåº¦, 5å…³èŠ‚, deg/s
- * è¾“å‡ºï¼šdouble* gdCVel - æœ«ç«¯é€Ÿåº¦, [vx,vy,vz,wx,wy,wz], mm/s, deg/s
+ * ÊäÈë£ºdouble* gdJPos - µ±Ç°¹Ø½Ú×ª½Ç, 5¹Ø½Ú, deg
+ *       double* gdJVel - µ±Ç°¹Ø½ÚËÙ¶È, 5¹Ø½Ú, deg/s
+ * Êä³ö£ºdouble* gdCVel - Ä©¶ËËÙ¶È, [vx,vy,vz,wx,wy,wz], mm/s, deg/s
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ, å…¶ä»–é”™è¯¯
+ * ·µ»Ø£ºint - 0³É¹¦, ÆäËû´íÎó
  ******************************************************************************/
 int Kine_IR_SixDoF::Vel_FKine(IN double gdJPos[6], IN double gdJVel[6], OUT double gdCVel[6])
 {
@@ -2030,7 +2030,7 @@ int Kine_IR_SixDoF::Vel_FKine(IN double gdJPos[6], IN double gdJVel[6], OUT doub
 		+ c5 * v[3]
 		+ v[5];
 	
-	// è½¬æ¢ä¸ºè§’åº¦
+	// ×ª»»Îª½Ç¶È
 	gdCVel[3] *= PI_DEG;
 	gdCVel[4] *= PI_DEG;
 	gdCVel[5] *= PI_DEG;
@@ -2038,18 +2038,18 @@ int Kine_IR_SixDoF::Vel_FKine(IN double gdJPos[6], IN double gdJVel[6], OUT doub
 	return Ok;
 }
 /******************************************************************************
- * å‡½æ•°ï¼šVel_IKine()
- * åŠŸèƒ½ï¼šé€Ÿåº¦é€†è§£
+ * º¯Êı£ºVel_IKine()
+ * ¹¦ÄÜ£ºËÙ¶ÈÄæ½â
  *
- * è¾“å…¥ï¼šdouble gdJPos[] - å½“å‰å…³èŠ‚è½¬è§’, 5å…³èŠ‚, deg
- *       double gdCVel[] - å½“å‰æœ«ç«¯é€Ÿåº¦, [vx,vy,vz,wx,wy,wz], mm/s, deg/s
- * è¾“å‡ºï¼šdouble gdJVel[] - å…³èŠ‚é€Ÿåº¦, 5å…³èŠ‚, deg/s
+ * ÊäÈë£ºdouble gdJPos[] - µ±Ç°¹Ø½Ú×ª½Ç, 5¹Ø½Ú, deg
+ *       double gdCVel[] - µ±Ç°Ä©¶ËËÙ¶È, [vx,vy,vz,wx,wy,wz], mm/s, deg/s
+ * Êä³ö£ºdouble gdJVel[] - ¹Ø½ÚËÙ¶È, 5¹Ø½Ú, deg/s
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ, å…¶ä»–é”™è¯¯
+ * ·µ»Ø£ºint - 0³É¹¦, ÆäËû´íÎó
  ******************************************************************************/
 int Kine_IR_SixDoF::Vel_IKine(IN double gdJPos[6], IN double gdCVel[6], OUT double gdJVel[6])
 {
-	double c2 = cos(gdJPos[1] * PI_RAD);  // è½¬æ¢ä¸ºå¼§åº¦
+	double c2 = cos(gdJPos[1] * PI_RAD);  // ×ª»»Îª»¡¶È
 	double s23 = sin((gdJPos[1] + gdJPos[2]) * PI_RAD);
 	double c23 = cos((gdJPos[1] + gdJPos[2]) * PI_RAD);
 	double s3 = sin(gdJPos[2] * PI_RAD);
@@ -2061,14 +2061,14 @@ int Kine_IR_SixDoF::Vel_IKine(IN double gdJPos[6], IN double gdCVel[6], OUT doub
 	double s6 = sin(gdJPos[5] * PI_RAD);
 	double c6 = cos(gdJPos[5] * PI_RAD);
 	
-	double vel[6];       // ç¬›å¡å°”é€Ÿåº¦
-	double jacobian[36]; // é›…å…‹æ¯”çŸ©é˜µæ•°ç»„
+	double vel[6];       // µÑ¿¨¶ûËÙ¶È
+	double jacobian[36]; // ÑÅ¿Ë±È¾ØÕóÊı×é
 
-	Matrix lm_vel;   // TCPé€Ÿåº¦çŸ©é˜µ
-	Matrix lm_jac;   // é›…å…‹æ¯”çŸ©é˜µ
-	Matrix lm_jv(6, 1);    // å…³èŠ‚é€Ÿåº¦çŸ©é˜µ
+	Matrix lm_vel;   // TCPËÙ¶È¾ØÕó
+	Matrix lm_jac;   // ÑÅ¿Ë±È¾ØÕó
+	Matrix lm_jv(6, 1);    // ¹Ø½ÚËÙ¶È¾ØÕó
 
-	// TCPé€Ÿåº¦
+	// TCPËÙ¶È
 	vel[0] = gdCVel[0];
 	vel[1] = gdCVel[1];
 	vel[2] = gdCVel[2];
@@ -2076,7 +2076,7 @@ int Kine_IR_SixDoF::Vel_IKine(IN double gdJPos[6], IN double gdCVel[6], OUT doub
 	vel[4] = gdCVel[4] * PI_RAD;
 	vel[5] = gdCVel[5] * PI_RAD;
 
-	// TCPé€Ÿåº¦çŸ©é˜µåˆå§‹åŒ–
+	// TCPËÙ¶È¾ØÕó³õÊ¼»¯
 	lm_vel.Init(6, 1, vel);
 
 	// vx
@@ -2143,10 +2143,10 @@ int Kine_IR_SixDoF::Vel_IKine(IN double gdJPos[6], IN double gdCVel[6], OUT doub
 	jacobian[34] = 0;
 	jacobian[35] = 1;
 
-	// é›…å…‹æ¯”çŸ©é˜µåˆå§‹åŒ–
+	// ÑÅ¿Ë±È¾ØÕó³õÊ¼»¯
 	lm_jac.Init(6, 6, jacobian);
 
-	Matrix lm_inv_jac(6, 6); // é›…å…‹æ¯”ä½ çŸ©é˜µ
+	Matrix lm_inv_jac(6, 6); // ÑÅ¿Ë±ÈÄã¾ØÕó
 
 	if (0 != Inv(&lm_jac, &lm_inv_jac))
 	{
@@ -2155,7 +2155,7 @@ int Kine_IR_SixDoF::Vel_IKine(IN double gdJPos[6], IN double gdCVel[6], OUT doub
 
 	lm_jv = lm_inv_jac * lm_vel;
 
-	// è½¬æ¢ä¸ºè§’åº¦
+	// ×ª»»Îª½Ç¶È
 	gdJVel[0] = lm_jv.Get(0, 0) * PI_DEG;
 	gdJVel[1] = lm_jv.Get(1, 0) * PI_DEG;
 	gdJVel[2] = lm_jv.Get(2, 0) * PI_DEG;
@@ -2167,10 +2167,10 @@ int Kine_IR_SixDoF::Vel_IKine(IN double gdJPos[6], IN double gdCVel[6], OUT doub
 }
 
 /******************************************************************************
- * å‡½æ•°ï¼šSet_Length()
- * åŠŸèƒ½ï¼šè®¾ç½®æ†é•¿
+ * º¯Êı£ºSet_Length()
+ * ¹¦ÄÜ£ºÉèÖÃ¸Ë³¤
  *
- * è¾“å…¥ï¼šgdLen - æ†é•¿L1ã€L2ã€L3ã€L4ã€L5
+ * ÊäÈë£ºgdLen - ¸Ë³¤L1¡¢L2¡¢L3¡¢L4¡¢L5
  ******************************************************************************/
 void Kine_CR_FiveDoF_G1::Set_Length(double gdLen[5])
 {
@@ -2182,37 +2182,37 @@ void Kine_CR_FiveDoF_G1::Set_Length(double gdLen[5])
 }
 
 /******************************************************************************
- * å‡½æ•°ï¼šFKine()
- * åŠŸèƒ½ï¼šæ­£è§£
+ * º¯Êı£ºFKine()
+ * ¹¦ÄÜ£ºÕı½â
  *
- * è¾“å…¥ï¼šdouble gdJPos[] - å…³èŠ‚è½¬è§’, 5å…³èŠ‚
- * è¾“å‡ºï¼šdouble gdCPos[] - æ­£è§£ä½å§¿, (x,y,z,w,p,r)
+ * ÊäÈë£ºdouble gdJPos[] - ¹Ø½Ú×ª½Ç, 5¹Ø½Ú
+ * Êä³ö£ºdouble gdCPos[] - Õı½âÎ»×Ë, (x,y,z,w,p,r)
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ,
+ * ·µ»Ø£ºint - 0³É¹¦,
  ******************************************************************************/
 int Kine_CR_FiveDoF_G1::FKine(double gdJPos[], double gdCPos[])
 {
-	// å…³èŠ‚è§’åº¦ - å…³èŠ‚å¼§åº¦ - TcpçŸ©é˜µ - ä½å§¿
+	// ¹Ø½Ú½Ç¶È - ¹Ø½Ú»¡¶È - Tcp¾ØÕó - Î»×Ë
 	// id_jPos  -   jRad   - lm_Tcp  - id_cPos
 	int i;
-	double jrad[5]; // å…³èŠ‚å¼§åº¦
+	double jrad[5]; // ¹Ø½Ú»¡¶È
 		
-	double ld_temp[8];     // ä¸­é—´å˜é‡
-	MtxKine lm_Tcp;        // ä¸­é—´å˜é‡,TCPçŸ©é˜µ
+	double ld_temp[8];     // ÖĞ¼ä±äÁ¿
+	MtxKine lm_Tcp;        // ÖĞ¼ä±äÁ¿,TCP¾ØÕó
 
-    //--------------------- å…³èŠ‚å¼§åº¦ -------------------------//
+    //--------------------- ¹Ø½Ú»¡¶È -------------------------//
 	for (i=0; i<5; i++)
 	{
 		jrad[i] = gdJPos[i] * PI_RAD;
 	}
 
-    //--------------------- TcpçŸ©é˜µ -------------------------//
+    //--------------------- Tcp¾ØÕó -------------------------//
 	double c23 = cos(jrad[1] + jrad[2]);
 	double s23 = sin(jrad[1] + jrad[2]);
 	double c234 = cos(jrad[1] + jrad[2] + jrad[3]);
 	double s234 = sin(jrad[1] + jrad[2] + jrad[3]);
 
-    // è®¡ç®—Tcpå§¿æ€çŸ©é˜µçš„å‚æ•° //
+    // ¼ÆËãTcp×ËÌ¬¾ØÕóµÄ²ÎÊı //
     lm_Tcp.R11 =   cos(jrad[0]) * c234 * cos(jrad[4]) + sin(jrad[0]) * sin(jrad[4]);
 	lm_Tcp.R12 = - cos(jrad[0]) * c234 * sin(jrad[4]) + sin(jrad[0]) * cos(jrad[4]);
 	lm_Tcp.R13 =   cos(jrad[0]) * s234;
@@ -2223,7 +2223,7 @@ int Kine_CR_FiveDoF_G1::FKine(double gdJPos[], double gdCPos[])
 	lm_Tcp.R32 = - s234 * sin(jrad[4]);
 	lm_Tcp.R33 = - c234;
 
-    // è®¡ç®—Tcpä½ç½® //
+    // ¼ÆËãTcpÎ»ÖÃ //
 	lm_Tcp.X =  lm_Tcp.R13 * (m_dL4 + m_dL5)
 			  + cos(jrad[0]) * c23 * m_dL3
 			  + cos(jrad[0]) * cos(jrad[1]) * m_dL2;
@@ -2234,8 +2234,8 @@ int Kine_CR_FiveDoF_G1::FKine(double gdJPos[], double gdCPos[])
 			  + s23 * m_dL3
 			  + sin(jrad[1]) * m_dL2
 			  + m_dL1;
-    //--------------------- Tcpä½å§¿ -------------------------//
-    // è®¡ç®—å·¥å…·åæ ‡ç³»RPYè§’ - rad //
+    //--------------------- TcpÎ»×Ë -------------------------//
+    // ¼ÆËã¹¤¾ß×ø±êÏµRPY½Ç - rad //
 	ld_temp[5] = atan2(-lm_Tcp.R31, sqrt(lm_Tcp.R11 * lm_Tcp.R11 + lm_Tcp.R21 * lm_Tcp.R21));
 
     if (fabs(ld_temp[5] - PI / 2) < RT_LITTLE)
@@ -2289,27 +2289,27 @@ int Kine_CR_FiveDoF_G1::FKine(double gdJPos[], double gdCPos[])
 
 int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT double gdCPos[3])
 {
-	// å…³èŠ‚è§’åº¦ - å…³èŠ‚å¼§åº¦ - TcpçŸ©é˜µ - ä½å§¿
+	// ¹Ø½Ú½Ç¶È - ¹Ø½Ú»¡¶È - Tcp¾ØÕó - Î»×Ë
 	// id_jPos  -   jRad   - lm_Tcp  - id_cPos
 	int i;
-	double jrad[5]; // å…³èŠ‚å¼§åº¦
+	double jrad[5]; // ¹Ø½Ú»¡¶È
 	
-//	double ld_temp[8];     // ä¸­é—´å˜é‡
-	MtxKine lm_Tcp;        // ä¸­é—´å˜é‡,TCPçŸ©é˜µ
+//	double ld_temp[8];     // ÖĞ¼ä±äÁ¿
+	MtxKine lm_Tcp;        // ÖĞ¼ä±äÁ¿,TCP¾ØÕó
 	
-    //--------------------- å…³èŠ‚å¼§åº¦ -------------------------//
+    //--------------------- ¹Ø½Ú»¡¶È -------------------------//
 	for (i=0; i<5; i++)
 	{
 		jrad[i] = gdJPos[i] * PI_RAD;
 	}
 	
-    //--------------------- TcpçŸ©é˜µ -------------------------//
+    //--------------------- Tcp¾ØÕó -------------------------//
 	double c23 = cos(jrad[1] + jrad[2]);
 	double s23 = sin(jrad[1] + jrad[2]);
 	double c234 = cos(jrad[1] + jrad[2] + jrad[3]);
 	double s234 = sin(jrad[1] + jrad[2] + jrad[3]);
 	
-    // è®¡ç®—Tcpå§¿æ€çŸ©é˜µçš„å‚æ•° //
+    // ¼ÆËãTcp×ËÌ¬¾ØÕóµÄ²ÎÊı //
     lm_Tcp.R11 =   cos(jrad[0]) * c234 * cos(jrad[4]) + sin(jrad[0]) * sin(jrad[4]);
 	lm_Tcp.R12 = - cos(jrad[0]) * c234 * sin(jrad[4]) + sin(jrad[0]) * cos(jrad[4]);
 	lm_Tcp.R13 =   cos(jrad[0]) * s234;
@@ -2320,7 +2320,7 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
 	lm_Tcp.R32 = - s234 * sin(jrad[4]);
 	lm_Tcp.R33 = - c234;
 	
-    // è®¡ç®—Tcpä½ç½® //
+    // ¼ÆËãTcpÎ»ÖÃ //
 	lm_Tcp.X =  lm_Tcp.R13 * (m_dL4 + m_dL5)
 		+ cos(jrad[0]) * c23 * m_dL3
 		+ cos(jrad[0]) * cos(jrad[1]) * m_dL2;
@@ -2341,30 +2341,30 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
 }
 
 /******************************************************************************
- * å‡½æ•°ï¼šIKine()
- * åŠŸèƒ½ï¼šé€†è§£
+ * º¯Êı£ºIKine()
+ * ¹¦ÄÜ£ºÄæ½â
  *
- * è¾“å…¥ï¼šdouble* gdCPos  - ä½å§¿æ•°ç»„, (x,y,z,w,p,r)
- *       double* gdJCurr - å½“å‰å…³èŠ‚è½¬è§’, 5å…³èŠ‚
- * è¾“å‡ºï¼šdouble* gdJPos  - é€†è§£å…³èŠ‚è½¬è§’, 5å…³èŠ‚
+ * ÊäÈë£ºdouble* gdCPos  - Î»×ËÊı×é, (x,y,z,w,p,r)
+ *       double* gdJCurr - µ±Ç°¹Ø½Ú×ª½Ç, 5¹Ø½Ú
+ * Êä³ö£ºdouble* gdJPos  - Äæ½â¹Ø½Ú×ª½Ç, 5¹Ø½Ú
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ, å…¶ä»–é”™è¯¯
+ * ·µ»Ø£ºint - 0³É¹¦, ÆäËû´íÎó
  ******************************************************************************/
  int Kine_CR_FiveDoF_G1::IKine(double* gdCPos, double* gdJCurr, double* gdJPos)
  {
-	//   ä½å§¿  - TcpçŸ©é˜µ - å…³èŠ‚å¼§åº¦ - å…³èŠ‚è§’åº¦
+	//   Î»×Ë  - Tcp¾ØÕó - ¹Ø½Ú»¡¶È - ¹Ø½Ú½Ç¶È
 	// id_cPos - lm_Tcp  - ld_jRad  - id_jPos
 	int i;
 	int result;
-	int li_flag[4] = {0};      // å››ç»„è§£çš„æƒ…å†µ,0ä¸ºæœ‰è§£
+	int li_flag[4] = {0};      // ËÄ×é½âµÄÇé¿ö,0ÎªÓĞ½â
 
 	double s1,c1,s2,c2, s3, c3, s5, c5, s234, c234;
 
-	double ld_temp[8];       // ä¸­é—´å˜é‡
-	MtxKine lm_Tcp;          // ä¸­é—´å˜é‡,TCPçŸ©é˜µ
-	double gd_rad[4][5];     // ä¸­é—´å˜é‡ï¼Œå››ç»„é€†è§£
+	double ld_temp[8];       // ÖĞ¼ä±äÁ¿
+	MtxKine lm_Tcp;          // ÖĞ¼ä±äÁ¿,TCP¾ØÕó
+	double gd_rad[4][5];     // ÖĞ¼ä±äÁ¿£¬ËÄ×éÄæ½â
 
-    //--------------------- TCPçŸ©é˜µ -------------------------//
+    //--------------------- TCP¾ØÕó -------------------------//
 	ld_temp[1] = sin(gdCPos[3] * PI_RAD);
 	ld_temp[2] = cos(gdCPos[3] * PI_RAD);
 	ld_temp[3] = sin(gdCPos[4] * PI_RAD);
@@ -2386,8 +2386,8 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
 	lm_Tcp.Y = - (m_dL4 + m_dL5) * lm_Tcp.R23 + gdCPos[1];
 	lm_Tcp.Z = - (m_dL4 + m_dL5) * lm_Tcp.R33 + gdCPos[2];
 
-    //--------------------- å…³èŠ‚å¼§åº¦ -------------------------//
-    //------ è½¬è§’1 -------//
+    //--------------------- ¹Ø½Ú»¡¶È -------------------------//
+    //------ ×ª½Ç1 -------//
 	ld_temp[0] = atan2(lm_Tcp.Y, lm_Tcp.X);
 	ld_temp[1] = atan2(- lm_Tcp.Y, - lm_Tcp.X);
 	RadInRange(&ld_temp[0], &gdJCurr[0]);
@@ -2396,7 +2396,7 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
 	gd_rad[0][0] = gd_rad[1][0] = ld_temp[0];
 	gd_rad[2][0] = gd_rad[3][0] = ld_temp[1];
 
-    //------ è½¬è§’5,3 ------//
+    //------ ×ª½Ç5,3 ------//
     for (i=0; i<2; i++)
     {
         s1 = sin(gd_rad[2*i][0]);
@@ -2405,14 +2405,14 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
 		s5 = s1 * lm_Tcp.R11 - c1 * lm_Tcp.R21;
 		c5 = s1 * lm_Tcp.R12 - c1 * lm_Tcp.R22;
 
-		// è®¡ç®—è½¬è§’5 // 
+		// ¼ÆËã×ª½Ç5 // 
 		ld_temp[0] = atan2(s5, c5);
 		RadInRange(&ld_temp[0], &gdJCurr[4]);
 
         gd_rad[2*i][4]   = ld_temp[0];
         gd_rad[2*i+1][4] = ld_temp[0];
 
-		// è®¡ç®—è½¬è§’3 //
+		// ¼ÆËã×ª½Ç3 //
 		ld_temp[2] = (
 			  (lm_Tcp.X * c1 + lm_Tcp.Y * s1) * (lm_Tcp.X * c1 + lm_Tcp.Y * s1)
 			+ (lm_Tcp.Z - m_dL1) * (lm_Tcp.Z - m_dL1) 
@@ -2425,7 +2425,7 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
 		}
 		else if (ld_temp[0] < 0)
 		{
-			li_flag[2*i]   = 1;     // æ ‡å¿— - æ­¤ç»„è§£æ— è§£
+			li_flag[2*i]   = 1;     // ±êÖ¾ - ´Ë×é½âÎŞ½â
 			li_flag[2*i+1] = 1;
 		}
 		else
@@ -2444,10 +2444,10 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
 
 	if (li_flag[0] && li_flag[2])
 	{
-		return ERR_NOINV; //  è…°å…³èŠ‚æ— å¯ç”¨é€†è§£å€¼ //
+		return ERR_NOINV; //  Ñü¹Ø½ÚÎŞ¿ÉÓÃÄæ½âÖµ //
     }
 	
-    //------ è½¬è§’2,4 ------//
+    //------ ×ª½Ç2,4 ------//
     for (i=0; i<4; i++)
     {
 		if (0 == li_flag[i])
@@ -2458,7 +2458,7 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
 			s3 = sin(gd_rad[i][2]);
 			c3 = cos(gd_rad[i][2]);
 		
-			// è®¡ç®—è½¬è§’2 //
+			// ¼ÆËã×ª½Ç2 //
 			ld_temp[1] = lm_Tcp.Z - m_dL1;
 			ld_temp[2] = lm_Tcp.X * c1 + lm_Tcp.Y * s1;
 			ld_temp[3] = ld_temp[1] * ld_temp[1] + ld_temp[2] * ld_temp[2];
@@ -2472,11 +2472,11 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
 			gd_rad[i][1] = ld_temp[4];
 
 
-			// è®¡ç®—è½¬è§’4 //
+			// ¼ÆËã×ª½Ç4 //
 			s234 = lm_Tcp.R13 * c1 + lm_Tcp.R23 * s1;
 			c234 = - lm_Tcp.R33;
 			
-			ld_temp[0] = atan2(s234, c234); // 234ä¹‹å’Œ
+			ld_temp[0] = atan2(s234, c234); // 234Ö®ºÍ
 
 			
 			ld_temp[3] = ld_temp[0] - gd_rad[i][1] - gd_rad[i][2];
@@ -2486,10 +2486,10 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
 		}
 	}
 	
-	//------ æœ€ä½³ç»“æœ ------//
+	//------ ×î¼Ñ½á¹û ------//
 	for (i=0; i<4; i++)
 	{
-		if (0 == li_flag[i])  // æ±‚å–ç›¸å¯¹ç»å¯¹å€¼
+		if (0 == li_flag[i])  // ÇóÈ¡Ïà¶Ô¾ø¶ÔÖµ
 		{
 			ld_temp[i] = fabs(gd_rad[i][0] - gdJCurr[0] * PI_RAD) + 
 			      	     fabs(gd_rad[i][1] - gdJCurr[1] * PI_RAD) + 
@@ -2502,21 +2502,21 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
 	{
 		if (0 == li_flag[i])
 		{
-			s1 = ld_temp[i]; // ç”¨ç¬¬ä¸€ä¸ªæœ‰æ•ˆå€¼ æ¥ åˆå§‹åŒ– ä¸­é—´å˜é‡s1
+			s1 = ld_temp[i]; // ÓÃµÚÒ»¸öÓĞĞ§Öµ À´ ³õÊ¼»¯ ÖĞ¼ä±äÁ¿s1
 			result = i;
-			break;           // æ¨å‡ºåˆå§‹åŒ–
+			break;           // ÍÆ³ö³õÊ¼»¯
 		}
 	}
 	for (i=0; i<4; i++)
 	{
-		if ((0 == li_flag[i]) && (ld_temp[i] <= s1))  // æœ‰æ•ˆå€¼ | ç›¸å¯¹ç»å¯¹å€¼æœ€å°
+		if ((0 == li_flag[i]) && (ld_temp[i] <= s1))  // ÓĞĞ§Öµ | Ïà¶Ô¾ø¶ÔÖµ×îĞ¡
 		{
 			//ld_jRad = gd_rad[i];
 			s1 = ld_temp[i];
 			result = i;
 		}
 	}
-	//------ å…³èŠ‚è§’åº¦ ------//
+	//------ ¹Ø½Ú½Ç¶È ------//
 	gdJPos[0] = gd_rad[result][0] * PI_DEG;
 	gdJPos[1] = gd_rad[result][1] * PI_DEG;
 	gdJPos[2] = gd_rad[result][2] * PI_DEG;
@@ -2528,21 +2528,21 @@ int Kine_CR_FiveDoF_G1::FKine_Inc(IN double gdJPos[5], IN double inc[3], OUT dou
  }
 
 /******************************************************************************
- * å‡½æ•°ï¼šVel_FKine()
- * åŠŸèƒ½ï¼šé€Ÿåº¦æ­£è§£, å·¥å…·åæ ‡ç³»é€Ÿåº¦
+ * º¯Êı£ºVel_FKine()
+ * ¹¦ÄÜ£ºËÙ¶ÈÕı½â, ¹¤¾ß×ø±êÏµËÙ¶È
  *
- * è¾“å…¥ï¼šdouble gdJPos[]  - å½“å‰å…³èŠ‚è½¬è§’, 5å…³èŠ‚, deg
- *       double gdJVel[] - å½“å‰å…³èŠ‚é€Ÿåº¦, 5å…³èŠ‚, deg/s
- * è¾“å‡ºï¼šdouble gdCVel[] - æœ«ç«¯é€Ÿåº¦, [vx,vy,vz,wx,wy,wz], mm/s, deg/s
+ * ÊäÈë£ºdouble gdJPos[]  - µ±Ç°¹Ø½Ú×ª½Ç, 5¹Ø½Ú, deg
+ *       double gdJVel[] - µ±Ç°¹Ø½ÚËÙ¶È, 5¹Ø½Ú, deg/s
+ * Êä³ö£ºdouble gdCVel[] - Ä©¶ËËÙ¶È, [vx,vy,vz,wx,wy,wz], mm/s, deg/s
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ, å…¶ä»–é”™è¯¯
+ * ·µ»Ø£ºint - 0³É¹¦, ÆäËû´íÎó
  ******************************************************************************/
 int Kine_CR_FiveDoF_G1::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVel[])
 {
 /*
 	int i;
 
-	double c2 = cos((gdJPos[1]) * PI_RAD);  // è½¬æ¢ä¸ºå¼§åº¦
+	double c2 = cos((gdJPos[1]) * PI_RAD);  // ×ª»»Îª»¡¶È
 	double s23 = sin((gdJPos[1] + gdJPos[2]) * PI_RAD);
 	double c23 = cos((gdJPos[1] + gdJPos[2]) * PI_RAD);
 	double s4 = sin((gdJPos[3]) * PI_RAD);
@@ -2578,7 +2578,7 @@ int Kine_CR_FiveDoF_G1::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVe
 			  + c5 * (v[1] + v[2] + v[3]);
 	gdCVel[5] = - c234 * v[0] + v[4];
 
-	// è½¬æ¢ä¸ºè§’åº¦
+	// ×ª»»Îª½Ç¶È
 	gdCVel[3] *= PI_DEG;
 	gdCVel[4] *= PI_DEG;
 	gdCVel[5] *= PI_DEG;
@@ -2594,7 +2594,7 @@ int Kine_CR_FiveDoF_G1::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVe
 	Matrix lm_cvel(6, 1);
 	Matrix lm_Jacobian(6, 5);
 	
-    //------------------------- å…³èŠ‚å¼§åº¦ -----------------------------//
+    //------------------------- ¹Ø½Ú»¡¶È -----------------------------//
 	for(i=0; i<5; i++)
 	{		
 		rad[i] = (gdJPos[i]) * PI_RAD;
@@ -2623,8 +2623,8 @@ int Kine_CR_FiveDoF_G1::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVe
 	l45 = m_dL4 + m_dL5;
 
 
-	// å·¥å…·åæ ‡ç³»é›…å¯æ¯”çŸ©é˜µ
-	//--------------------------- ç¬¬äº”åˆ— -------------------------------//
+	// ¹¤¾ß×ø±êÏµÑÅ¿É±È¾ØÕó
+	//--------------------------- µÚÎåÁĞ -------------------------------//
 	// [0,4]-[5,4]
 	lm_Jacobian.Mtx[0*5 + 4] = 0;
 	lm_Jacobian.Mtx[1*5 + 4] = 0;
@@ -2633,7 +2633,7 @@ int Kine_CR_FiveDoF_G1::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVe
 	lm_Jacobian.Mtx[4*5 + 4] = 0;
 	lm_Jacobian.Mtx[5*5 + 4] = 1;
 	
-	//--------------------------- ç¬¬å››åˆ— -------------------------------//
+	//--------------------------- µÚËÄÁĞ -------------------------------//
 	// [0,3]-[5,3]
 	lm_Jacobian.Mtx[0*5 + 3] =  l45*c5;
 	lm_Jacobian.Mtx[1*5 + 3] =  -l45*s5;
@@ -2642,7 +2642,7 @@ int Kine_CR_FiveDoF_G1::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVe
 	lm_Jacobian.Mtx[4*5 + 3] =  c5;
 	lm_Jacobian.Mtx[5*5 + 3] =  0;
 	
-	//--------------------------- ç¬¬ä¸‰åˆ— -------------------------------//
+	//--------------------------- µÚÈıÁĞ -------------------------------//
 	// [0,2]
 	lm_Jacobian.Mtx[0*5 + 2] =  c5*(s4*l3+l45);
 	lm_Jacobian.Mtx[1*5 + 2] = -s5*(s4*l3+l45);
@@ -2651,7 +2651,7 @@ int Kine_CR_FiveDoF_G1::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVe
 	lm_Jacobian.Mtx[4*5 + 2] =  c5;
 	lm_Jacobian.Mtx[5*5 + 2] =  0;
 	
-	//--------------------------- ç¬¬äºŒåˆ— -------------------------------//
+	//--------------------------- µÚ¶şÁĞ -------------------------------//
 	// [0,1]
 	lm_Jacobian.Mtx[0*5 + 1] =  c5*(s23*l2 + s4*l3 + l45);
 	lm_Jacobian.Mtx[1*5 + 1] = -s5*(s23*l2 + s4*l3 + l45);
@@ -2660,7 +2660,7 @@ int Kine_CR_FiveDoF_G1::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVe
 	lm_Jacobian.Mtx[4*5 + 1] =  c5;	
 	lm_Jacobian.Mtx[5*5 + 1] =  0;
 	
-	//---------------------------- ç¬¬ä¸€åˆ— --------------------------------//
+	//---------------------------- µÚÒ»ÁĞ --------------------------------//
 	// [0,0]
 	lm_Jacobian.Mtx[0*5 + 0] = -s5*(c2*l2 + c23*l3 + s234*l45);
 	lm_Jacobian.Mtx[1*5 + 0] = -c5*(c2*l2 + c23*l3 + s234*l45);
@@ -2685,14 +2685,14 @@ int Kine_CR_FiveDoF_G1::Vel_FKine(double gdJPos[], double gdJVel[], double gdCVe
 }
 
 /******************************************************************************
- * å‡½æ•°ï¼šVel_IKine()
- * åŠŸèƒ½ï¼šé€Ÿåº¦é€†è§£
+ * º¯Êı£ºVel_IKine()
+ * ¹¦ÄÜ£ºËÙ¶ÈÄæ½â
  *
- * è¾“å…¥ï¼šdouble gdJPos[] - å½“å‰å…³èŠ‚è½¬è§’, 5å…³èŠ‚, deg
- *       double gdCVel[] - å½“å‰æœ«ç«¯é€Ÿåº¦, [vx,vy,vz,wx,wy,wz], m/s, deg/s
- * è¾“å‡ºï¼šdouble gdJVel[] - å…³èŠ‚é€Ÿåº¦, 5å…³èŠ‚, deg/s
+ * ÊäÈë£ºdouble gdJPos[] - µ±Ç°¹Ø½Ú×ª½Ç, 5¹Ø½Ú, deg
+ *       double gdCVel[] - µ±Ç°Ä©¶ËËÙ¶È, [vx,vy,vz,wx,wy,wz], m/s, deg/s
+ * Êä³ö£ºdouble gdJVel[] - ¹Ø½ÚËÙ¶È, 5¹Ø½Ú, deg/s
  *
- * è¿”å›ï¼šint - 0æˆåŠŸ, å…¶ä»–é”™è¯¯
+ * ·µ»Ø£ºint - 0³É¹¦, ÆäËû´íÎó
  ******************************************************************************/
 int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVel[])
 {
@@ -2711,10 +2711,10 @@ int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVe
 	double ki, kb;
 	double ei, eb;
 
-	MtxKine lm_Tcp;        // ä¸­é—´å˜é‡,TCPçŸ©é˜µ	
+	MtxKine lm_Tcp;        // ÖĞ¼ä±äÁ¿,TCP¾ØÕó	
 
 
-    //------------------------- å…³èŠ‚å¼§åº¦ -----------------------------//
+    //------------------------- ¹Ø½Ú»¡¶È -----------------------------//
 	for(i=0; i<5; i++)
 	{		
 		rad[i] = (gdJPos[i]) * PI_RAD;
@@ -2742,7 +2742,7 @@ int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVe
 	l45 = m_dL4 + m_dL5;
 
 	
-	// è…•é€Ÿåº¦
+	// ÍóËÙ¶È
 	ld_wvel[0] = gdCVel[0];
 	ld_wvel[1] = gdCVel[1];
 	ld_wvel[2] = gdCVel[2];
@@ -2754,7 +2754,7 @@ int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVe
 	ld_wvel[2] = ld_wvel[2];
 
 
-	// è®¡ç®—Tcpå§¿æ€çŸ©é˜µçš„å‚æ•° //
+	// ¼ÆËãTcp×ËÌ¬¾ØÕóµÄ²ÎÊı //
     lm_Tcp.R11 =   c1 * c234 * c5 + s1 * s5;
 	lm_Tcp.R12 = - c1 * c234 * s5 + s1 * c5;
 	lm_Tcp.R13 =   c1 * s234;
@@ -2765,7 +2765,7 @@ int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVe
 	lm_Tcp.R32 = - s234 * s5;
 	lm_Tcp.R33 = - c234;
 
-	// åŸºåæ ‡ç³»ä¸‹è…•é€Ÿåº¦
+	// »ù×ø±êÏµÏÂÍóËÙ¶È
 	lm_cvel.Mtx[0] = lm_Tcp.R11*ld_wvel[0] + lm_Tcp.R12*ld_wvel[1] + lm_Tcp.R13*ld_wvel[2];
 	lm_cvel.Mtx[1] = lm_Tcp.R21*ld_wvel[0] + lm_Tcp.R22*ld_wvel[1] + lm_Tcp.R23*ld_wvel[2];
 	lm_cvel.Mtx[2] = lm_Tcp.R31*ld_wvel[0] + lm_Tcp.R32*ld_wvel[1] + lm_Tcp.R33*ld_wvel[2];
@@ -2773,8 +2773,8 @@ int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVe
 	lm_cvel.Mtx[4] = lm_Tcp.R21*ld_wvel[3] + lm_Tcp.R22*ld_wvel[4] + lm_Tcp.R23*ld_wvel[5];
 	lm_cvel.Mtx[5] = lm_Tcp.R31*ld_wvel[3] + lm_Tcp.R32*ld_wvel[4] + lm_Tcp.R33*ld_wvel[5];
 
-	// åŸºåæ ‡ç³»é›…å¯æ¯”çŸ©é˜µ
-	//--------------------------- ç¬¬äº”åˆ— -------------------------------//
+	// »ù×ø±êÏµÑÅ¿É±È¾ØÕó
+	//--------------------------- µÚÎåÁĞ -------------------------------//
 	// [0,4]-[5,4]
 	lm_Jacobian.Mtx[0*5 + 4] = 0;
 	lm_Jacobian.Mtx[1*5 + 4] = 0;
@@ -2783,7 +2783,7 @@ int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVe
 	lm_Jacobian.Mtx[4*5 + 4] = s1*s234;
 	lm_Jacobian.Mtx[5*5 + 4] = -c234;
 	
-	//--------------------------- ç¬¬å››åˆ— -------------------------------//
+	//--------------------------- µÚËÄÁĞ -------------------------------//
 	// [0,3]-[5,3]
 	lm_Jacobian.Mtx[0*5 + 3] =  0;
 	lm_Jacobian.Mtx[1*5 + 3] =  0;
@@ -2792,7 +2792,7 @@ int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVe
 	lm_Jacobian.Mtx[4*5 + 3] =  -c1;
 	lm_Jacobian.Mtx[5*5 + 3] =  0;
 	
-	//--------------------------- ç¬¬ä¸‰åˆ— -------------------------------//
+	//--------------------------- µÚÈıÁĞ -------------------------------//
 	// [0,2]
 	lm_Jacobian.Mtx[0*5 + 2] = -c1*(s23*l3);
 	lm_Jacobian.Mtx[1*5 + 2] = -s1*(s23*l3);
@@ -2801,7 +2801,7 @@ int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVe
 	lm_Jacobian.Mtx[4*5 + 2] =  -c1;
 	lm_Jacobian.Mtx[5*5 + 2] =  0;
 	
-	//--------------------------- ç¬¬äºŒåˆ— -------------------------------//
+	//--------------------------- µÚ¶şÁĞ -------------------------------//
 	// [0,1]
 	lm_Jacobian.Mtx[0*5 + 1] = -c1*(s2*l2 + s23*l3);
 	lm_Jacobian.Mtx[1*5 + 1] = -s1*(s2*l2 + s23*l3);
@@ -2810,7 +2810,7 @@ int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVe
 	lm_Jacobian.Mtx[4*5 + 1] =  -c1;	
 	lm_Jacobian.Mtx[5*5 + 1] =  0;
 	
-	//---------------------------- ç¬¬ä¸€åˆ— --------------------------------//
+	//---------------------------- µÚÒ»ÁĞ --------------------------------//
 	// [0,0]
 	lm_Jacobian.Mtx[0*5 + 0] = -s1*(c2*l2 + c23*l3);
 	lm_Jacobian.Mtx[1*5 + 0] =  c1*(c2*l2 + c23*l3);
@@ -2819,7 +2819,7 @@ int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVe
 	lm_Jacobian.Mtx[4*5 + 0] =  0;
 	lm_Jacobian.Mtx[5*5 + 0] =  1;
 	
-	// ç³»æ•°
+	// ÏµÊı
 	ki = SQUARE(c2*l2+c23*l3) + SQUARE(s234);
 	kb = SQUARE(s3);
 	ei = (fabs(ki) <= KINE_DAMP_EI) ? KINE_RATIO_V*(1-fabs(ki)/KINE_DAMP_EI) : 0;
@@ -2828,34 +2828,34 @@ int Kine_CR_FiveDoF_G1::Vel_IKine(double gdJPos[], double gdCVel[], double gdJVe
 	eb = kb / (SQUARE(kb)+eb);
 	
 	// Inv(JT*J)
-	// 1è¡Œ
+	// 1ĞĞ
 	lm_inv.Mtx[0*5+0] = 1 * ei;
 	lm_inv.Mtx[0*5+1] = lm_inv.Mtx[1*5+0] = 0;
 	lm_inv.Mtx[0*5+2] = lm_inv.Mtx[2*5+0] = 0;
 	lm_inv.Mtx[0*5+3] = lm_inv.Mtx[3*5+0] = 0;
 	lm_inv.Mtx[0*5+4] = lm_inv.Mtx[4*5+0] = c234 * ei;
 
-	// 2è¡Œ
+	// 2ĞĞ
 	lm_inv.Mtx[1*5+1] = eb / SQUARE(l2);
 	lm_inv.Mtx[1*5+2] = lm_inv.Mtx[2*5+1] = -eb*(c3*l2+l3)/(SQUARE(l2)*l3);
 	lm_inv.Mtx[1*5+3] = lm_inv.Mtx[3*5+1] = eb*c3/(l2*l3);
 	lm_inv.Mtx[1*5+4] = lm_inv.Mtx[4*5+1] = 0;
 
-	// 3è¡Œ
+	// 3ĞĞ
 	lm_inv.Mtx[2*5+2] = eb * (SQUARE(l2)+SQUARE(l3)+2*l2*l3*c3)/(SQUARE(l2*l3));
 	lm_inv.Mtx[2*5+3] = lm_inv.Mtx[3*5+2] = -eb*(l2+l3*c3)/(l2*SQUARE(l3));
 	lm_inv.Mtx[2*5+4] = lm_inv.Mtx[4*5+2] = 0;
 
-	// 4è¡Œ
+	// 4ĞĞ
 	lm_inv.Mtx[3*5+3] = eb * (1+SQUARE(l3*s3))/(SQUARE(l3));
 	lm_inv.Mtx[3*5+4] = lm_inv.Mtx[4*5+3] = 0;
 
-	// 5è¡Œ
+	// 5ĞĞ
 	lm_inv.Mtx[4*5+4] = ei * (1 + SQUARE(c2*l2+c23*l3));	
 
 
 
-	// å…³èŠ‚é€Ÿåº¦
+	// ¹Ø½ÚËÙ¶È
 	lm_jvel = lm_inv * (Trv(lm_Jacobian) * lm_cvel);
 	
 	for(i=0; i<5; i++)
@@ -3005,7 +3005,7 @@ void Trans_PosToMtx(double* pos, MtxKine* output, int inv)
 {
 	double ld_temp[6];
 	
-	// è®¡ç®—ä½å§¿å˜æ¢çŸ©é˜µ //
+	// ¼ÆËãÎ»×Ë±ä»»¾ØÕó //
 	ld_temp[0] = sin(pos[3] * PI_RAD);
 	ld_temp[1] = cos(pos[3] * PI_RAD);
 	ld_temp[2] = sin(pos[4] * PI_RAD);
@@ -3023,10 +3023,10 @@ void Trans_PosToMtx(double* pos, MtxKine* output, int inv)
     output->R32 = ld_temp[3] * ld_temp[4];
     output->R33 = ld_temp[3] * ld_temp[5];
 	
-	// æ±‚é€†çŸ©é˜µ
+	// ÇóÄæ¾ØÕó
 	if(1 == inv)
 	{
-		// å§¿æ€æ±‚é€† - è½¬ç½®çŸ©é˜µ //
+		// ×ËÌ¬ÇóÄæ - ×ªÖÃ¾ØÕó //
 		ld_temp[0] = output->R12;
 		output->R12 = output->R21;
 		output->R21 = ld_temp[0];
@@ -3039,7 +3039,7 @@ void Trans_PosToMtx(double* pos, MtxKine* output, int inv)
 		output->R23 = output->R32;
 		output->R32 = ld_temp[0];
 		
-		// ä½ç½®æ±‚é€† //
+		// Î»ÖÃÇóÄæ //
 		output->X = -( output->R11 * pos[0] + 
 			output->R12 * pos[1] +
 			output->R13 * pos[2] );
@@ -3061,8 +3061,8 @@ void Trans_MtxToPos(MtxKine* input, double* outpos)
 {
 	double ld_temp[6];
 	
-    //--------------------- è¾“å‡ºä½å§¿ -------------------------//
-    // è®¡ç®—RPYè§’ - rad //
+    //--------------------- Êä³öÎ»×Ë -------------------------//
+    // ¼ÆËãRPY½Ç - rad //
 	ld_temp[4] = atan2(- input->R31, 
 		sqrt(input->R11 * input->R11 + input->R21 * input->R21));
 	
@@ -3116,7 +3116,7 @@ void Mtx_Multiply(MtxKine* input, MtxKine* middle, MtxKine* output, int inv)
 {
 	double ld_temp[3];
 	
-    // å§¿æ€çŸ©é˜µ //
+    // ×ËÌ¬¾ØÕó //
     output->R11 = input->R11 * middle->R11 + 
 		input->R12 * middle->R21 + 
 		input->R13 * middle->R31;
@@ -3145,7 +3145,7 @@ void Mtx_Multiply(MtxKine* input, MtxKine* middle, MtxKine* output, int inv)
 		input->R32 * middle->R23 + 
 		input->R33 * middle->R33;
 	
-    // ä½ç½® //
+    // Î»ÖÃ //
 	output->X = input->R11 * middle->X +
 		input->R12 * middle->Y + 
 		input->R13 * middle->Z + input->X;
@@ -3156,10 +3156,10 @@ void Mtx_Multiply(MtxKine* input, MtxKine* middle, MtxKine* output, int inv)
 		input->R32 * middle->Y + 
 		input->R33 * middle->Z + input->Z;
 	
-	// æ±‚é€†çŸ©é˜µ
+	// ÇóÄæ¾ØÕó
 	if(1 == inv)
 	{
-		// å§¿æ€æ±‚é€† - è½¬ç½®çŸ©é˜µ //
+		// ×ËÌ¬ÇóÄæ - ×ªÖÃ¾ØÕó //
 		ld_temp[0] = output->R12;
 		output->R12 = output->R21;
 		output->R21 = ld_temp[0];
@@ -3172,7 +3172,7 @@ void Mtx_Multiply(MtxKine* input, MtxKine* middle, MtxKine* output, int inv)
 		output->R23 = output->R32;
 		output->R32 = ld_temp[0];
 		
-		// ä½ç½®æ±‚é€† //
+		// Î»ÖÃÇóÄæ //
 		ld_temp[0] = output->X;
 		ld_temp[1] = output->Y;
 		ld_temp[2] = output->Z;
