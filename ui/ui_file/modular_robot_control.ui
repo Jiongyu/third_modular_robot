@@ -2068,6 +2068,16 @@
     </font>
    </property>
   </action>
+  <action name="action_14">
+   <property name="text">
+    <string>机器人软限位设置</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>

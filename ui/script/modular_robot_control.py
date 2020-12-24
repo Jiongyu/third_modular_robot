@@ -797,6 +797,11 @@ class Ui_MainWindow_modular_robot(object):
         font.setPointSize(15)
         self.action_13.setFont(font)
         self.action_13.setObjectName("action_13")
+        self.action_14 = QtWidgets.QAction(MainWindow_modular_robot)
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.action_14.setFont(font)
+        self.action_14.setObjectName("action_14")
         self.menu.addAction(self.action_5)
         self.menu_2.addAction(self.action)
         self.menu_2.addAction(self.action_2)
@@ -1035,4 +1040,5 @@ class Ui_MainWindow_modular_robot(object):
         self.action_11.setText(_translate("MainWindow_modular_robot", "机器人状态反馈"))
         self.action_12.setText(_translate("MainWindow_modular_robot", "控制命令"))
         self.action_13.setText(_translate("MainWindow_modular_robot", "爬壁机器人接收控制"))
+        self.action_14.setText(_translate("MainWindow_modular_robot", "机器人软限位设置"))
 

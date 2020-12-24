@@ -22,7 +22,6 @@ from robot_lowlevel_control_muti_thread import Robot_lowlevel_control_Muti_threa
 from get_inverse_solution_thread import Get_inverse_solution_thread
 from get_positive_solution_thread import Get_positive_solution_thread
 from biped_receive_control_command_func import Biped_receive_control_command_func
-
 from path_process import Path_process
 
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMessageBox, QFileDialog, QWidget
@@ -43,7 +42,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     sin_close_windowsGripper        = pyqtSignal()
     sin_close_windowsFeedback       = pyqtSignal()
     sin_close_windowsBipedReceive   = pyqtSignal()
-    
+     
     # 停止、急停、运行信号
     sin_stop_robot_operation            = pyqtSignal()
     sin_quickStop_robot_operation       = pyqtSignal()
@@ -167,7 +166,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.__last_G0_cur = 0
         self.__last_G6_cur = 0
 
-
         # 菜单栏信号槽函数链接
         self.action.triggered.connect(self.__open_gripper_control)
         self.action_2.triggered.connect(self.__open_path_point_record)
@@ -221,6 +219,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.__lowLevelControl.sin_robot_start_error.connect(self.start_robot_error)
             self.__lowLevelControl.sin_robot_stop_compelete.connect(self.__robot_stop_compelete)
             self.__lowLevelControl.sin_feedback.connect(self.__update_feeback_joint_position)
+            self.__lowLevelControl.sin_robot_soft_limit_happen.connect(self.__show_soft_limit_happen)
 
             self.sin_quickStop_robot_operation.connect(self.__lowLevelControl.robot_quick_stop)
             self.sin_stop_robot_operation.connect(self.__lowLevelControl.robot_stop)
@@ -233,6 +232,11 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.label.setText(self.__string_robot_Enable_ing)
             if not self.__lowLevelControl.isRunning():
                 self.__lowLevelControl.start()
+
+    # 机器人发生软限位
+    def __show_soft_limit_happen(self):
+        self.label.setText("机器人\n软限位")
+        pass
 
     # 机器人启动错误信号槽函数
     def start_robot_error(self):
@@ -785,13 +789,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     # 界面退出
     def __quit(self):
 
-        self.sin_close_windowsGripper.emit()
-        self.sin_close_windowsPathRecoder.emit()
-        self.sin_close_windowsSetZero.emit()
-        self.sin_close_windowsFeedback.emit()
-        self.sin_close_windowsBipedReceive.emit()
-
-        self.close()
+        self.close_all_windows()
         pass
     
     def __about(self):
@@ -930,13 +928,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def closeEvent(self, event):
         result = QMessageBox.question(self, "模块化机器人上位机", '\n       退出?        \n', QMessageBox.Yes | QMessageBox.No)
         if(result == QMessageBox.Yes):
-            self.sin_close_windowsGripper.emit()
-            self.sin_close_windowsPathRecoder.emit()
-            self.sin_close_windowsSetZero.emit()
-            self.sin_close_windowsFeedback.emit()
-            self.sin_close_windowsBipedReceive.emit()
-            if self.__string_robot_Enabled:
-                self.sin_stop_robot_operation.emit()
+            self.close_all_windows()
             event.accept()
         else:
             event.ignore()
@@ -1039,4 +1031,16 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             # 笛卡尔增量控制
             self.__request_upadte_tcp_position()
             pass
+        pass
+
+    # 触发关闭窗口信号
+    def close_all_windows(self):
+        self.sin_close_windowsGripper.emit()
+        self.sin_close_windowsPathRecoder.emit()
+        self.sin_close_windowsSetZero.emit()
+        self.sin_close_windowsFeedback.emit()
+        self.sin_close_windowsBipedReceive.emit()
+        if self.__string_robot_Enabled:
+            self.sin_stop_robot_operation.emit()
+        self.close()
         pass
