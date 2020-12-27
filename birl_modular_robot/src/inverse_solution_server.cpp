@@ -13,6 +13,12 @@
 #include "./../kinematics/Kine.h"
 #include "birl_module_robot/inverse_solution.h"
 
+#define USER_VELOCITY_SOLVE
+
+#ifdef USER_VELOCITY_SOLVE
+// 最大关节速度
+#define JOINT_MAX_VEL 3
+#endif
 
 bool handle_function(   birl_module_robot::inverse_solution::Request &req,
                         birl_module_robot::inverse_solution::Response &res){
@@ -102,7 +108,9 @@ bool handle_function(   birl_module_robot::inverse_solution::Request &req,
     res.joint_pos_commands.push_back(new_joint_value[2]);  // T3
     res.joint_pos_commands.push_back(new_joint_value[3]);  // T4
     res.joint_pos_commands.push_back(new_joint_value[4]);  // I5
-    
+
+#ifndef USER_VELOCITY_SOLVE
+
     if(req.base){
         if(! robot5d_G0.Vel_IKine(current_joint_value,current_top_velocity,new_joint_velocity)){
             ROS_INFO_STREAM("G0 Vel_IKine success");  
@@ -122,6 +130,39 @@ bool handle_function(   birl_module_robot::inverse_solution::Request &req,
             res.ifGetSolve = false;
         }
     }
+#else
+    // 根据关节增量和运行时间计算关节速度
+    int joint_num = 5;
+
+    // 计算各关节位置运行增量
+    double pos_incre[joint_num];
+    for(size_t i = 0 ; i < joint_num; ++i)
+    {
+        pos_incre[i] = new_joint_value[i] - current_joint_value[i];
+        if(fabs(pos_incre[i]) < 0.001){
+            pos_incre[i] = 0;
+        }
+    }
+
+    // 找到最大关节位移
+    double max_pos_incre = 0;
+    for(size_t i = 0 ; i < joint_num; ++i)
+    {
+        if( fabs(pos_incre[i]) > max_pos_incre)
+        {
+            max_pos_incre = fabs(pos_incre[i]);
+        }
+    }
+
+    // 计算各关节运行时间
+    double pos_time = fabs(max_pos_incre) / JOINT_MAX_VEL;
+
+    // 计算各关节速度
+    for(size_t i = 0 ; i < joint_num; ++i)
+    {
+        new_joint_velocity[i] = pos_incre[i] / pos_time; 
+    } 
+#endif
 
     res.joint_vel_commands.clear();
     res.joint_vel_commands.push_back(new_joint_velocity[0]);

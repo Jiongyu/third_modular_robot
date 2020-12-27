@@ -40,6 +40,6 @@ def Positive_solution_client(which_robot, which_base, current_joint_position):
     return descartes_position_state
 
 
-# if __name__ == "__main__":
-#     temp = Positive_solution_client(0, True, [0, 0, 0, 0, 0])
-#     print temp
+if __name__ == "__main__":
+    temp = Positive_solution_client(0, True, [0, 30, -60, 30, 0])
+    print temp

@@ -11,16 +11,22 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
 )
 
-# add_message_files(
-#   FILES
-# )
+# 添加Eigen
+find_package(Eigen3 REQUIRED)
+include_directories(${EIGEN3_INCLUDE_DIR})
+add_definitions(${EIGEN_DEFINITIONS})
+
+add_message_files(
+  FILES
+  pole_position.msg
+)
 
 add_service_files(
   FILES
   inverse_solution.srv
   positive_solution.srv
   robot_increTransTool.srv
-
+  grasp_point.srv
 )
 
 generate_messages(
@@ -41,6 +47,8 @@ include_directories(
  "/usr/include/eigen3"
  "./../kinematics"
  "/src/include"
+ "./"
+
 )
 
 ## Declare a C++ library
@@ -61,3 +69,15 @@ target_link_libraries(positive_solution_server ${catkin_LIBRARIES})
 
 add_executable(robot_increTransTool_server src/robot_increTransTool_server.cpp)
 target_link_libraries(robot_increTransTool_server ${catkin_LIBRARIES})
+
+
+add_library( find_grasp
+./src/find_grasp_point.cpp
+./src/grasp_intelligent.cpp
+
+)
+add_executable(find_grasp_point_test src/test.cpp)
+target_link_libraries(find_grasp_point_test find_grasp ${catkin_LIBRARIES} )
+
+add_executable(find_grasp_point_server src/find_grasp_point_server.cpp)
+target_link_libraries(find_grasp_point_server find_grasp ${catkin_LIBRARIES} )

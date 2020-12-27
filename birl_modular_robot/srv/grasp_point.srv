@@ -1,0 +1,16 @@
+# 笛卡尔空间当前位置姿态
+#X，Y，Z（mm），Rx，Ry，Rz(deg)
+float32[] current_descartes_postion
+
+# 杆件位置 相对于carmera
+# X，Y，Z（mm）
+float32[] p1
+float32[] p2
+
+# Select which one gripper as the base (true : gripper0 , flase :gripper6)
+bool base
+
+---
+# 笛卡尔空间夹持点位置姿态
+#X，Y，Z（mm），Rx，Ry，Rz(deg)
+float32[] grasp_point
