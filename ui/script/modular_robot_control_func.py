@@ -22,6 +22,7 @@ from robot_lowlevel_control_muti_thread import Robot_lowlevel_control_Muti_threa
 from get_inverse_solution_thread import Get_inverse_solution_thread
 from get_positive_solution_thread import Get_positive_solution_thread
 from biped_receive_control_command_func import Biped_receive_control_command_func
+from auto_gripper_func import Auto_gripper_func
 from path_process import Path_process
 
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMessageBox, QFileDialog, QWidget
@@ -42,6 +43,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     sin_close_windowsGripper        = pyqtSignal()
     sin_close_windowsFeedback       = pyqtSignal()
     sin_close_windowsBipedReceive   = pyqtSignal()
+    sin_close_windowsAutoGripper    = pyqtSignal()
      
     # 停止、急停、运行信号
     sin_stop_robot_operation            = pyqtSignal()
@@ -96,6 +98,8 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.__window_robot_state_feedback = QWidget()
         self.__window_receive_ros_robot_command = QWidget()
         self.__window_biped_receive_command = QWidget()
+        self.__window_auto_gripper = QWidget()
+
         # 判断窗口是否打开
         self.__window_gripper_control_flag = False
         self.__window_path_point_record_flag = False
@@ -103,6 +107,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.__window_robot_state_feedback_flag = False
         self.__window_receive_ros_robot_command_flag = False
         self.__window_biped_receive_command_flag = False
+        self.__window_auto_gripper_flag = False
 
         # 区别攀爬、爬壁
         self.__which_robot = which_robot
@@ -717,10 +722,31 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def __open_robot_state_feedback_signal(self, data):
         self.__robot_state_display_flag = data
 
+
+    ####################### 自主抓夹窗口 #######################################
     # 自主抓夹
-    def __auto_gripper_pole(self):       
-        pass
-    
+    def __auto_gripper_pole(self): 
+        if self.__which_robot == 0:      
+            if not self.__window_auto_gripper_flag:
+                self.__window_auto_gripper = Auto_gripper_func(self.__base_flag, self.__actual_robot_tcp_pos, self.__pos_joints)
+                self.__window_auto_gripper.sin_close.connect(self.__open_auto_gripper_close_flag)
+                self.__window_auto_gripper.sin_robot_command.connect(self.__auto_gripper_sent_command)
+                self.sin_close_windowsAutoGripper.connect((self.__window_auto_gripper.close_windows))
+                self.__window_auto_gripper.show()
+            pass
+
+    def __open_auto_gripper_close_flag(self):
+        self.__window_auto_gripper_flag = False
+
+    # 自主抓夹接收控制命令 发送至底层
+    def __auto_gripper_sent_command(self, data):
+        # 爬壁机器人
+        if self.__which_robot == 0 and self.__robot_enabled_flag:
+            self.sin_joint_position.emit(data[0], data[1])
+
+    ####################### 自主抓夹窗口 end###################################
+
+
     ####################### 爬壁机器人接收控制命令窗口 ###########################
     # 爬壁机器人接收控制命令
     def __open_biped_receive_command(self):
@@ -1040,6 +1066,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.sin_close_windowsSetZero.emit()
         self.sin_close_windowsFeedback.emit()
         self.sin_close_windowsBipedReceive.emit()
+        self.sin_close_windowsAutoGripper.emit()
         if self.__string_robot_Enabled:
             self.sin_stop_robot_operation.emit()
         self.close()

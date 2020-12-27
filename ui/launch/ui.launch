@@ -3,6 +3,8 @@
 <node  name="inverse_solution_server" pkg="birl_module_robot" type="inverse_solution_server"/>
 <node  name="positive_solution_server" pkg="birl_module_robot" type="positive_solution_server"/>
 <node  name="robot_increTransTool_server" pkg="birl_module_robot" type="robot_increTransTool_server"/>
+<!-- 自主抓夹获取夹持点 -->
+<node  name="find_grasp_point_server" pkg="birl_module_robot" type="find_grasp_point_server"/>
 
 <!--start the UI-->
 <node  name="start_ui" pkg="ui" type="main.py" required="true"/>
