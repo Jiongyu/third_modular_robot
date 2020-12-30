@@ -17,7 +17,7 @@
 
 #ifdef USER_VELOCITY_SOLVE
 // 最大关节速度
-#define JOINT_MAX_VEL 3
+#define JOINT_MAX_VEL 2
 #endif
 
 bool handle_function(   birl_module_robot::inverse_solution::Request &req,
