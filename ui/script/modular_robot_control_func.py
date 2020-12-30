@@ -10,6 +10,8 @@
 @biref:上位机主窗口，包含关节控制，路径离线控制
 """
 import rospy
+from rospkg import RosPack
+
 from ui.msg import robot_feedback
 
 from modular_robot_control import Ui_MainWindow_modular_robot
@@ -28,6 +30,8 @@ from path_process import Path_process
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMessageBox, QFileDialog, QWidget
 from PyQt5.QtCore import pyqtSignal, QThread
 from PyQt5.QtGui import QDoubleValidator,QIntValidator
+
+import json
 
 # from string import atof
 
@@ -73,17 +77,16 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     # 更新 爬壁机器人接收控制命令窗口 机器人状态
     sin_update_biped_robot_state = pyqtSignal(list)
 
-    # 机器人各关节状态
-    # position I1, T2, T3, T4, I5
-    __pos_joints = [0, 0, 0, 0, 0]
 
-
-
-    def  __init__(self,which_robot):
+    def  __init__(self,which_robot, robot_state):
         super(Modular_robot_control_func,self).__init__()
         self.setupUi(self)
 
         self.__center()
+
+        # 更新机器人状态
+        self.__update_robot_state(robot_state)
+
         self.__input_range_limit()
         self.__lineEdit_default_Set()
 
@@ -138,15 +141,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
         # 关节位置命令
         self.__joint_position_command = [0,0,0,0,0]
-
-        # 关节零点 I1, T2, T3, T4, I5
-        self.__zero_pos_joints = [0,0,0,0,0]
-
-        # 关节是否正方向(1:正;-1:反)I1, T2, T3, T4, I5
-        self.__direction_joints = [1,1,1,1,1]
-
-        # 默认机器人正逆运动学基座为G0
-        self.__base_flag = True
 
         # 机器人反馈数据显示
         self.__robot_state_display_flag = False
@@ -212,6 +206,40 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
+
+    # 更新机器人断电状态
+    def __update_robot_state(self, robot_state):
+        if not robot_state:
+            self.__robot_state_init_zero()
+        else:
+            save_file = RosPack().get_path('ui') + "/file/robot_state.json"
+            try:
+                with open(save_file, 'r') as f:
+                    temp = json.load(f)
+                    self.__zero_pos_joints =  temp['joint_zero_point_position']
+                    self.__direction_joints =  temp['joint_joint_direction']
+                    self.__pos_joints =  temp['joint_position']
+                    self.__base_flag =  temp['base_flag']
+            except:
+                QMessageBox.about(self,'警告',"\n\n机器人状态文件错误，载入断电状态失败。系统载入初始值.\n\n"   )
+                self.__robot_state_init_zero()
+                pass
+            pass
+        pass
+
+    def __robot_state_init_zero(self):
+        # 关节零点 I1, T2, T3, T4, I5
+        self.__zero_pos_joints = [0,0,0,0,0]
+
+        # 关节是否正方向(1:正;-1:反)I1, T2, T3, T4, I5
+        self.__direction_joints = [1,1,1,1,1]
+
+        # 机器人各关节状态
+        # position I1, T2, T3, T4, I5
+        self.__pos_joints = [0, 0, 0, 0, 0]
+        # 默认机器人正逆运动学基座为G0
+        self.__base_flag = True
+        pass
 
     # 启动机器人
     def start_robot(self):
@@ -469,7 +497,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                 else:
                     temp_vel_list[i] = 0
             # print temp_vel_list
-
+            # print self.__base_flag
             self.__getInverseSolution_incre = Get_inverse_solution_thread(  self.__which_robot, \
                                                                             self.__base_flag, \
                                                                             self.__actual_robot_tcp_pos, \
@@ -478,9 +506,11 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
             self.__getInverseSolution_incre.sin_inverse_solution.connect(self.__receive_and_sent_joint_command)
             self.__getInverseSolution_incre.start()
+            # print self.__actual_robot_tcp_pos
         pass
 
     def __receive_and_sent_joint_command(self,data):
+        # print data
         # print data
         self.__sent_joint_command_to_lowlevel(data[0], data[1])
         pass
@@ -740,9 +770,10 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
     # 自主抓夹接收控制命令 发送至底层
     def __auto_gripper_sent_command(self, data):
-        # 爬壁机器人
+        # 爬杆机器人
         if self.__which_robot == 0 and self.__robot_enabled_flag:
-            self.sin_joint_position.emit(data[0], data[1])
+            # self.sin_joint_position.emit(data)
+            self.__sent_joint_command_to_lowlevel(data[0], data[1])
 
     ####################### 自主抓夹窗口 end###################################
 
@@ -846,7 +877,13 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             if self.__direction_joints[i] == 1 or self.__zero_pos_joints[i] == 0:
                 self.__zero_pos_joints[i] += data[0][i]
             else:
-                self.__zero_pos_joints[i] -= data[0][i]      
+                self.__zero_pos_joints[i] -= data[0][i] 
+
+        for i in range(len(self.__pos_joints)):
+            self.__pos_joints[i] = self.__direction_joints[i] * ( self.__pos_joints[i] - self.__zero_pos_joints[i] )
+        # 更新机器人tcp
+        self.__request_upadte_tcp_position()
+
 
     # 根据零点、关节方向， 计算关节命令
     @staticmethod
@@ -1026,6 +1063,9 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
     # 更新机器人当前tcp
     def __upadte_tcp_position(self,data):
+        # 笛卡尔增量控制界面更新tcp
+        self.__actual_robot_tcp_pos = data
+
         # 笛卡尔位置控制更新更新tcp
         self.lineEdit_26.setText(str(round(data[0], 3)))
         self.lineEdit_27.setText(str(round(data[1], 3)))
@@ -1033,9 +1073,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.lineEdit_29.setText(str(round(data[3], 3)))
         self.lineEdit_30.setText(str(round(data[4], 3)))
         self.lineEdit_31.setText(str(round(data[5], 3)))
-
-        # 笛卡尔增量控制界面更新tcp
-        self.__actual_robot_tcp_pos = data
         pass
 
     # tab 页数改变
@@ -1070,4 +1107,19 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         if self.__string_robot_Enabled:
             self.sin_stop_robot_operation.emit()
         self.close()
+
+        self.__save_robot_state()
+        pass
+
+    # 软件关闭前保存机器人状态
+    def __save_robot_state(self):
+
+        save_file = RosPack().get_path('ui') + "/file/robot_state.json"
+        save_data = dict([  ('joint_zero_point_position', self.__zero_pos_joints), \
+                            ('joint_joint_direction', self.__direction_joints),   \
+                            ('joint_position', self.__pos_joints),  \
+                            ('base_flag', self.__base_flag)   ])
+
+        with open(save_file, 'w+') as f:
+            json.dump(save_data, f)
         pass

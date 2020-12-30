@@ -23,7 +23,7 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0">
+    <item row="3" column="0">
      <widget class="QPushButton" name="pushButton_2">
       <property name="font">
        <font>
@@ -46,6 +46,24 @@
       <property name="text">
        <string>双手爪爬杆
 机器人</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QRadioButton" name="radioButton">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;机器人断电后，保存机器人当前状态，零点，关节方向,便于下次使用更新机器人状态。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;机器人断电后，保存机器人当前状态，零点，关节方向,便于下次使用更新机器人状态。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>更新机器人断电状态</string>
       </property>
      </widget>
     </item>
@@ -103,8 +121,8 @@
    <slot>biped5d()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>551</x>
-     <y>271</y>
+     <x>530</x>
+     <y>222</y>
     </hint>
     <hint type="destinationlabel">
      <x>726</x>
@@ -112,9 +130,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Form_robot_choice</receiver>
+   <slot>update_robot_state()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>449</x>
+     <y>282</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>546</x>
+     <y>293</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>climbot5d()</slot>
   <slot>biped5d()</slot>
+  <slot>update_robot_state()</slot>
  </slots>
 </ui>
