@@ -17,7 +17,10 @@ from birl_module_robot.srv import grasp_point
 import copy
 
 def Find_grasp_point_client( which_base, current_descartes_position, p1, p2):
-    
+    # 检测输入
+    if((len(p1) != 3) or (len(p2) != 3) ):
+        return [None, False]
+
     # deg --> rad   
     PI_RAD = 0.0174533
     temp_pos = copy.deepcopy(current_descartes_position)
@@ -26,7 +29,13 @@ def Find_grasp_point_client( which_base, current_descartes_position, p1, p2):
     temp_pos[5] *= PI_RAD
 
     rospy.loginfo("Wait For Server: grasp_point.")
-    rospy.wait_for_service("find_grasp_point")
+
+    try:
+        rospy.wait_for_service("find_grasp_point", timeout=3)
+    except rospy.ROSException:
+        rospy.loginfo("find_grasp_point timeout.")
+        return [None, False]
+
     rospy.loginfo("Client Get New Requset.")
     
     try:

@@ -17,7 +17,12 @@ from birl_module_robot.srv import positive_solution
 
 def Positive_solution_client(which_robot, which_base, current_joint_position):
     rospy.loginfo("Wait For Server: positive_solution.")
-    rospy.wait_for_service("positive_solution")
+    try:
+        rospy.wait_for_service("positive_solution", timeout=3)
+    except rospy.ROSException:
+        rospy.loginfo("positive_solution timeout.")
+        return None 
+
     rospy.loginfo("Client Get New Requset.")
     try:
         client = rospy.ServiceProxy("positive_solution", positive_solution)
@@ -41,5 +46,5 @@ def Positive_solution_client(which_robot, which_base, current_joint_position):
 
 
 if __name__ == "__main__":
-    temp = Positive_solution_client(0, True, [0, 30, -60, 30, 0])
+    temp = Positive_solution_client(0, True, [0, 20, -50, 30, 0])
     print temp

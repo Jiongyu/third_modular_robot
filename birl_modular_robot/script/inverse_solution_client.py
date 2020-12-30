@@ -18,7 +18,12 @@ from birl_module_robot.srv import inverse_solution
 
 def Inverse_solution_client( which_robot, which_base, descartes_position_command, descartes_velocity_command, current_joint_position):
     rospy.loginfo("Wait For Server: inverse_solution.")
-    rospy.wait_for_service("inverse_solution")
+    try:
+        rospy.wait_for_service("inverse_solution", timeout=3)
+    except rospy.ROSException:
+        rospy.loginfo("inverse_solution timeout.")
+        return [None, None, False] 
+
     rospy.loginfo("Client Get New Requset.")
     try:
         client = rospy.ServiceProxy("inverse_solution", inverse_solution)
