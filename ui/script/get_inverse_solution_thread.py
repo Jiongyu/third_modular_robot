@@ -44,8 +44,9 @@ class Get_inverse_solution_thread(QThread):
                                                                             self.__descartes_position_command, \
                                                                             self.__descartes_velocity_command, \
                                                                             self.__current_joint_position)
-        temp = [joint_pos_command, joint_vel_command]
-        self.sin_inverse_solution.emit(temp)
-        sleep(1)
+        if ifgetSolve:
+            temp = [joint_pos_command, joint_vel_command]
+            self.sin_inverse_solution.emit(temp)
+            sleep(1)
 
 

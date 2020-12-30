@@ -12,7 +12,7 @@
 from auto_gripper import Ui_auto_gripper
 
 from PyQt5.QtWidgets import QWidget, QDesktopWidget
-from PyQt5.QtGui import QIntValidator
+from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtCore import pyqtSignal, QThread
 
 from auto_gripper_get_pole_point_thread import Auto_gripper_get_pole_point_thread
@@ -49,6 +49,8 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
 
         self.__joint_commad = []
 
+        self.__input_setting()
+
     def get_grasp_point(self):
         # 启动获取杆件端点
         if not self.__get_pole_point_thread.isRunning():
@@ -68,7 +70,10 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
             # 夹持点回调
             self.__get_grasp_point_thread.sin_grasp_point.connect(self.__update_grasp_point)
             self.__get_grasp_point_thread.start()
-            
+            # 获取杆件点 取消连接
+            self.__get_pole_point_thread.sin_pole_point.disconnect()
+            del self.__get_pole_point_thread
+            self.__get_pole_point_thread = QThread()
         pass
         
     def __update_grasp_point(self, data):
@@ -91,26 +96,35 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
 
     def adjust_posture(self):      
         if not self.__get_inverse_solution_thread.isRunning():
-            # def __init__(self, which_robot, which_base, descartes_position_command, descartes_velocity_command, current_joint_position):
+            self.__grasp_point[3] = round(float(self.lineEdit_4.text()), 3)
+            self.__grasp_point[4] = round(float(self.lineEdit_5.text()), 3)
+            self.__grasp_point[5] = round(float(self.lineEdit_6.text()), 3)
             temp_pos = self.__descartes_position[0:3] + self.__grasp_point[3:6]
-            print self.__descartes_vel_list
+            
+            # print temp_pos
+            # print self.__descartes_vel_list
             self.__get_inverse_solution_thread = Get_inverse_solution_thread(0, self.__which_base, temp_pos, \
                                                         self.__descartes_vel_list, self.__current_joint_pos)
             self.__get_inverse_solution_thread.sin_inverse_solution.connect(self.__get_inverse_solution)   
             
-            self.__get_inverse_solution_thread.start()                                     
+            self.__get_inverse_solution_thread.start()     
+            # print self.__grasp_point                                
         pass
 
     def adjust_position(self):
         if not self.__get_inverse_solution_thread.isRunning():
-            # def __init__(self, which_robot, which_base, descartes_position_command, descartes_velocity_command, current_joint_position):
+            self.__grasp_point[0] = round(float(self.lineEdit.text()), 3)
+            self.__grasp_point[1] = round(float(self.lineEdit_2.text()), 3)
+            self.__grasp_point[2] = round(float(self.lineEdit_3.text()), 3)
             temp_pos = self.__descartes_position[0:3] + self.__grasp_point[3:6]
+            # print temp_pos
             self.__calculate_descartes_vel(temp_pos, self.__grasp_point)
             self.__get_inverse_solution_thread = Get_inverse_solution_thread(0, self.__which_base, self.__grasp_point, \
                                                         self.__descartes_vel_list, self.__current_joint_pos)
             self.__get_inverse_solution_thread.sin_inverse_solution.connect(self.__get_inverse_solution)   
             
             self.__get_inverse_solution_thread.start() 
+            # print self.__descartes_position
         pass
 
     def __get_inverse_solution(self,data):
@@ -148,3 +162,16 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
     def closeEvent(self, event):
         self.sin_close.emit()
         event.accept()
+
+    # 输入框输入限制
+    def __input_setting(self):
+        pDoubleDescartesIncre = QDoubleValidator(self)
+        pDoubleDescartesIncre.setNotation(QDoubleValidator.StandardNotation)
+        pDoubleDescartesIncre.setDecimals(2)
+        self.lineEdit.setValidator(pDoubleDescartesIncre)
+        self.lineEdit_2.setValidator(pDoubleDescartesIncre)
+        self.lineEdit_3.setValidator(pDoubleDescartesIncre)
+        self.lineEdit_4.setValidator(pDoubleDescartesIncre)
+        self.lineEdit_5.setValidator(pDoubleDescartesIncre)
+        self.lineEdit_6.setValidator(pDoubleDescartesIncre)
+        pass

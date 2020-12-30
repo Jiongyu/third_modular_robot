@@ -39,7 +39,8 @@ class Get_positive_solution_thread(QThread):
         # print self.__which_base
         # print self.__current_joint_position
         descartes_position = Positive_solution_client(self.__which_robot, self.__which_base, self.__current_joint_position)
-        self.sin_positive_solution.emit(descartes_position)
-        sleep(1)
+        if descartes_position:
+            self.sin_positive_solution.emit(descartes_position)
+            sleep(1)
 
 

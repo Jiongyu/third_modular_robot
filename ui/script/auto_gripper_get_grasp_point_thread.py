@@ -37,8 +37,9 @@ class Get_grasp_point_thread(QThread):
 
     def run(self):
         ifgetSolve = False
-        [grasp_point, ifgetSolve] = Find_grasp_point_client(self.__which_base, 
+        [grasp_point, ifgetSolve] = Find_grasp_point_client( self.__which_base, 
                                                                 self.__current_descartes_position, self.__p1, self.__p2)
         temp = [grasp_point, ifgetSolve]
-        self.sin_grasp_point.emit(temp)
-        sleep(1)
+        if ifgetSolve:
+            self.sin_grasp_point.emit(temp)
+            sleep(1)
