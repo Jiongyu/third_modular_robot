@@ -15,11 +15,12 @@
 #include "birl_module_robot/grasp_point.h"
 #include "./grasp_intelligent.h"
 
-// #define CALIBRATION_DATA
+#define CALIBRATION_DATA
 
 #define POLE_WIDTH 3
 #define POINT_WIDTH 6
 #define PI_DEG 57.295779
+#define PI_RAD 0.0174533
 
 bool handle_function(   birl_module_robot::grasp_point::Request &req,
                         birl_module_robot::grasp_point::Response &res)
@@ -33,24 +34,37 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
         return false;
     }
     // ROS_INFO_STREAM("1.---------------.");  
+    std::cout << req.p1[0] << " " << req.p1[1] << " "<< req.p1[2] << std::endl;
+    std::cout << req.p2[0] << " " << req.p2[1] << " "<< req.p2[2] << std::endl;
 
+    for(size_t i =0 ; i < req.current_descartes_postion.size() ; ++i){
+        std::cout << req.current_descartes_postion[i] << " ";
+    }
+    std::cout << std::endl;
     GraspIntelligent Strategy;
 
 #ifdef CALIBRATION_DATA
-    // ur3 --> tcp
+       // ur3 --> tcp
     Eigen::Matrix3d rotate_matrix_g0;
     Eigen::Matrix3d rotate_matrix_g6;
-    rotate_matrix_g0 << 0, 1, 0, 
+    // rotate_matrix_g0 << 0, 1, 0, 
+    //                     1, 0, 0, 
+    //                     0, 0, -1;
+    rotate_matrix_g0 << 0, -1, 0, 
                         1, 0, 0, 
-                        0, 0, -1;
+                        0, 0, 1;
     rotate_matrix_g6 << 0, -1, 0, 
                         1, 0, 0, 
                         0, 0, 1;
     // carmera --> ur3
-    const std::vector<double>calibrationData_g0{-28.280, -163.739, -261.080, 
+    const double incre_z = 0;
+    // const double incre_z = 222 - 40.2 - 176.4;
+
+    const std::vector<double>calibrationData_g0{-13.759, -163.739, -261.080 + incre_z, 
                                                 358.347 * PI_RAD, 0.151 * PI_RAD, 1.526 * PI_RAD};
-    const std::vector<double>calibrationData_g6{-22.262, -177.911, -249.306, 
+    const std::vector<double>calibrationData_g6{-13.759, -177.911, -249.306 + incre_z, 
                                                 356.999 * PI_RAD, 359.797 * PI_RAD, 4.036 * PI_RAD};
+        
 #else
     // ur3 --> tcp
     Eigen::Matrix3d rotate_matrix_g0;
@@ -95,10 +109,14 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
     }
     // ROS_INFO_STREAM("2.---------------.");  
 
-    if(req.base){
+    // 取反 : base 与 tcp 切换
+    if(! req.base){
         ret = Strategy.findGraspPointByLine(p1, p2, tcp, GraspIntelligent::G0_GRIPPER, &grasp_point);
+        ROS_INFO_STREAM("G0 tcp");  
+
     }else{
         ret = Strategy.findGraspPointByLine(p1, p2, tcp, GraspIntelligent::G6_GRIPPER, &grasp_point);
+        ROS_INFO_STREAM("G6 tcp");  
     }
     // ROS_INFO_STREAM("3.---------------.");  
     if(!ret){
@@ -114,6 +132,7 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
         }else{
             res.grasp_point[i] = grasp_point[i] * PI_DEG;
         }
+        std::cout << grasp_point[i] << std::endl;
     }
     // ROS_INFO_STREAM("4.---------------.");  
 

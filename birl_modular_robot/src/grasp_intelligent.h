@@ -6,7 +6,7 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
-// #define DEBUG_GRASP_INTELLIGENT 
+#define DEBUG_GRASP_INTELLIGENT 
 
 class GraspIntelligent
 {
@@ -35,7 +35,7 @@ public:
     bool setHandEyeCalibrationBridge(const Eigen::Matrix3d& bridge ,const enum GRIPPER which_gripper);
 
     /**
-     * @brief 设置机器人手眼标定结果
+     * @brief 设置机器人手眼标定结果 carmera --> ur3
      * 
      * @param calibrationData : 机器人手眼标定(x,y,z --> mm; rpy --> rad) (6 x 1)
      * @param which_gripper : 夹持器编号(0: 夹持器G0； 6：夹持器G6)

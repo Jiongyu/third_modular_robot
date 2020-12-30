@@ -63,6 +63,8 @@ bool GraspIntelligent::setHandEyeCalibrationConsq(const std::vector<double>& cal
     {
         convertVectorToTransMatrix(calibrationData, &_transform_carmera_to_birdge_gripper6);
         _transform_carmera_to_tcp_gripper6 = _transform_birdge_to_tcp_gripper6 * _transform_carmera_to_birdge_gripper6;
+        // std::cout << _transform_carmera_to_tcp_gripper6.matrix() << std::endl;
+
     }else
     {
         return false;
@@ -197,10 +199,19 @@ void GraspIntelligent::calculateGraspPointPosition(const std::vector<double>& po
     // 将杆件位置转换base坐标系
     Eigen::Vector3d p1 (point1[0], point1[1], point1[2]);
     Eigen::Vector3d p2 (point2[0], point2[1], point2[2]);
+
+    // std::cout << "----------------"<< std::endl;
+    // std::cout << p1.transpose() << std::endl;
+    // std::cout << p2.transpose() << std::endl;
+
     Eigen::Isometry3d temp_p1 = Eigen::Isometry3d::Identity();
     Eigen::Isometry3d temp_p2 = Eigen::Isometry3d::Identity();
     temp_p1.pretranslate(p1);
     temp_p2.pretranslate(p2);
+
+    // std::cout << "----------------"<< std::endl;
+    // std::cout << temp_p1.matrix() << std::endl;
+    // std::cout << temp_p2.matrix() << std::endl;
 
     if(_which_gripper == G0_GRIPPER)
     {
@@ -212,6 +223,10 @@ void GraspIntelligent::calculateGraspPointPosition(const std::vector<double>& po
         temp_p1 = _transform_carmera_to_tcp_gripper6 * temp_p1;
         temp_p2 = _transform_carmera_to_tcp_gripper6 * temp_p2;
     }
+    // std::cout << "----------------"<< std::endl;
+    // std::cout << temp_p1.matrix() << std::endl;
+    // std::cout << temp_p2.matrix() << std::endl;
+
     temp_p1 = _transform_tcp_to_base * temp_p1;
     temp_p2 = _transform_tcp_to_base * temp_p2;
 
@@ -222,6 +237,7 @@ void GraspIntelligent::calculateGraspPointPosition(const std::vector<double>& po
         std::cout << "4. p1 杆件点位置base坐标系:" << std::endl << p1 << std::endl;
         std::cout << "5. p2 杆件点位置base坐标系:" << std::endl << p2 << std::endl;
     #endif
+
     // 斜率
     p1 = p2 - p1;
     double k_ = (   
@@ -240,6 +256,9 @@ void GraspIntelligent::calculateGraspPointPosition(const std::vector<double>& po
         }
     }
 
+    // grasp_point->at(0) = (p2(0) + p1(0)) / 2;
+    // grasp_point->at(1) = (p2(1) + p1(1)) / 2;
+    // grasp_point->at(2) = (p2(2) + p1(2)) / 2;
 }
 
 

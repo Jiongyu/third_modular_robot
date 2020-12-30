@@ -71,7 +71,7 @@ bool handle_function(   birl_module_robot::positive_solution::Request &req,
     else
     {
         if( ! robot5d_G6.FKine(current_joint_value, decartes_position_value)){
-            ROS_INFO_STREAM("G0 FKine success");  
+            ROS_INFO_STREAM("G6 FKine success");  
             res.ifGetSolve = true;
         }
         else
