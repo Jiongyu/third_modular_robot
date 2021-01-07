@@ -112,10 +112,6 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         self.thread_command = threading.Thread(target = self.thread_command_func, args= (None,))
         # 反馈数据线程
         self.thread_feedback = threading.Thread(target = self.thread_feedback_func, args= (None,))
-        # 停止线程
-        # self.thread_stop = threading.Thread()
-        # 急停线程
-        # self.thread_quick_stop = threading.Thread()
 
         # 线程启动
         self.thread_command.start()
@@ -486,6 +482,7 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         if not self.__joint_pos_mode:
             self.__mutex.lock()
             for i in range(len(self.__joints)):
+                self.__joints[i].set_normal_mode_acc_dcc()
                 self.__joints[i].opmode_set('PROFILED POSITION')
                 # print "robot_set_position_mode"
             self.__joint_pos_mode = True
@@ -497,6 +494,7 @@ class Robot_lowlevel_control_Muti_thread(QThread):
             self.__joint_velocity = [0,0,0,0,0]
             self.__mutex.lock()
             for i in range(len(self.__joints)):
+                self.__joints[i].set_normal_mode_acc_dcc()
                 self.__joints[i].opmode_set('PROFILED VELOCITY')
                 # print "robot set vel mode "
             self.__joint_vel_mode = True
@@ -507,6 +505,7 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         if not self.path_command_mode:
             self.__mutex.lock()
             for i in range(len(self.__joints)):
+                self.__joints[i].set_path_mode_acc_dcc()
                 self.__joints[i].opmode_set('PROFILED POSITION')
             self.__mutex.unlock()
         
