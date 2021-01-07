@@ -179,6 +179,14 @@ class Modular_joint(object):
             """
         self.__node.sdo[0x6071].phys = self.__user_current_to_motor( data )
 
+    # 轨迹模式设置加减速度
+    def set_path_mode_acc_dcc(self):
+        self.__path_mode_acc_dcc()
+
+    # 正常位置速度模式加减速度设置
+    def set_normal_mode_acc_dcc(self):
+        self.__normal_mode_acc_dcc()
+
     def statusword(self):
         return self.__node.statusword
 
@@ -235,8 +243,7 @@ class Modular_joint(object):
 
     def __param_config(self):
         # pos loop
-        self.__node.sdo[0x6083].phys =  500     # acc 10 counts/s^2
-        self.__node.sdo[0x6084].phys =  500     # dcc 10 counts/s^2
+        self.__normal_mode_acc_dcc()
         self.__node.sdo[0x6086].phys =  0       # rotate motor
 
         # 急停加减速度
@@ -246,3 +253,17 @@ class Modular_joint(object):
         # motor data
         # self.__node.sdo[0x6410][0x0b].phys = 45000     # max velocity 0.1counts/s
         self.__node.sdo[0x6410][0x0d].phys = 1200      # max torque mN.m
+
+    # 轨迹模式下加减速设置
+    def __path_mode_acc_dcc(self):
+        # unit 10 counts/sec2
+        self.__node.sdo[0x6083].phys =  500
+        self.__node.sdo[0x6084].phys =  500
+        pass
+
+    # 正常位置，速度模式加减速设置
+    def __normal_mode_acc_dcc(self):
+        # unit 10 counts/sec2
+        self.__node.sdo[0x6083].phys =  5000
+        self.__node.sdo[0x6084].phys =  5000
+        pass
