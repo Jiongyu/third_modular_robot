@@ -1,1 +1,1 @@
-{"joint_zero_point_position": [0, 0, 0, 0, 0], "joint_joint_direction": [1, 1, 1, 1, 1], "joint_position": [0, 0, 0, 0, 0], "base_flag": true}
+{"joint_zero_point_position": [0.0, -100.0, 0.0, 0.0, 0.0], "joint_joint_direction": [1, 1, 1, 1, 1], "joint_position": [0.0, 100.0, 0.0, 0.0, 0.0], "base_flag": true}

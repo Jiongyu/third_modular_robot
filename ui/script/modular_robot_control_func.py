@@ -223,9 +223,6 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             except:
                 QMessageBox.about(self,'警告',"\n\n机器人状态文件错误，载入断电状态失败。系统载入初始值.\n\n"   )
                 self.__robot_state_init_zero()
-                pass
-            pass
-        pass
 
     def __robot_state_init_zero(self):
         # 关节零点 I1, T2, T3, T4, I5
@@ -1079,6 +1076,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def tab_change(self, data):
         if data == 0:
             # 关节位置控制
+            self.__update_joint_command_pos_mode()
             pass
         elif data == 1:
             # 关节速度控制
@@ -1122,4 +1120,15 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
         with open(save_file, 'w+') as f:
             json.dump(save_data, f)
+        pass
+
+    # 更新机器人位置模式控制文本框内容
+    def __update_joint_command_pos_mode(self):
+        self.__joint_position_command = self.__pos_joints
+        self.lineEdit_7.setText(str(self.__joint_position_command[0]))
+        self.lineEdit_8.setText(str(self.__joint_position_command[1]))
+        self.lineEdit_9.setText(str(self.__joint_position_command[2]))
+        self.lineEdit_10.setText(str(self.__joint_position_command[3]))
+        self.lineEdit_11.setText(str(self.__joint_position_command[4]))
+
         pass
