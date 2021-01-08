@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  roslib
 )
 
 # 添加Eigen
@@ -38,7 +39,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES birl_modual_robot
-#  CATKIN_DEPENDS other_catkin_pkg
+ CATKIN_DEPENDS roslib
 #  DEPENDS system_lib
 )
 include_directories(
@@ -80,4 +81,4 @@ add_executable(find_grasp_point_test src/test.cpp)
 target_link_libraries(find_grasp_point_test find_grasp ${catkin_LIBRARIES} )
 
 add_executable(find_grasp_point_server src/find_grasp_point_server.cpp)
-target_link_libraries(find_grasp_point_server find_grasp ${catkin_LIBRARIES} )
+target_link_libraries(find_grasp_point_server find_grasp jsoncpp ${catkin_LIBRARIES} )

@@ -1,0 +1,19 @@
+# 
+# 3D POSE PARAMETERS: rotation and translation
+# 
+
+# Used representation type:
+f 2
+
+# Rotation angles [deg] or Rodriguez vector:
+r 356.998729851423 359.796706307411 4.03602734373843
+
+# Translation vector (x y z [m]):
+t -0.0222617149828427 -0.177911668827612 -0.249305941502569
+
+# 
+# HALCON Version 18.11 --  Sat Dec 26 11:14:35 2020
+
+# 
+
+T_g0tcp_ur3tcp = Rot(z, 90) = [0 -1 0; 1 0 0; 0 0 1]

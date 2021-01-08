@@ -1,0 +1,45 @@
+{
+    "$*_bridge_to_tcp_transformation" : "中间基座（ur3）--> 机器人tcp端旋转矩阵  [r11 r12 r13 r21 r22 r23 r31 r32 r33]",
+    "$*_camera_to_bridge_transformation" : "相机端 --> 中间基座（ur3）标定结果  [x y z rx ry rz] (mm, deg)",
+
+    "g0_bridge_to_tcp_transformation" : {
+        "r11":0,
+        "r12":1,
+        "r13":0,
+        "r21":1,
+        "r22":0,
+        "r23":0,
+        "r31":0,
+        "r32":0,
+        "r33":-1
+    },
+
+    "g0_camera_to_bridge_transformation" : {
+        "x":-13.759,
+        "y":-163.739,
+        "z":-261.080,
+        "rx":358.347,
+        "ry":0.151,
+        "rz":1.526
+    },
+
+    "g6_bridge_to_tcp_transformation" : {
+        "r11":0,
+        "r12":-1,
+        "r13":0,
+        "r21":1,
+        "r22":0,
+        "r23":0,
+        "r31":0,
+        "r32":0,
+        "r33":1
+    },
+    "g6_camera_to_bridge_transformation" : {
+        "x":-13.759,
+        "y":-177.911,
+        "z":-249.306,
+        "rx":356.999,
+        "ry":359.797,
+        "rz":4.036
+    }
+}

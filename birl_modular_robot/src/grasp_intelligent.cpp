@@ -17,9 +17,9 @@ GraspIntelligent::GraspIntelligent(/* args */){
 
 bool GraspIntelligent::setHandEyeCalibrationBridge(const Eigen::Matrix3d& bridge ,const enum GRIPPER which_gripper)
 {
-    if(bridge.determinant() != 1)
+    if(abs(bridge.determinant()) != 1)
     {
-        std::cout  << __PRETTY_FUNCTION__ << "设置标定结果输入错误!" << std::endl;  
+        std::cout  << __PRETTY_FUNCTION__ << "设置标定结果(旋转矩阵行列式不为1)!" << std::endl; 
         return false;
     }
 

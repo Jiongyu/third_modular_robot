@@ -6,7 +6,7 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
-#define DEBUG_GRASP_INTELLIGENT 
+// #define DEBUG_GRASP_INTELLIGENT 
 
 class GraspIntelligent
 {
