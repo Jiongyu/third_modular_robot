@@ -73,7 +73,6 @@ target_link_libraries(robot_increTransTool_server ${catkin_LIBRARIES})
 
 
 add_library( find_grasp
-./src/find_grasp_point.cpp
 ./src/grasp_intelligent.cpp
 
 )
