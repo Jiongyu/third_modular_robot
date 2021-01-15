@@ -59,6 +59,7 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         self.__mutex = QMutex()
         # 机器人关节位置命令
         self.__pos_joints_command = [0, 0, 0, 0, 0]
+        self.__old_pos_joints_command = [0, 0, 0, 0, 0]
         # 判断机器人关节是否为新命令
         self.__new_pos_joints_command = [False ,False ,False ,False ,False]
         # 轨迹数据
@@ -77,8 +78,9 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         self.__open_gripper_feedback = False
 
 
-        # 初始化关节角速度（5度）
+        # 初始化关节角速度控制
         self.__joint_velocity = [0, 0, 0, 0, 0]
+        self.__old_joint_velocity = [0, 0, 0, 0, 0]
 
         # 机器人停止标志
         self.__stop = False
@@ -266,12 +268,16 @@ class Robot_lowlevel_control_Muti_thread(QThread):
             for i in range(len(self.__joints)):
                 if i == 0 and i == 4:
                     if abs(self.__pos_joints_command[i]) < self.__joint_i_limit:
-                        self.__joints[i].sent_position(self.__pos_joints_command[i],self.__joint_velocity[i])
+                        if self.__old_pos_joints_command[i] !=  self.__pos_joints_command[i]:
+                            self.__joints[i].sent_position(self.__pos_joints_command[i],self.__joint_velocity[i])
+                            self.__old_pos_joints_command[i] =  self.__pos_joints_command[i]
                     else:
                         self.sin_robot_soft_limit_happen.emit()
                 else:
                     if abs(self.__pos_joints_command[i]) < self.__joint_t_limit:
-                        self.__joints[i].sent_position(self.__pos_joints_command[i],self.__joint_velocity[i])
+                        if self.__old_pos_joints_command[i] !=  self.__pos_joints_command[i]:
+                            self.__joints[i].sent_position(self.__pos_joints_command[i],self.__joint_velocity[i])
+                            self.__old_pos_joints_command[i] =  self.__pos_joints_command[i]
                     else:
                         self.sin_robot_soft_limit_happen.emit()
 
@@ -291,7 +297,9 @@ class Robot_lowlevel_control_Muti_thread(QThread):
     
             self.__mutex.lock()
             for i in range(len(self.__joints)):
-                self.__joints[i].sent_velocity(self.__joint_velocity[i])
+                if self.__joint_velocity[i] != self.__old_joint_velocity[i]:
+                    self.__joints[i].sent_velocity(self.__joint_velocity[i])
+                    self.__old_joint_velocity[i] = self.__joint_velocity[i]
                 # print self.__joint_velocity[i]
             self.__joint_vel_mode = False
             self.__mutex.unlock()
@@ -316,18 +324,19 @@ class Robot_lowlevel_control_Muti_thread(QThread):
                     self.__if_add_time_for_path_command()
 
                 self.__mutex.lock()
-
                 for i in range(len(self.__joints)):
                     if i == 0 and i == 4:
-                        if abs(self.__pos_joints_command[i]) < self.__joint_i_limit:
-                            self.__joints[i].sent_position(self.__pos_joints_command[i],self.__joint_velocity[i])
+                        if abs(self.__path_pos_joints_command[self.__path_point_index][i]) < self.__joint_i_limit:
+                            self.__joints[i].sent_position( self.__path_pos_joints_command[self.__path_point_index][i],  \
+                                                            self.__path_pos_joints_command[self.__path_point_index][i+5] )
                         else:
                             self.sin_robot_soft_limit_happen.emit()
                             self.robot_halt(True)
                             break
                     else:
-                        if abs(self.__pos_joints_command[i]) < self.__joint_t_limit:
-                            self.__joints[i].sent_position(self.__pos_joints_command[i],self.__joint_velocity[i])
+                        if abs(self.__path_pos_joints_command[self.__path_point_index][i]) < self.__joint_t_limit:
+                            self.__joints[i].sent_position( self.__path_pos_joints_command[self.__path_point_index][i],  \
+                                                            self.__path_pos_joints_command[self.__path_point_index][i+5] )
                         else:
                             self.sin_robot_soft_limit_happen.emit()
                             self.robot_halt(True)
@@ -415,8 +424,8 @@ class Robot_lowlevel_control_Muti_thread(QThread):
                 self.__joints[i].quick_stop()
             if self.__which_robot == 0:
                 self.__G0.quick_stop()
-                self.__G6.quick_stop()
-            self.__stop_communication(self.__which_robot)
+                self.__G6.quick_stop();
+            # self.__stop_communication(self.__which_robot)
             self.__mutex.unlock()
 
     # 机器人停止
@@ -492,6 +501,7 @@ class Robot_lowlevel_control_Muti_thread(QThread):
     def robot_set_velocity_mode(self):
         if not self.__joint_vel_mode:
             self.__joint_velocity = [0,0,0,0,0]
+            self.__old_joint_velocity = [0,0,0,0,0]
             self.__mutex.lock()
             for i in range(len(self.__joints)):
                 self.__joints[i].set_normal_mode_acc_dcc()
