@@ -21,7 +21,7 @@ from time import sleep
 
 class Get_grasp_point_thread(QThread):
 
-    # 逆解信号    
+    # 逆解信号
     sin_grasp_point = pyqtSignal(list)
 
     def __init__(self, which_base, current_descartes_position, p1, p2):
