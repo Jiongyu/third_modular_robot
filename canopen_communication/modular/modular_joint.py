@@ -23,13 +23,17 @@ class Modular_joint(object):
         self.__network = network.Network()
         self.__network.connect(channel='can0', bustype='socketcan')
         self.__network.check()
-        self.__network.sync.start(0.003)        # 5ms
+        self.__network.sync.start(0.003)
         self.__id = id
         self.__eds_file = eds_file
         self.__node = BaseNode402(self.__id, self.__eds_file)
         self.__network.add_node(self.__node)
         self.__reduction_ratio = reduction_ratio
-        self.__velocity_limit = 30
+        
+        # 机器人关节最大限制速度
+        self.__velocity_limit = 15
+
+        self.__pause_flag = False
 
     def start(self):
         """
@@ -83,12 +87,17 @@ class Modular_joint(object):
         pass
 
     def quick_stop(self):
-        self.__node.sdo[0x6040].raw = (self.__node.sdo[0x6040].raw & ~( 1 << 2 ))
+        # cia402 状态机状态位 急停
+        # self.__node.sdo[0x6040].raw = (self.__node.sdo[0x6040].raw & ~( 1 << 2 ))
+
+        # 为保证急停保持机器人位置，改为暂停
+        self.pause_run()
 
     def stop(self):
         self.__node.state = 'SWITCHED ON'
 
     def pause_run(self):
+        self.__pause_flag = True
         self.__controlword = self.__node.sdo[0x6040].raw
         self.__node.controlword = (self.__controlword | ( 1 << 8))
         pass
@@ -99,6 +108,7 @@ class Modular_joint(object):
         self.__node.controlword = ( self.__controlword & ~(1 << 4) )
         self.__controlword = self.__node.sdo[0x6040].raw
         self.__node.controlword = ( self.__controlword & ~(1 << 8))
+        self.__pause_flag = False
         pass
 
     def __user_data_to_motor(self, position):
@@ -154,12 +164,13 @@ class Modular_joint(object):
         :param position: motor position(rad)
         :param velocity: default motor velocity(rad/s)
         """
-        if abs(vel) < self.__velocity_limit:
-            self.__node.sdo[0x6081].phys = abs(self.__user_data_to_motor( vel * 10))
-            self.__node.sdo[0x607a].phys = self.__user_data_to_motor( pos )
-            self.__node.controlword = ( self.__controlword & ~(1 << 4) )
-            self.__node.controlword = ( self.__controlword | (3  << 4) )
-            self.__node.controlword = ( self.__controlword & ~(1 << 4) )
+        if not self.__pause_flag:
+            if abs(vel) < self.__velocity_limit:
+                self.__node.sdo[0x6081].phys = abs(self.__user_data_to_motor( vel * 10))
+                self.__node.sdo[0x607a].phys = self.__user_data_to_motor( pos )
+                self.__node.controlword = ( self.__controlword & ~(1 << 4) )
+                self.__node.controlword = ( self.__controlword | (3  << 4) )
+                self.__node.controlword = ( self.__controlword & ~(1 << 4) )
 
 
     def sent_velocity(self,data):
@@ -167,17 +178,19 @@ class Modular_joint(object):
          In the profile velocity mode this function sent some control message to motor.
          :param velocity: motor velocity(rad/s)
          :return:
-         """
-        if abs(data) < self.__velocity_limit:
-            self.__node.sdo[0x60ff].phys = self.__user_data_to_motor( data * 10 )
+        """
+        if not self.__pause_flag:
+            if abs(data) < self.__velocity_limit:
+                self.__node.sdo[0x60ff].phys = self.__user_data_to_motor( data * 10 )
 
     def sent_current(self,data):
         """
-            In the profile torque mode this function sent some control message to motor.
-            :param data: motor current(mA)
-            :return:
-            """
-        self.__node.sdo[0x6071].phys = self.__user_current_to_motor( data )
+        In the profile torque mode this function sent some control message to motor.
+        :param data: motor current(mA)
+        :return:
+        """
+        if not self.__pause_flag:
+            self.__node.sdo[0x6071].phys = self.__user_current_to_motor( data )
 
     # 轨迹模式设置加减速度
     def set_path_mode_acc_dcc(self):
