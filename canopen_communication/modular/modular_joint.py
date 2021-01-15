@@ -45,9 +45,7 @@ class Modular_joint(object):
         self.__node.nmt.state = 'RESET COMMUNICATION'
         self.__node.nmt.wait_for_bootup(10)
         self.__node.setup_402_state_machine()
-
         self.__node.reset_from_fault()
-
         self.__node.sdo[0x6076].phys = 1000
         self.__motor_rate_torque    = self.__node.sdo[0x6076].phys  #mN.m
         self.__node.sdo[0x6410][0x0c].phys = 91

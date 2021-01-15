@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/tan/ros/universal_robot/devel/include/**",
+                "/home/tan/ros/iiwa/devel/include/**",
+                "/opt/ros/kinetic/include/**",
+                "/home/tan/ros/iiwa/src/iiwa_stack-master/control_tan/include/**",
+                "/home/tan/ros/iiwa/src/iiwa_stack-master/iiwa_hw/include/**",
+                "/home/tan/ros/iiwa/src/iiwa_stack-master/iiwa_ros/include/**",
+                "/home/tan/ros/universal_robot/src/universal_robot/ur_kinematics/include/**",
+                "/usr/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

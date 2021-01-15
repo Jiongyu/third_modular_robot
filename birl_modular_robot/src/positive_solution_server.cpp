@@ -20,7 +20,11 @@ bool handle_function(   birl_module_robot::positive_solution::Request &req,
 
     static double Robot_Link_Len[6]; 
     if(req.which_robot == 0){
+<<<<<<< HEAD
         //climbing robot link length mm
+=======
+        //climbing robot link length
+>>>>>>> master
         Robot_Link_Len[0] = 176.4; 
         Robot_Link_Len[1] = 256.8; 
         Robot_Link_Len[2] = 293.2; 
@@ -30,7 +34,11 @@ bool handle_function(   birl_module_robot::positive_solution::Request &req,
 
     }                 
     else if(req.which_robot == 1){
+<<<<<<< HEAD
         // biped robot link length mm
+=======
+        // biped robot link length
+>>>>>>> master
         Robot_Link_Len[0] = 72.2; 
         Robot_Link_Len[1] = 256.8; 
         Robot_Link_Len[2] = 293.2; 

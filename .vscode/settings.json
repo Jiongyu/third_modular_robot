@@ -1,0 +1,7 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/tan/ros/universal_robot/devel/lib/python2.7/dist-packages",
+        "/home/tan/ros/iiwa/devel/lib/python2.7/dist-packages",
+        "/opt/ros/kinetic/lib/python2.7/dist-packages"
+    ]
+}
