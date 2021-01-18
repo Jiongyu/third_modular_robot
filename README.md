@@ -8,12 +8,13 @@
 >**6. 零点设置**  
 >**7. 夹持器控制**  
 >**8. ROS控制**  
-
+>**9. 自主抓夹**
 
 ##### 1. 安装通信驱动及相关依
 
 ###### 1.1 软件下载与环境配置
 ``` bash
+# ~/ros/BirlModuleRobot/ 为用户自定义文件夹
 mkdir -p ~/ros/BirlModuleRobot/src/ && cd ~/ros/BirlModuleRobot/src/  
 git clone https://github.com/Jiongyu/third_modular_robot.git   
 ```
