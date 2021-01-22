@@ -807,11 +807,11 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def __biped_sent_command(self, data):
         # 爬壁机器人
         if self.__which_robot == 1 and self.__robot_enabled_flag:
-            self.sin_joint_position.emit(data[0], data[1])
+            self.sin_joint_position.emit([data[0], data[1]])
             pass
         pass
     
-    # 更新 爬壁机器人接收控制命令窗口 机器人状态
+    # 更新 爬壁机器人接收控制命令窗口 机器人状态WW
     def __response_update_robot_state(self):
         self.sin_update_biped_robot_state.emit([    \
             self.__zero_pos_joints,
