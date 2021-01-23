@@ -112,6 +112,8 @@ class Translate_goal_to_base_thread(QThread):
 
     now_base_flag = pyqtSignal(bool)
 
+    # 直接发送机器人I1和I5的关节增量
+    direct_angle_to_motor_data = pyqtSignal(list)
 
     def __init__(self, __which_robot, __base_flag, __pos_joints):
         super(Translate_goal_to_base_thread, self).__init__()
@@ -121,11 +123,12 @@ class Translate_goal_to_base_thread(QThread):
         self._get_relative_position_data  = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         # 笛卡尔坐标系的速度命令
         self.descartes_velocity_set_data = [10, 10, 10, 1, 3, 1]
-      
+     
         self.__which_robot = __which_robot
         self.__base_flag = __base_flag
         self.__pos_joints = __pos_joints
         self.receive_tag = "False"
+        self.direct_angle_to_motor_tag = False
         self.receive_base_flag = ""
 
     def run(self):
@@ -135,7 +138,10 @@ class Translate_goal_to_base_thread(QThread):
         self.get_fifo_relative_position()
         # 接收数据成功才执行转换与运动
         if self.receive_tag == "True":
-            self.get_goal_to_base_position_and_generate_joint_command_fun()
+            if self.direct_angle_to_motor_tag == True:
+                self.direct_angle_to_motor_fun()         
+            else:
+                self.get_goal_to_base_position_and_generate_joint_command_fun()
         pass
 
     # 通过管道获取相对位姿
@@ -168,17 +174,25 @@ class Translate_goal_to_base_thread(QThread):
             
             if self.receive_base_flag == "G0":
                 self.__base_flag = True
-                self.__base_flag = True
+                self.direct_angle_to_motor_data.emit([" ", " "])
             elif self.receive_base_flag == "G6":
-                self.__base_flag = False           
+                self.__base_flag = False
+                self.direct_angle_to_motor_data.emit([" ", " "])   
+            elif self.receive_base_flag == "GD":
+                self.direct_angle_to_motor_tag = True
+                self.direct_angle_to_motor_data.emit([self._get_relative_position_data[0], self._get_relative_position_data[1]]) 
             else: 
                 print "The fifo now without any receive_base_flag."
             # 将base_flag_更新到主界面函数
             self.now_base_flag.emit(self.__base_flag)
 
             self.receive_tag = "True"
-            #self.relative_pose_data_to_rad_fun(self._get_relative_position_data)           
-            self.receive_relative__joint_position_data.emit(self._get_relative_position_data)
+
+            # 当接收的是笛卡尔位姿增量，则发送数据，否则清空数据窗口
+            if self.direct_angle_to_motor_tag == False:
+                self.receive_relative__joint_position_data.emit(self._get_relative_position_data)
+            else:
+                self.receive_relative__joint_position_data.emit([" ", " ", " ", " ", " ", " "])
        
         os.close(res_read)
         
@@ -265,38 +279,48 @@ class Translate_goal_to_base_thread(QThread):
             print "before send to fifo, Something wrong"
 
         # 通过管道传送转换标志反馈
-        self.feedback_translation_tag_fun(feedback_translation_tag)
-        #####################################
-        # 通过管道传送转换标志反馈
-        # if os.path.exists(_PATH_NAME_WRITE_):
-        #     os.remove(_PATH_NAME_WRITE_)
-            
-        # os.mkfifo(_PATH_NAME_WRITE_)
-        
-        # res_write = os.open(_PATH_NAME_WRITE_, os.O_WRONLY)
-        # if res_write < 0:
-        #     print "open res_write_feedback_tag_fifo wrong"
-        # else:    
-        #     ret = os.write(res_write, str(feedback_translation_tag))
-
-        #     print "send the feedback_translation_tag to partner..."
-        #     if ret < 0:
-        #         print "send error,please try argin..."
-        #     else:
-        #         print "send sucessful!,tag is: %s" % str(feedback_translation_tag)
-           
-        # os.close(res_write)
-        ############################################   
+        #self.feedback_translation_tag_fun(feedback_translation_tag)
+   
         pass
 
+    # 当只接收关节角度增量函数
+    def direct_angle_to_motor_fun(self):
 
+        # 关节角度增量+关节当前角，得到关节命令值
+        _joint_position_command = [0, 0, 0, 0, 0]
+        _joint_position_command[0] = self.__pos_joints[0] + self._get_relative_position_data[0]
+        _joint_position_command[1] = self.__pos_joints[1]
+        _joint_position_command[2] = self.__pos_joints[2]
+        _joint_position_command[3] = self.__pos_joints[3]
+        _joint_position_command[4] = self.__pos_joints[4] + self._get_relative_position_data[1]
+        
+        # 关节速度命令（只给I1、I5关节值）degree/s
+        _joint_velocity_command = [1, 0, 0, 0, 1]
+
+        # 数据窗口清空
+        self.goal_to_base_position_.emit([" ", " ", " ", " ", " ", " "])
+
+        # 信号槽发送关节角度、关节速度命令
+        self.goal_to_base_motor_pos_command.emit(_joint_position_command, _joint_velocity_command)
+
+        # 发送标识符
+        self.wrong_translation_feedback.emit("True")
+        pass
+            
 
 class Send_now_robot_descarte_goal_position_thread(QThread):
 
 
-    def __init__(self, __now_robot_descarte_pos):
+    def __init__(self, __now_robot_descarte_pos, __base_flag):
         super(Send_now_robot_descarte_goal_position_thread, self).__init__()
         self.now_robot_descarte_pos = __now_robot_descarte_pos
+        # 新增传递基座
+        self.__base_flag = __base_flag
+        if self.__base_flag == True:
+            self.send_now_base_flag = "G0"
+        else:
+            self.send_now_base_flag = "G6"
+        
         pass
 
     def run(self):
@@ -319,7 +343,7 @@ class Send_now_robot_descarte_goal_position_thread(QThread):
             i = 0
 
             # 将机器人当前笛卡尔坐标合成字符串流(每个数据由空格隔开)，发送到管道
-            ret = os.write(res_send, str(self.now_robot_descarte_pos[0])+ " " + str(self.now_robot_descarte_pos[1]) + " " + str(self.now_robot_descarte_pos[2])+ " "+ str(self.now_robot_descarte_pos[3])+ " " + str(self.now_robot_descarte_pos[4])+ " " + str(self.now_robot_descarte_pos[5]))
+            ret = os.write(res_send, str(self.now_robot_descarte_pos[0])+ " " + str(self.now_robot_descarte_pos[1]) + " " + str(self.now_robot_descarte_pos[2])+ " "+ str(self.now_robot_descarte_pos[3])+ " " + str(self.now_robot_descarte_pos[4])+ " " + str(self.now_robot_descarte_pos[5]) +" " + str(self.send_now_base_flag)+ " ")
          
             # for i in range(6):
                 

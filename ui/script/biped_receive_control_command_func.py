@@ -45,7 +45,7 @@ class Biped_receive_control_command_func(QWidget,Ui_biped_receive_control_comman
         self.__direction_joints = direction_joints
         self.__zero_pos_joints = zero_pos_joints
 
-        self.goal_to_base_tag_ = " "
+        self.goal_to_base_tag_ = ""
         self.init_data_5 =[0.0, 0.0, 0.0, 0.0, 0.0]
         self.init_data_6 =[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         self.goal_to_base_motor_temp_position_command = [0.0, 0.0, 0.0, 0.0, 0.0]
@@ -75,6 +75,9 @@ class Biped_receive_control_command_func(QWidget,Ui_biped_receive_control_comman
         # 在界面显示 接收到的相对笛卡尔位姿
         self.translate_pos_to_base_fun.receive_relative__joint_position_data.connect(self._show_relative__joint_position_data)
 
+        # 当直接传输的是关节I1、I5的增量时，显示增量
+        self.translate_pos_to_base_fun.direct_angle_to_motor_data.connect(self.show_direct_increase_motor_angle_I1_I5)
+
         # 在界面显示 目标笛卡尔点到基座标系下的表示(unit : mm; deg)
         self.translate_pos_to_base_fun.goal_to_base_position_.connect(self.show_goal_to_base_position_data)
 
@@ -90,14 +93,9 @@ class Biped_receive_control_command_func(QWidget,Ui_biped_receive_control_comman
         self.translate_pos_to_base_fun.start()   # 线程启动
 
         # 运行 转换结果(槽函数)
-        print "waiting...."
-        if self.goal_to_base_tag_ == "True": 
-            print "run ing..."
-            # 发送关节位置和速度指令
-            self.sin_joint_position.emit([self.goal_to_base_motor_temp_position_command, self.goal_to_base_motor_temp_velocity_command])
+       
 
-        else:
-            print "run false...."
+        
 
     # 发送 当前机器人的笛卡尔坐标(槽函数)
     def send_now_robot_deacarte_data(self):                                            
@@ -111,7 +109,7 @@ class Biped_receive_control_command_func(QWidget,Ui_biped_receive_control_comman
     # 更新正运动学解
     def __upadte_tcp_position(self, data):
         self.__now_robot_descartes_position = data
-        self.__send_now_robot_deacarte_pos_fun = Send_now_robot_descarte_goal_position_thread(self.__now_robot_descartes_position)
+        self.__send_now_robot_deacarte_pos_fun = Send_now_robot_descarte_goal_position_thread(self.__now_robot_descartes_position, self.__base_flag)
         self.__send_now_robot_deacarte_pos_fun.start()
 
 
@@ -139,6 +137,7 @@ class Biped_receive_control_command_func(QWidget,Ui_biped_receive_control_comman
 
     # 在界面显示转换成功后关机电机位置指令
     def show_goal_to_base_motor_pos_command_data(self, data_pos, data_vel):
+        print "show_the_data_motor"
         self.lineEdit_59.setText(str(data_pos[0]))
         self.lineEdit_65.setText(str(data_pos[1]))
         self.lineEdit_68.setText(str(data_pos[2]))
@@ -172,8 +171,21 @@ class Biped_receive_control_command_func(QWidget,Ui_biped_receive_control_comman
     def show_determine_whether_translation_correct_flag(self, data):
         self.lineEdit_72.setText(str(data))
         self.goal_to_base_tag_ = str(data)
+        # 运行 转换结果(槽函数)
+        if self.goal_to_base_tag_ == "True": 
+            print "run ing..."
+            # 发送关节位置和速度指令
+            self.sin_joint_position.emit([self.goal_to_base_motor_temp_position_command, self.goal_to_base_motor_temp_velocity_command])
+        else:
+            print "run false...."
         pass
     
+    # 在界面显示增加的I1/I5的关节角
+    def show_direct_increase_motor_angle_I1_I5(self,data):
+        self.lineEdit_60.setText(str(data[0]))
+        self.lineEdit_61.setText(str(data[1]))
+        pass
+
     # 更新基座
     def now_base_flag_fun(self, data):
         self.__base_flag = data
