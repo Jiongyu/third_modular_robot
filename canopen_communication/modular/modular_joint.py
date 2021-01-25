@@ -138,31 +138,19 @@ class Modular_joint(object):
         pass
 
     def opmode_set(self,data):
-        # if self.__node.op_mode == data:
-        #     return
+        # 位置模式：'PROFILED POSITION'
+        # 速度模式: 'PROFILED VELOCITY'
+        # 力矩模式: 'PROFILED TORQUE'
         self.__node.op_mode = data
         while( self.__node.op_mode != data ):
             self.__node.op_mode = data
             time.sleep(0.01)
 
-    def set_mode(self, mode):
-        """
-        :param mode: motor operation mode(1,3,4)
-        1: profiled position
-        3: Profiled Velocity
-        4: Profiled Torque
-        """
-        if (mode == 1 or mode == 3 or mode == 4):
-            try:
-                self.node.sdo[0x6060].phys = mode
-            except:
-                print "set mode error"
-
     def sent_position(self,pos, vel):
         """
         In the profile position mode this function sent some control message to motor.
-        :param position: motor position(rad)
-        :param velocity: default motor velocity(rad/s)
+        :param pos: motor position(deg)
+        :param vel: default motor velocity(deg/s)
         """
         if not self.__pause_flag:
             if abs(vel) < self.__velocity_limit:
@@ -176,7 +164,7 @@ class Modular_joint(object):
     def sent_velocity(self,data):
         """
          In the profile velocity mode this function sent some control message to motor.
-         :param velocity: motor velocity(rad/s)
+         :param data: motor velocity(deg/s)
          :return:
         """
         if not self.__pause_flag:
@@ -200,6 +188,16 @@ class Modular_joint(object):
     def set_normal_mode_acc_dcc(self):
         self.__normal_mode_acc_dcc()
 
+    # 设置用户加减速度
+    def set_user_acc_dcc(self, data):
+        """
+        data = [acc , dcc]
+        单位：deg/s-2
+        """
+        self.__node.sdo[0x6083].phys =  self.__user_data_to_motor(data[0])
+        self.__node.sdo[0x6084].phys =  self.__user_data_to_motor(data[1])
+        pass
+
     def statusword(self):
         return self.__node.statusword
 
@@ -209,14 +207,14 @@ class Modular_joint(object):
     def get_position(self):
         """
            get the motor actual value
-           :return position(rad)
+           :return position(deg)
            """
         return (self.__motor_data_to_user( self.__node.sdo[0x6064].phys ))
 
     def get_velocity(self):
         """
         get the motor actual value
-        :return velocity(rad/s)
+        :return velocity(deg/s)
         """
         return ( self.__motor_data_to_user( self.__node.sdo[0x606c].phys ) / 10)
 
