@@ -30,6 +30,7 @@ from path_process import Path_process
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMessageBox, QFileDialog, QWidget
 from PyQt5.QtCore import pyqtSignal, QThread
 from PyQt5.QtGui import QDoubleValidator,QIntValidator
+from PyQt5.QtCore import *
 
 import json
 from copy import deepcopy
@@ -1128,3 +1129,23 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         self.lineEdit_10.setText(str(self.__pos_joints[3]))
         self.lineEdit_11.setText(str(self.__pos_joints[4]))
         pass
+    
+    # 绑定enter按钮
+    def keyPressEvent(self, event):
+        # print("按下：" + str(event.key()))
+        if (event.key() == Qt.Key_Return):
+            print('测试：Enter')
+            # 关节位置模式
+            if self.tabWidget.currentIndex() == 0:
+                self.joint_velocity_set_posMode()
+            # 关节速度模式
+            elif self.tabWidget.currentIndex() == 1:
+                self.joint_velocity_set_velMode()
+            # 离线轨迹模式
+            elif self.tabWidget.currentIndex() == 2:
+                self.set_path_max_velovity()
+            # 笛卡尔增量控制模式
+            elif self.tabWidget.currentIndex() == 4:
+                self.descartes_incre_pos_set()
+                self.descartes_incre_vel_set()
+                pass
