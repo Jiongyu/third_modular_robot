@@ -55,10 +55,13 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     sin_quickStop_robot_operation       = pyqtSignal()
     sin_halt_robot_operation            = pyqtSignal(bool)
 
-    # 关节位置命令信号
+    # 关节位置命令信号 
     sin_joint_position = pyqtSignal(list)
     # 关节速度命令信号
     sin_joint_velocity = pyqtSignal(list)
+
+    # 关节单独位置控制信号[position, velocity, id]
+    sin_single_joint_pos_cmd = pyqtSignal(list)
 
     # 夹持器信号
     sin_G0_command = pyqtSignal(int)
@@ -256,6 +259,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.sin_stop_robot_operation.connect(self.__lowLevelControl.robot_stop)
             self.sin_halt_robot_operation.connect(self.__lowLevelControl.robot_halt)
             self.sin_joint_position.connect(self.__lowLevelControl.set_jointPosition)
+            self.sin_single_joint_pos_cmd.connect(self.__lowLevelControl.set_singleJointPosition)
             self.sin_joint_velocity.connect(self.__lowLevelControl.set_jointVelocity)
             self.sin_path_command.connect(self.__lowLevelControl.path_command)
             self.sin_continue_path_command.connect(self.__lowLevelControl.continue_path_command)
@@ -313,51 +317,43 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     def joint_i1_command(self):
         if self.__robot_enabled_flag:  
             # print "i1_command"
-            self.__joint_position_command[0] =  Modular_robot_control_func.__user_data_to_motor(   \
+            cmd =  Modular_robot_control_func.__user_data_to_motor(   \
                                                 float(str(self.lineEdit_7.text())), \
                                                 self.__zero_pos_joints[0],  \
                                                 self.__direction_joints[0]  )
-            self.__joint_velocity_command_posMode[0] = self.__joint_velocity
-            self.__joint_pos_command(self.__joint_position_command)
+            self.sin_single_joint_pos_cmd.emit([cmd, self.__joint_velocity, 1])
 
     def joint_t2_command(self):
         if self.__robot_enabled_flag:
-            self.__joint_position_command[1] =  Modular_robot_control_func.__user_data_to_motor(   \
+            cmd =  Modular_robot_control_func.__user_data_to_motor(   \
                                                 float(str(self.lineEdit_8.text())), \
                                                 self.__zero_pos_joints[1],  \
                                                 self.__direction_joints[1]  )
-            self.__joint_velocity_command_posMode[1] = self.__joint_velocity
-            self.__joint_pos_command(self.__joint_position_command)
+            self.sin_single_joint_pos_cmd.emit([cmd, self.__joint_velocity, 2])
 
     def joint_t3_command(self):
         if self.__robot_enabled_flag:
-            self.__joint_position_command[2] =  Modular_robot_control_func.__user_data_to_motor(   \
+            cmd =  Modular_robot_control_func.__user_data_to_motor(   \
                                                 float(str(self.lineEdit_9.text())), \
                                                 self.__zero_pos_joints[2],  \
                                                 self.__direction_joints[2]  )
-            self.__joint_velocity_command_posMode[2] = self.__joint_velocity
-            self.__joint_pos_command(self.__joint_position_command)
+            self.sin_single_joint_pos_cmd.emit([cmd, self.__joint_velocity, 3])
 
     def joint_t4_command(self):
         if self.__robot_enabled_flag:
-            self.__joint_position_command[3] =  Modular_robot_control_func.__user_data_to_motor(   \
+            cmd =  Modular_robot_control_func.__user_data_to_motor(   \
                                                 float(str(self.lineEdit_10.text())), \
                                                 self.__zero_pos_joints[3],  \
                                                 self.__direction_joints[3]  )
-            self.__joint_velocity_command_posMode[3] = self.__joint_velocity
-            self.__joint_pos_command(self.__joint_position_command)
+            self.sin_single_joint_pos_cmd.emit([cmd, self.__joint_velocity, 4])
 
     def joint_i5_command(self):
         if self.__robot_enabled_flag:
-            self.__joint_position_command[4] =  Modular_robot_control_func.__user_data_to_motor(   \
+            cmd =  Modular_robot_control_func.__user_data_to_motor(   \
                                                 float(str(self.lineEdit_11.text())), \
                                                 self.__zero_pos_joints[4],  \
                                                 self.__direction_joints[4]  )
-            self.__joint_velocity_command_posMode[4] = self.__joint_velocity
-            self.__joint_pos_command(self.__joint_position_command)
-
-    def __joint_pos_command(self,data):
-        self.sin_joint_position.emit([data, self.__joint_velocity_command_posMode])
+            self.sin_single_joint_pos_cmd.emit([cmd, self.__joint_velocity, 5])
 
     #################### 关节空间位置控制界面 关节控制槽函数 end ###################################################
 
