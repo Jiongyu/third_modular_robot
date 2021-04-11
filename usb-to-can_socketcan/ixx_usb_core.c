@@ -28,6 +28,8 @@
 #include <linux/can/error.h>
 #include <asm-generic/errno.h>
 
+#include <linux/time.h>
+
 #include "ixx_usb_core.h"
 
 MODULE_AUTHOR("Michael Hengler <mhengler@ixxat.de>");
@@ -138,7 +140,13 @@ void ixxat_usb_update_ts_now(struct ixx_usb_device *dev, u32 hw_time_base)
 void ixxat_usb_set_ts_now(struct ixx_usb_device *dev, u32 hw_time_base)
 {
         dev->time_ref.ts_dev_0 = hw_time_base;
-        do_gettimeofday(&dev->time_ref.tv_host_0);
+        // jiongyu fix bug
+        // do_gettimeofday(&dev->time_ref.tv_host_0);
+        #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 3)
+			jiffies_to_timeval(jiffies, &dev->time_ref.tv_host_0);
+        #else
+			do_gettimeofday(&dev->time_ref.tv_host_0);
+        #endif
         dev->time_ref.ts_dev_last = hw_time_base;
 }
 

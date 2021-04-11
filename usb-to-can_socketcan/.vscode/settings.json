@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "time.h": "c",
+        "errno.h": "c",
+        "module.h": "c",
+        "types.h": "c",
+        "netdevice.h": "c",
+        "int-ll64.h": "c",
+        "bitsperlong.h": "c"
+    }
+}
