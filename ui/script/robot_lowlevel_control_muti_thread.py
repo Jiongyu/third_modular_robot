@@ -291,7 +291,7 @@ class Robot_lowlevel_control_Muti_thread(QThread):
     # 执行单独关节控制命令
     def __execute_joint_single_position_command(self):
         self.__mutex.lock()
-        self.__jonits[self.__pos__joint_single_command[2] - 1].sent_position(   \
+        self.__joints[self.__pos__joint_single_command[2] - 1].sent_position(   \
             self.__pos__joint_single_command[0], self.__pos__joint_single_command[1])
         self.__joint_pos_single_mode = False
         self.__mutex.unlock()
