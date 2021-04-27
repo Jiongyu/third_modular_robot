@@ -104,7 +104,7 @@
           </font>
          </property>
          <property name="text">
-          <string>调整姿态</string>
+          <string>预调整位姿</string>
          </property>
         </widget>
        </item>
@@ -866,7 +866,7 @@
    <sender>pushButton_2</sender>
    <signal>clicked()</signal>
    <receiver>auto_gripper</receiver>
-   <slot>adjust_posture()</slot>
+   <slot>pre_adjust_position_and_posture()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>123</x>
@@ -882,7 +882,7 @@
    <sender>pushButton_3</sender>
    <signal>clicked()</signal>
    <receiver>auto_gripper</receiver>
-   <slot>adjust_position()</slot>
+   <slot>move_to_grasp_point()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>123</x>
@@ -913,8 +913,8 @@
  </connections>
  <slots>
   <slot>get_grasp_point()</slot>
-  <slot>adjust_posture()</slot>
-  <slot>adjust_position()</slot>
+  <slot>pre_adjust_position_and_posture()</slot>
+  <slot>move_to_grasp_point()</slot>
   <slot>sent_joint_command()</slot>
  </slots>
 </ui>
