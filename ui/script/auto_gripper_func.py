@@ -49,6 +49,9 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
 
         self.__joint_commad = [[0,0,0,0,0],[0,0,0,0,0]]
 
+        # 预调整位置为退出杆件100mm(-z方向)
+        self.__pre_grasp_point_pos_z = 100
+
         self.__input_setting()
 
     def get_grasp_point(self):
@@ -94,6 +97,42 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
             else:
                 self.__descartes_vel_list[i] = 0
 
+    # 预调整抓夹点位姿
+    def pre_adjust_position_and_posture(self):
+        if not self.__get_inverse_solution_thread.isRunning():
+            try:
+                self.__grasp_point[0] = round(float(self.lineEdit.text()), 3)
+                self.__grasp_point[1] = round(float(self.lineEdit_2.text()), 3)
+                self.__grasp_point[2] = round(float(self.lineEdit_3.text()), 3)
+                self.__grasp_point[3] = round(float(self.lineEdit_4.text()), 3)
+                self.__grasp_point[4] = round(float(self.lineEdit_5.text()), 3)
+                self.__grasp_point[5] = round(float(self.lineEdit_6.text()), 3)
+            except:
+                print "pre_adjust_position_and_posture input error"
+                return
+            # Z方向
+            self.__grasp_point[2] -= self.__pre_grasp_point_pos_z
+            self.__calculate_descartes_vel(self.__descartes_position, self.__grasp_point)
+            self.__get_inverse_solution_thread = Get_inverse_solution_thread(0, self.__which_base, self.__grasp_point, \
+                                                        self.__descartes_vel_list, self.__current_joint_pos)
+            self.__get_inverse_solution_thread.sin_inverse_solution.connect(self.__get_inverse_solution)   
+            
+            self.__get_inverse_solution_thread.start() 
+        pass
+
+    # 调整抓夹点位姿
+    def move_to_grasp_point(self):
+        # Z方向
+        self.__grasp_point[2] += self.__pre_grasp_point_pos_z
+        self.__calculate_descartes_vel(self.__descartes_position, self.__grasp_point)
+        self.__get_inverse_solution_thread = Get_inverse_solution_thread(0, self.__which_base, self.__grasp_point, \
+                                                    self.__descartes_vel_list, self.__current_joint_pos)
+        self.__get_inverse_solution_thread.sin_inverse_solution.connect(self.__get_inverse_solution)   
+        
+        self.__get_inverse_solution_thread.start() 
+        pass
+
+    '''
     def adjust_posture(self):      
         if not self.__get_inverse_solution_thread.isRunning():
             try:
@@ -134,6 +173,7 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
             self.__get_inverse_solution_thread.start() 
             # print self.__descartes_position
         pass
+    '''
 
     def __get_inverse_solution(self,data):
         # print data

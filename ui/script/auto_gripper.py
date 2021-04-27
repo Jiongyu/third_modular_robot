@@ -339,8 +339,8 @@ class Ui_auto_gripper(object):
 
         self.retranslateUi(auto_gripper)
         self.pushButton.clicked.connect(auto_gripper.get_grasp_point)
-        self.pushButton_2.clicked.connect(auto_gripper.adjust_posture)
-        self.pushButton_3.clicked.connect(auto_gripper.adjust_position)
+        self.pushButton_2.clicked.connect(auto_gripper.pre_adjust_position_and_posture)
+        self.pushButton_3.clicked.connect(auto_gripper.move_to_grasp_point)
         self.pushButton_4.clicked.connect(auto_gripper.sent_joint_command)
         QtCore.QMetaObject.connectSlotsByName(auto_gripper)
 
@@ -348,7 +348,7 @@ class Ui_auto_gripper(object):
         _translate = QtCore.QCoreApplication.translate
         auto_gripper.setWindowTitle(_translate("auto_gripper", "自主抓夹"))
         self.pushButton.setText(_translate("auto_gripper", "获取夹持点"))
-        self.pushButton_2.setText(_translate("auto_gripper", "调整姿态"))
+        self.pushButton_2.setText(_translate("auto_gripper", "预调整位姿"))
         self.pushButton_3.setText(_translate("auto_gripper", "调整位置"))
         self.pushButton_4.setText(_translate("auto_gripper", "发送控制命令"))
         self.label_4.setText(_translate("auto_gripper", "RX"))
