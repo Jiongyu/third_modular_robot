@@ -49,6 +49,9 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
 
         self.__joint_commad = [[0,0,0,0,0],[0,0,0,0,0]]
 
+        # 预调整位置为退出杆件100mm(-z方向)
+        self.__pre_grasp_point_pos_z = 100
+
         self.__input_setting()
 
     def get_grasp_point(self):
