@@ -25,7 +25,7 @@ class Robot_feedback_fun(QWidget, Ui_robotFeedback):
 
     sin_close = pyqtSignal()
 
-
+    sin_update_descartes_pos_data = pyqtSignal(list)
 
     def __init__(self, which_robot):
         super(Robot_feedback_fun,self).__init__()
@@ -87,6 +87,8 @@ class Robot_feedback_fun(QWidget, Ui_robotFeedback):
         self.lineEdit_43.setText(str(data[3]))        
         self.lineEdit_46.setText(str(data[4]))        
         self.lineEdit_45.setText(str(data[5]))    
+        
+        self.sin_update_descartes_pos_data.emit(data)
 
     # 关闭界面
     def close_windows(self):

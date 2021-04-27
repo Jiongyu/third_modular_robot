@@ -707,6 +707,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                 self.sin_display_feedback_data.connect(self.__window_robot_state_feedback.display)
                 self.sin_update_gripper_base.connect(self.__window_robot_state_feedback.update_gripper)
                 self.__window_robot_state_feedback.sin_open_robot_state_feedback.connect(self.__open_robot_state_feedback_signal)
+                self.__window_robot_state_feedback.sin_update_descartes_pos_data.connect(self.__update_descartes_pos_data)
             self.__window_robot_state_feedback.sin_close.connect(self.__open_robot_state_feedback_close_flag)
             self.sin_close_windowsFeedback.connect(self.__window_robot_state_feedback.close_windows)
             temp = self.frameGeometry()
@@ -715,6 +716,9 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.__window_robot_state_feedback.move(temp.left() - temp_width, temp.top() + temp_height)
             self.__window_robot_state_feedback.show()
             self.__window_robot_state_feedback.open_robot_state_feedback()
+
+    def __update_descartes_pos_data(self, data):
+        self.__actual_robot_tcp_pos = data
     
     def __open_robot_state_feedback_close_flag(self):
         self.__window_robot_state_feedback_flag = False
