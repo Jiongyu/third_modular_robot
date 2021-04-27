@@ -47,7 +47,7 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
         self.__descartes_vel = 5
         self.__descartes_vel_list = [0] * 6
 
-        self.__joint_commad = []
+        self.__joint_commad = [[0,0,0,0,0],[0,0,0,0,0]]
 
         self.__input_setting()
 
@@ -96,9 +96,13 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
 
     def adjust_posture(self):      
         if not self.__get_inverse_solution_thread.isRunning():
-            self.__grasp_point[3] = round(float(self.lineEdit_4.text()), 3)
-            self.__grasp_point[4] = round(float(self.lineEdit_5.text()), 3)
-            self.__grasp_point[5] = round(float(self.lineEdit_6.text()), 3)
+            try:
+                self.__grasp_point[3] = round(float(self.lineEdit_4.text()), 3)
+                self.__grasp_point[4] = round(float(self.lineEdit_5.text()), 3)
+                self.__grasp_point[5] = round(float(self.lineEdit_6.text()), 3)
+            except:
+                print "__grasp_point adjust_posture input error"
+                return
             temp_pos = self.__descartes_position[0:3] + self.__grasp_point[3:6]
             
             # print temp_pos
@@ -113,9 +117,13 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
 
     def adjust_position(self):
         if not self.__get_inverse_solution_thread.isRunning():
-            self.__grasp_point[0] = round(float(self.lineEdit.text()), 3)
-            self.__grasp_point[1] = round(float(self.lineEdit_2.text()), 3)
-            self.__grasp_point[2] = round(float(self.lineEdit_3.text()), 3)
+            try:
+                self.__grasp_point[0] = round(float(self.lineEdit.text()), 3)
+                self.__grasp_point[1] = round(float(self.lineEdit_2.text()), 3)
+                self.__grasp_point[2] = round(float(self.lineEdit_3.text()), 3)
+            except: 
+                print "__grasp_point adjust_position input error"
+                return
             temp_pos = self.__descartes_position[0:3] + self.__grasp_point[3:6]
             # print temp_pos
             self.__calculate_descartes_vel(temp_pos, self.__grasp_point)
@@ -133,6 +141,15 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
         self.__joint_commad = data
 
     def sent_joint_command(self):
+        try:
+            self.__joint_commad[0][0] = round(float(self.lineEdit_16.text()), 3)
+            self.__joint_commad[0][1] = round(float(self.lineEdit_13.text()), 3)
+            self.__joint_commad[0][2] = round(float(self.lineEdit_18.text()), 3)
+            self.__joint_commad[0][3] = round(float(self.lineEdit_17.text()), 3)
+            self.__joint_commad[0][4] = round(float(self.lineEdit_14.text()), 3)
+        except:
+            print "sent_joint_command input error"
+            return
         # print self.__joint_commad
         self.sin_robot_command.emit(self.__joint_commad)
         pass
