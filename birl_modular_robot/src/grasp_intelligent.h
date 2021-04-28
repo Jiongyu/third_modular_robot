@@ -6,6 +6,7 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
+
 // #define DEBUG_GRASP_INTELLIGENT 
 
 class GraspIntelligent
@@ -59,6 +60,22 @@ public:
                                 const std::vector<double>& robot_tcp, const enum GRIPPER which_gripper, 
                                 std::vector<double> *grasp_point);
 
+    /**
+     * @brief 获取相机相对与机器人基座坐标变换
+     * 
+     * @return Eigen::Isometry3d 
+     */
+    Eigen::Isometry3d getTransformCarmeraToBase();
+
+    /**
+     * @brief 获取机器人基座坐标系下杆件两端点位置
+     * 
+     * @return std::vector<Eigen::Vector3d> 
+     */
+    std::vector<Eigen::Vector3d> getPolePosition();
+
+
+
 private:
 
     /**
@@ -94,8 +111,11 @@ private:
      */
     Eigen::Isometry3d _transform_tcp_to_base;
 
-
-
+    /**
+     * @brief 杆件检测，杆件两端点
+     * 
+     */
+    std::vector<Eigen::Vector3d> pole_position;
 
 private:
 
@@ -151,4 +171,6 @@ private:
      * @param grasp_point 夹持点 ( rpy --> rad) 相对base
      */
     void convertPostureMatrixToEuler(const Eigen::Matrix3d &matrix, std::vector<double> *grasp_point);
+
+
 };

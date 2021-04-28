@@ -19,6 +19,7 @@
 
 #include "birl_module_robot/grasp_point.h"
 #include "./grasp_intelligent.h"
+#include "./grasp_point_error.h"
 
 #define CALIBRATION_DATA
 
@@ -31,6 +32,8 @@ std::vector<double> grasp_point;
 std::vector<double> p1;
 std::vector<double> p2;
 std::vector<double> tcp;
+
+std::shared_ptr<GraspPointErrorNote>Note = std::make_shared<GraspPointErrorNote>();
 
 bool set_eye_hand_calibration_data(GraspIntelligent *t_strategy)
 {
@@ -162,7 +165,6 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
         return false;
     }
 
-
     int ret;
     for(size_t i = 0; i < POLE_WIDTH; ++ i){
         p1[i] = req.p1[i];
@@ -190,6 +192,12 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
         return false;
     }
 
+    Note->setMocapLabelName("/robot_mocap_label");
+    ret = Note->noteData(Strategy.getTransformCarmeraToBase(), grasp_point, Strategy.getPolePosition());
+    if(ret < 0){
+        ROS_WARN_STREAM("夹持点位姿误差记录错误");
+    }
+
     res.grasp_point.resize(POINT_WIDTH);
     for(size_t i = 0; i < POINT_WIDTH; ++i)
     {
@@ -208,13 +216,15 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
 int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "find_grasp_point_server");
-    
+    ros::NodeHandle nh;
+
+    Note->setRosNodeHandle(nh);
+
     grasp_point.resize(POINT_WIDTH);
     p1.resize(POLE_WIDTH);
     p2.resize(POLE_WIDTH);
     tcp.resize(POINT_WIDTH);
 
-    ros::NodeHandle nh;
     ros::ServiceServer server = nh.advertiseService("find_grasp_point", handle_function);
 
     ROS_INFO_STREAM("Find Grasp Point Server Already start.");  

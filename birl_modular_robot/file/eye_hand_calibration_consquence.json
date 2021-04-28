@@ -34,6 +34,7 @@
         "r32":0,
         "r33":1
     },
+    
     "g6_camera_to_bridge_transformation" : {
         "x":-13.759,
         "y":-177.911,

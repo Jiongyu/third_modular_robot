@@ -1,6 +1,5 @@
 #include "grasp_intelligent.h"
 
-
 GraspIntelligent::GraspIntelligent(/* args */){
 
     _transform_carmera_to_tcp_gripper0 = Eigen::Isometry3d::Identity();
@@ -13,6 +12,9 @@ GraspIntelligent::GraspIntelligent(/* args */){
     _transform_birdge_to_tcp_gripper6 = Eigen::Isometry3d::Identity();
 
     _transform_tcp_to_base = Eigen::Isometry3d::Identity();
+
+    pole_position.clear();
+
 };
 
 bool GraspIntelligent::setHandEyeCalibrationBridge(const Eigen::Matrix3d& bridge ,const enum GRIPPER which_gripper)
@@ -233,6 +235,9 @@ void GraspIntelligent::calculateGraspPointPosition(const std::vector<double>& po
     p1 << temp_p1(0,3), temp_p1(1,3), temp_p1(2, 3);
     p2 << temp_p2(0,3), temp_p2(1,3), temp_p2(2, 3);
 
+    pole_position.push_back(p1);
+    pole_position.push_back(p2);
+
     #ifdef DEBUG_GRASP_INTELLIGENT
         std::cout << "4. p1 杆件点位置base坐标系:" << std::endl << p1 << std::endl;
         std::cout << "5. p2 杆件点位置base坐标系:" << std::endl << p2 << std::endl;
@@ -319,3 +324,21 @@ void GraspIntelligent::convertPostureMatrixToEuler(const Eigen::Matrix3d &matrix
     }
 
 }
+
+Eigen::Isometry3d GraspIntelligent::getTransformCarmeraToBase()
+{
+    Eigen::Isometry3d temp = Eigen::Isometry3d::Identity();
+
+    temp =  _which_gripper == G0_GRIPPER ? \
+            _transform_carmera_to_tcp_gripper0 * _transform_tcp_to_base :   \
+            _transform_carmera_to_tcp_gripper6 * _transform_tcp_to_base;
+
+    return std::move(temp);   
+}
+
+std::vector<Eigen::Vector3d> GraspIntelligent::getPolePosition()
+{
+    return std::move(pole_position);
+
+}
+

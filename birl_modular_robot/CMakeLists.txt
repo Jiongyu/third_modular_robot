@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(birl_module_robot)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+## Compile as C++14, supported in ROS Kinetic and newer
+add_compile_options(-std=c++14)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -74,10 +74,14 @@ target_link_libraries(robot_increTransTool_server ${catkin_LIBRARIES})
 
 add_library( find_grasp
 ./src/grasp_intelligent.cpp
-
 )
+
+add_library( grasp_point_error_note
+./src/grasp_point_error.cpp
+)
+
 add_executable(find_grasp_point_test src/test.cpp)
 target_link_libraries(find_grasp_point_test find_grasp ${catkin_LIBRARIES} )
 
 add_executable(find_grasp_point_server src/find_grasp_point_server.cpp)
-target_link_libraries(find_grasp_point_server find_grasp jsoncpp ${catkin_LIBRARIES} )
+target_link_libraries(find_grasp_point_server find_grasp jsoncpp grasp_point_error_note ${catkin_LIBRARIES} )
