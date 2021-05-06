@@ -78,10 +78,11 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
     # 更新爪子基座
     sin_update_gripper_base = pyqtSignal(bool)
 
-
     # 更新 爬壁机器人接收控制命令窗口 机器人状态
     sin_update_biped_robot_state = pyqtSignal(list)
 
+    # 自主抓夹界面更新tcp、关节位置信号
+    sin_update_descartes_and_joint_position = pyqtSignal(list)
 
     def  __init__(self,which_robot, robot_state):
         super(Modular_robot_control_func,self).__init__()
@@ -719,6 +720,9 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
 
     def __update_descartes_pos_data(self, data):
         self.__actual_robot_tcp_pos = data
+        # 判断自主抓夹界面是否打开
+        if self.__window_auto_gripper_flag:
+            self.sin_update_descartes_and_joint_position.emit([self.__pos_joints, self.__actual_robot_tcp_pos])
     
     def __open_robot_state_feedback_close_flag(self):
         self.__window_robot_state_feedback_flag = False
@@ -761,6 +765,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                 self.__window_auto_gripper.sin_close.connect(self.__open_auto_gripper_close_flag)
                 self.__window_auto_gripper.sin_robot_command.connect(self.__auto_gripper_sent_command)
                 self.sin_close_windowsAutoGripper.connect((self.__window_auto_gripper.close_windows))
+                self.sin_update_descartes_and_joint_position.connect(self.__window_auto_gripper.update_joint_and_descartes_data)
                 self.__window_auto_gripper.show()
             pass
 

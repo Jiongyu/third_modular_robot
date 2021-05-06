@@ -69,7 +69,8 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
         # 启动获取抓夹点
         if not self.__get_grasp_point_thread.isRunning():
             # 获取夹持点
-            self.__get_grasp_point_thread = Get_grasp_point_thread(self.__which_base, self.__descartes_position, data[0], data[1])
+            self.__get_grasp_point_thread = Get_grasp_point_thread(self.__which_base, 
+                self.__descartes_position, data[0], data[1],self.__current_joint_pos)
             # 夹持点回调
             self.__get_grasp_point_thread.sin_grasp_point.connect(self.__update_grasp_point)
             self.__get_grasp_point_thread.start()
@@ -208,6 +209,12 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
         self.lineEdit_18.setText(str(data[0][2]))
         self.lineEdit_17.setText(str(data[0][3]))
         self.lineEdit_14.setText(str(data[0][4]))
+        pass
+
+    # 更新tcp、当前关节位置数据
+    def update_joint_and_descartes_data(self, data):
+        self.__current_joint_pos    = data[0] 
+        self.__descartes_position   = data[1]
         pass
 
     def close_windows(self):

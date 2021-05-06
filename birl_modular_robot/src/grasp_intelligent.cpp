@@ -13,7 +13,7 @@ GraspIntelligent::GraspIntelligent(/* args */){
 
     _transform_tcp_to_base = Eigen::Isometry3d::Identity();
 
-    pole_position.clear();
+    pole_position_.clear();
 
 };
 
@@ -82,12 +82,12 @@ bool GraspIntelligent::setHandEyeCalibrationConsq(const std::vector<double>& cal
 }
 
 bool GraspIntelligent::findGraspPointByLine(  const std::vector<double>& point1, const std::vector<double>& point2, 
-                                                const std::vector<double>& robot_tcp, const enum GRIPPER which_gripper, 
-                                                std::vector<double> *grasp_point)
+                                const std::vector<double>& robot_tcp, const enum GRIPPER which_gripper, 
+                                std::vector<double> *grasp_point)
 {
     if(point1.size() != 3 || point2.size() != 3 || robot_tcp.size() != 6 || grasp_point->size() != 6)
     {
-        std::cout <<"求解夹持点输入错误!" << std::endl;  
+        ROS_WARN_STREAM("求解夹持点输入错误!");  
         return false;
     }
     _which_gripper = which_gripper;
@@ -99,10 +99,38 @@ bool GraspIntelligent::findGraspPointByLine(  const std::vector<double>& point1,
         std::cout << "2. 变换矩阵: tcp --> base:" << std::endl << _transform_tcp_to_base.matrix() << std::endl;
     #endif
 
-    // 2. 计算夹持点位置 相对base坐标系
+    // 计算夹持点位置 相对base坐标系
     calculateGraspPointPosition(point1, point2, robot_tcp, grasp_point);
-    // 3. 计算夹持点姿态 相对base坐标系
+
+    // 计算夹持点姿态 相对base坐标系
     calculateGraspPointPosture(point1, point2, grasp_point);
+
+    return true;
+};
+
+bool GraspIntelligent::findGraspPointBySearch(  const std::vector<double>& point1, const std::vector<double>& point2, 
+                                const std::vector<double>& robot_tcp, const std::vector<double>& current_joint_pos, 
+                                const enum GRIPPER which_gripper, std::vector<double> *grasp_point)
+{
+    if(point1.size() != 3 || point2.size() != 3 || robot_tcp.size() != 6 || grasp_point->size() != 6)
+    {
+        ROS_WARN_STREAM("求解夹持点输入错误!");  
+        return false;
+    }
+    _which_gripper = which_gripper;
+
+    // 1.计算转换矩阵 tcp --> base 
+    calculateRobotTcpToBase(robot_tcp);
+
+    #ifdef DEBUG_GRASP_INTELLIGENT
+        std::cout << "2. 变换矩阵: tcp --> base:" << std::endl << _transform_tcp_to_base.matrix() << std::endl;
+    #endif
+
+    if(searchGraspPoint(point1, point2, robot_tcp,current_joint_pos, grasp_point) < 0)
+    {
+        ROS_WARN_STREAM("无法找到夹持点.");
+        return false;
+    }
 
     return true;
 };
@@ -235,8 +263,8 @@ void GraspIntelligent::calculateGraspPointPosition(const std::vector<double>& po
     p1 << temp_p1(0,3), temp_p1(1,3), temp_p1(2, 3);
     p2 << temp_p2(0,3), temp_p2(1,3), temp_p2(2, 3);
 
-    pole_position.push_back(p1);
-    pole_position.push_back(p2);
+    pole_position_.push_back(p1);
+    pole_position_.push_back(p2);
 
     #ifdef DEBUG_GRASP_INTELLIGENT
         std::cout << "4. p1 杆件点位置base坐标系:" << std::endl << p1 << std::endl;
@@ -338,7 +366,129 @@ Eigen::Isometry3d GraspIntelligent::getTransformCarmeraToBase()
 
 std::vector<Eigen::Vector3d> GraspIntelligent::getPolePosition()
 {
-    return std::move(pole_position);
+    return std::move(pole_position_);
 
 }
 
+int GraspIntelligent::searchGraspPoint(const std::vector<double>& point1, const std::vector<double>& point2, 
+                                    const std::vector<double>& robot_tcp, const std::vector<double>& current_joint_pos, 
+                                    std::vector<double> *grasp_point)
+{
+
+    // 夹持点搜索边界，沿杆件方向正负100mm
+    int search_border = 100;
+    // 搜索距离间隔
+    int search_interval = 10;
+    int times = 0;
+
+    // 判断是否到达搜索边界 
+    bool reach_left_border = false; 
+    bool reach_right_border = false; 
+
+    while ( !reach_left_border || !reach_right_border )
+    {
+        // 计算夹持点位置 相对base坐标系
+        calculateGraspPointPosition(point1, point2, robot_tcp, grasp_point);
+
+        // x轴 搜索
+        grasp_point->at(0) += times * search_interval;
+
+        // 计算夹持点姿态 相对base坐标系
+        calculateGraspPointPosture(point1, point2, grasp_point);
+
+        // 计算是否有位置逆解
+        if(getInverseSolution(current_joint_pos, *grasp_point) >= 0)
+        {
+            return 0;
+        }
+
+        // 到达右边界
+        if (times * search_interval >= search_border)
+        {
+            reach_right_border = true;
+            times = 0;
+        }
+
+        // 到达左边界
+        if(times * search_interval <=  - search_border)
+        {
+            reach_left_border = true;
+        }
+
+        if(reach_right_border){
+            times -= 1;
+        }else{
+            times += 1;
+        }
+    }
+
+    return -1;
+}
+
+int GraspIntelligent::getInverseSolution(const std::vector<double>& current_joint_pos, std::vector<double> &grasp_point)
+{
+
+    double Robot_Link_Len[6]; 
+    //climbing robot link length
+    Robot_Link_Len[0] = 176.4; 
+    Robot_Link_Len[1] = 256.8; 
+    Robot_Link_Len[2] = 293.2; 
+    Robot_Link_Len[3] = 293.2; 
+    Robot_Link_Len[4] = 256.8; 
+    Robot_Link_Len[5] = 176.4;  
+                
+    double new_decartes_point[6] = {0.5864,0,0,0,0,180}; //new cartesian point (xyzwpr) unit:(meter,degree)
+    double current_joint_value[5] = {0,0,0,0,0};  //unit:degree
+
+    double new_joint_value[5]; //degree
+    new_decartes_point[0] = grasp_point[0];    //X   
+    new_decartes_point[1] = grasp_point[1];    //Y   
+    new_decartes_point[2] = grasp_point[2];    //Z
+    new_decartes_point[3] = grasp_point[3];    //RX
+    new_decartes_point[4] = grasp_point[4];    //RY   
+    new_decartes_point[5] = grasp_point[5];    //RZ
+
+    // std::cout <<"[ "  << new_decartes_point[0] <<" ]";
+    // std::cout <<"[ "  << new_decartes_point[1] <<" ]";
+    // std::cout <<"[ "  << new_decartes_point[2] <<" ]";
+    // std::cout <<"[ "  << new_decartes_point[3] <<" ]";
+    // std::cout <<"[ "  << new_decartes_point[4] <<" ]";
+    // std::cout <<"[ "  << new_decartes_point[5] <<" ]\n";
+
+    current_joint_value[0] = current_joint_pos[0];   //I1
+    current_joint_value[1] = current_joint_pos[1];   //T2
+    current_joint_value[2] = current_joint_pos[2];   //T3
+    current_joint_value[3] = current_joint_pos[3];   //T4
+    current_joint_value[4] = current_joint_pos[4];   //I5
+
+    // std::cout <<"[ "  << current_joint_value[0] <<" ]";
+    // std::cout <<"[ "  << current_joint_value[1] <<" ]";
+    // std::cout <<"[ "  << current_joint_value[2] <<" ]";
+    // std::cout <<"[ "  << current_joint_value[3] <<" ]";
+    // std::cout <<"[ "  << current_joint_value[4] <<" ]\n";
+
+    if(!_which_gripper)
+    {
+        Kine_CR_FiveDoF_G1 robot5d_G0; // robot based on the gripper0 to get inverse solution
+        robot5d_G0.Set_Length(Robot_Link_Len);
+        if(! robot5d_G0.IKine(new_decartes_point,current_joint_value,new_joint_value)){
+            ROS_INFO_STREAM("G0 IKine success");
+            return 0;        
+        }else
+        {
+            return -1;        
+        }
+    }     
+    else
+    {
+        Kine_CR_FiveDoF_G2 robot5d_G6;
+        robot5d_G6.Set_Length(Robot_Link_Len);
+        if(! robot5d_G6.IKine(new_decartes_point,current_joint_value,new_joint_value)){
+            ROS_INFO_STREAM("G6 IKine success"); 
+            return 0;        
+        }else
+        {
+            return -1;        
+        }
+    }
+}

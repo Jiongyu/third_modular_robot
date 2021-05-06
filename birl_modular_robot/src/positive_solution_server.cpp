@@ -11,7 +11,7 @@
  */
 #include <ros/ros.h>
 #include "./../kinematics/Kine.h"
-#include "birl_module_robot/positive_solution.h"
+#include <birl_module_robot/positive_solution.h>
 
 bool handle_function(   birl_module_robot::positive_solution::Request &req,
                         birl_module_robot::positive_solution::Response &res){

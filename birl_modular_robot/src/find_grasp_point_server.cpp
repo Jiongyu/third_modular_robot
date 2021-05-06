@@ -21,21 +21,29 @@
 #include "./grasp_intelligent.h"
 #include "./grasp_point_error.h"
 
+// 是否采用标定结果
 #define CALIBRATION_DATA
+
+// 是否记录数据
+// #define ERROR_NOTE
 
 #define POLE_WIDTH 3
 #define POINT_WIDTH 6
-#define PI_DEG 57.295779
-#define PI_RAD 0.0174533
+#define JOINT_WIDTH 5
+#define PI_DEG_ 57.295779
+#define PI_RAD_ 0.0174533
 
 std::vector<double> grasp_point;
 std::vector<double> p1;
 std::vector<double> p2;
 std::vector<double> tcp;
+std::vector<double> current_joint_pos;
 
-std::shared_ptr<GraspPointErrorNote>Note = std::make_shared<GraspPointErrorNote>();
+#ifdef ERROR_NOTE
+    std::unique_ptr<GraspPointErrorNote>Note = std::make_unique<GraspPointErrorNote>();
+#endif
 
-bool set_eye_hand_calibration_data(GraspIntelligent *t_strategy)
+bool set_eye_hand_calibration_data(std::unique_ptr<GraspIntelligent>& t_strategy)
 {
 
 #ifdef CALIBRATION_DATA
@@ -92,18 +100,18 @@ bool set_eye_hand_calibration_data(GraspIntelligent *t_strategy)
                         root["g0_camera_to_bridge_transformation"]["x"].asDouble(), 
                         root["g0_camera_to_bridge_transformation"]["y"].asDouble(),
                         root["g0_camera_to_bridge_transformation"]["z"].asDouble(), 
-                        root["g0_camera_to_bridge_transformation"]["rx"].asDouble() * PI_RAD, 
-                        root["g0_camera_to_bridge_transformation"]["ry"].asDouble() * PI_RAD, 
-                        root["g0_camera_to_bridge_transformation"]["rz"].asDouble() * PI_RAD,  
+                        root["g0_camera_to_bridge_transformation"]["rx"].asDouble() * PI_RAD_, 
+                        root["g0_camera_to_bridge_transformation"]["ry"].asDouble() * PI_RAD_, 
+                        root["g0_camera_to_bridge_transformation"]["rz"].asDouble() * PI_RAD_,  
     };
 
     const static std::vector<double>calibrationData_g6{
                         root["g6_camera_to_bridge_transformation"]["x"].asDouble(), 
                         root["g6_camera_to_bridge_transformation"]["y"].asDouble(),
                         root["g6_camera_to_bridge_transformation"]["z"].asDouble(), 
-                        root["g6_camera_to_bridge_transformation"]["rx"].asDouble() * PI_RAD, 
-                        root["g6_camera_to_bridge_transformation"]["ry"].asDouble() * PI_RAD, 
-                        root["g6_camera_to_bridge_transformation"]["rz"].asDouble() * PI_RAD,  
+                        root["g6_camera_to_bridge_transformation"]["rx"].asDouble() * PI_RAD_, 
+                        root["g6_camera_to_bridge_transformation"]["ry"].asDouble() * PI_RAD_, 
+                        root["g6_camera_to_bridge_transformation"]["rz"].asDouble() * PI_RAD_,  
     };
 
 #else
@@ -145,11 +153,20 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
     ROS_INFO_STREAM("Find Grasp Point Server Get Request.");  
 
     if(req.p1.size() != POLE_WIDTH || req.p2.size() != POLE_WIDTH || 
-        req.current_descartes_postion.size() != POINT_WIDTH)
+        req.current_descartes_postion.size() != POINT_WIDTH || 
+        req.current_joint_postion.size() != JOINT_WIDTH)
     {
         ROS_WARN_STREAM("find_grasp_point 输入错误！");
         return false;
     }
+
+    current_joint_pos.resize(JOINT_WIDTH);
+    for(int i : req.current_joint_postion)
+    {
+        current_joint_pos[i] = static_cast<double>(req.current_joint_postion[i]);
+        // ROS_WARN_STREAM("[ " << current_joint_pos[i] << " ]");
+    }
+
     // ROS_INFO_STREAM("1.---------------.");  
     // std::cout << req.p1[0] << " " << req.p1[1] << " "<< req.p1[2] << std::endl;
     // std::cout << req.p2[0] << " " << req.p2[1] << " "<< req.p2[2] << std::endl;
@@ -158,10 +175,9 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
     //     std::cout << req.current_descartes_postion[i] << " ";
     // }
     // std::cout << std::endl;
+    std::unique_ptr<GraspIntelligent>Strategy = std::make_unique<GraspIntelligent>();
 
-    GraspIntelligent Strategy;
-
-    if (!set_eye_hand_calibration_data(&Strategy)){
+    if (!set_eye_hand_calibration_data(Strategy)){
         return false;
     }
 
@@ -179,11 +195,13 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
 
     // 取反 : base 与 tcp 切换
     if(! req.base){
-        ret = Strategy.findGraspPointByLine(p1, p2, tcp, GraspIntelligent::G0_GRIPPER, &grasp_point);
+        ret = Strategy->findGraspPointBySearch(p1, p2, tcp, current_joint_pos, GraspIntelligent::G0_GRIPPER, &grasp_point);
+        // ret = Strategy->findGraspPointByLine(p1, p2, tcp, GraspIntelligent::G0_GRIPPER, &grasp_point);
         ROS_INFO_STREAM("G0 tcp");  
 
     }else{
-        ret = Strategy.findGraspPointByLine(p1, p2, tcp, GraspIntelligent::G6_GRIPPER, &grasp_point);
+        ret = Strategy->findGraspPointBySearch(p1, p2, tcp, current_joint_pos, GraspIntelligent::G6_GRIPPER, &grasp_point);
+        // ret = Strategy->findGraspPointByLine(p1, p2, tcp, GraspIntelligent::G6_GRIPPER, &grasp_point);
         ROS_INFO_STREAM("G6 tcp");  
     }
     // ROS_INFO_STREAM("3.---------------.");  
@@ -192,11 +210,13 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
         return false;
     }
 
+#ifdef ERROR_NOTE
     Note->setMocapLabelName("/robot_mocap_label");
-    ret = Note->noteData(Strategy.getTransformCarmeraToBase(), grasp_point, Strategy.getPolePosition());
+    ret = Note->noteData(Strategy->getTransformCarmeraToBase(), grasp_point, Strategy->getPolePosition());
     if(ret < 0){
         ROS_WARN_STREAM("夹持点位姿误差记录错误");
     }
+#endif
 
     res.grasp_point.resize(POINT_WIDTH);
     for(size_t i = 0; i < POINT_WIDTH; ++i)
@@ -204,7 +224,7 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
         if(i < 3){
             res.grasp_point[i] = grasp_point[i];
         }else{
-            res.grasp_point[i] = grasp_point[i] * PI_DEG;
+            res.grasp_point[i] = grasp_point[i] * PI_DEG_;
         }
         // std::cout << grasp_point[i] << std::endl;
     }
@@ -218,8 +238,9 @@ int main(int argc, char *argv[])
     ros::init(argc, argv, "find_grasp_point_server");
     ros::NodeHandle nh;
 
+#ifdef ERROR_NOTE
     Note->setRosNodeHandle(nh);
-
+#endif
     grasp_point.resize(POINT_WIDTH);
     p1.resize(POLE_WIDTH);
     p2.resize(POLE_WIDTH);

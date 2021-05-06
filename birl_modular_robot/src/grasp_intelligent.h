@@ -3,9 +3,10 @@
 
 #include <ros/ros.h>
 
+#include "./../kinematics/Kine.h"
+
 #include <Eigen/Core>
 #include <Eigen/Geometry>
-
 
 // #define DEBUG_GRASP_INTELLIGENT 
 
@@ -61,6 +62,22 @@ public:
                                 std::vector<double> *grasp_point);
 
     /**
+     * @brief 根据杆件检测到的两点位置和机器人末端姿态，沿杆件方向正负100mm搜索可逆解夹持点
+     * 
+     * @param point1 : 杆件位置点1 (xyz --> mm) 相对相机坐标系
+     * @param point2 : 杆件位置点2 (xyz --> mm) 相对相机坐标系
+     * @param robot_tcp : 机器人当前tcp （xyz-->mm,  rpy --> rad） 相对机器人base端
+     * @param current_joint_pos : 当前关节位置
+     * @param which_gripper : 夹持器编号(0: 夹持器G0； 6：夹持器G6)
+     * @param grasp_point : 机器人求解夹持点 （xyz-->mm,  rpy --> rad）相对机器人base端
+     * @return true 求解成功
+     * @return false 求解失败
+     */
+    bool findGraspPointBySearch(  const std::vector<double>& point1, const std::vector<double>& point2, 
+                                const std::vector<double>& robot_tcp, const std::vector<double>& current_joint_pos, 
+                                const enum GRIPPER which_gripper, std::vector<double> *grasp_point);
+
+    /**
      * @brief 获取相机相对与机器人基座坐标变换
      * 
      * @return Eigen::Isometry3d 
@@ -74,10 +91,7 @@ public:
      */
     std::vector<Eigen::Vector3d> getPolePosition();
 
-
-
 private:
-
     /**
      * @brief 夹持器编号(0: 夹持器G0； 6：夹持器G6)
      * 
@@ -115,7 +129,7 @@ private:
      * @brief 杆件检测，杆件两端点
      * 
      */
-    std::vector<Eigen::Vector3d> pole_position;
+    std::vector<Eigen::Vector3d> pole_position_;
 
 private:
 
@@ -173,4 +187,27 @@ private:
     void convertPostureMatrixToEuler(const Eigen::Matrix3d &matrix, std::vector<double> *grasp_point);
 
 
+    /**
+     * @brief 根据点到直线距离计算夹持点
+     * 
+     * @param point1 : 杆件位置点1 (xyz --> mm) 相对相机坐标系
+     * @param point2 : 杆件位置点2 (xyz --> mm) 相对相机坐标系
+     * @param robot_tcp : 机器人当前tcp （xyz-->mm,  rpy --> rad） 相对机器人base端
+     * @param current_joint_pos : 当前关节位置
+     * @param grasp_point : 夹持点 (xyz --> mm) 相对base
+     * @return 0 success 
+     * @return other fail 
+     */
+    int searchGraspPoint(const std::vector<double>& point1, const std::vector<double>& point2, 
+                                    const std::vector<double>& robot_tcp, const std::vector<double>& current_joint_pos, 
+                                    std::vector<double> *grasp_point);
+
+    /**
+     * @brief Get the Inverse Solution object
+     * 
+     * @param current_joint_pos : 当前关节位置
+     * @param grasp_point : 夹持点 (xyz --> mm) 相对base
+     * @return int (0:success, other : fail)
+     */
+    int getInverseSolution(const std::vector<double>& current_joint_pos, std::vector<double> &grasp_point);
 };

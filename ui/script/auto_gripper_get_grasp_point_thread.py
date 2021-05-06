@@ -21,15 +21,16 @@ from time import sleep
 
 class Get_grasp_point_thread(QThread):
 
-    # 逆解信号
+    # 
     sin_grasp_point = pyqtSignal(list)
 
-    def __init__(self, which_base, current_descartes_position, p1, p2):
+    def __init__(self, which_base, current_descartes_position, p1, p2, current_joint_position):
         super(Get_grasp_point_thread, self).__init__()
         self.__which_base = which_base
         self.__current_descartes_position = current_descartes_position
         self.__p1 = p1
         self.__p2 = p2
+        self.__current_joint_position = current_joint_position
 
         # print self.__current_descartes_position
         # print self.__p1
@@ -38,7 +39,8 @@ class Get_grasp_point_thread(QThread):
     def run(self):
         ifgetSolve = False
         [grasp_point, ifgetSolve] = Find_grasp_point_client( self.__which_base, 
-                                                                self.__current_descartes_position, self.__p1, self.__p2)
+                                                                self.__current_descartes_position, 
+                                                                self.__p1, self.__p2, self.__current_joint_position)
         temp = [grasp_point, ifgetSolve]
         if ifgetSolve:
             self.sin_grasp_point.emit(temp)

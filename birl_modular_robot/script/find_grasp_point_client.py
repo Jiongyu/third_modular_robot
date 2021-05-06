@@ -16,7 +16,7 @@ import rospy
 from birl_module_robot.srv import grasp_point
 import copy
 
-def Find_grasp_point_client( which_base, current_descartes_position, p1, p2):
+def Find_grasp_point_client( which_base, current_descartes_position, p1, p2, current_joint_position):
     # 检测输入
     if((len(p1) != 3) or (len(p2) != 3) ):
         return [None, False]
@@ -41,11 +41,12 @@ def Find_grasp_point_client( which_base, current_descartes_position, p1, p2):
     try:
         client = rospy.ServiceProxy("find_grasp_point", grasp_point)
         
-        resp = client.call(temp_pos, p1, p2, which_base)
+        resp = client.call(temp_pos, p1, p2, which_base, current_joint_position)
 
     except rospy.ServiceException, e:
         rospy.logwarn("Service call failed: %s"%e)
         result = False
+        return [None, result]
     result = True
 
     return [resp.grasp_point, result]
