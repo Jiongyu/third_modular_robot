@@ -191,6 +191,7 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
         except:
             print "sent_joint_command input error"
             return
+        self.sin_robot_command.emit(self.__joint_commad)
 
     # 显示抓夹点数据
     def show_grasp_point_data(self,data):

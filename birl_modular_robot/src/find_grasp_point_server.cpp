@@ -160,10 +160,9 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
         return false;
     }
 
-    current_joint_pos.resize(JOINT_WIDTH);
-    for(int i : req.current_joint_postion)
+     for(size_t i = 0; i < JOINT_WIDTH; ++ i)
     {
-        current_joint_pos[i] = static_cast<double>(req.current_joint_postion[i]);
+        current_joint_pos[i] = req.current_joint_postion[i];
         // ROS_WARN_STREAM("[ " << current_joint_pos[i] << " ]");
     }
 
@@ -245,6 +244,7 @@ int main(int argc, char *argv[])
     p1.resize(POLE_WIDTH);
     p2.resize(POLE_WIDTH);
     tcp.resize(POINT_WIDTH);
+    current_joint_pos.resize(JOINT_WIDTH);
 
     ros::ServiceServer server = nh.advertiseService("find_grasp_point", handle_function);
 

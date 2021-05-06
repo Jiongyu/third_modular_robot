@@ -767,6 +767,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                 self.sin_close_windowsAutoGripper.connect((self.__window_auto_gripper.close_windows))
                 self.sin_update_descartes_and_joint_position.connect(self.__window_auto_gripper.update_joint_and_descartes_data)
                 self.__window_auto_gripper.show()
+                self.__window_auto_gripper_flag = True
             pass
 
     def __open_auto_gripper_close_flag(self):

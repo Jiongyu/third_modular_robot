@@ -10,6 +10,8 @@
 
 // #define DEBUG_GRASP_INTELLIGENT 
 
+#define PI_DEG_ 57.295779
+
 class GraspIntelligent
 {
     //  位置姿态计算舍入阈值

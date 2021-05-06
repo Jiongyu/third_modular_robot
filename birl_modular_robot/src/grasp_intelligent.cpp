@@ -444,9 +444,9 @@ int GraspIntelligent::getInverseSolution(const std::vector<double>& current_join
     new_decartes_point[0] = grasp_point[0];    //X   
     new_decartes_point[1] = grasp_point[1];    //Y   
     new_decartes_point[2] = grasp_point[2];    //Z
-    new_decartes_point[3] = grasp_point[3];    //RX
-    new_decartes_point[4] = grasp_point[4];    //RY   
-    new_decartes_point[5] = grasp_point[5];    //RZ
+    new_decartes_point[3] = grasp_point[3]* PI_DEG_;    //RX
+    new_decartes_point[4] = grasp_point[4]* PI_DEG_;    //RY   
+    new_decartes_point[5] = grasp_point[5]* PI_DEG_;    //RZ
 
     // std::cout <<"[ "  << new_decartes_point[0] <<" ]";
     // std::cout <<"[ "  << new_decartes_point[1] <<" ]";
