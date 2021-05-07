@@ -32,6 +32,7 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
         self.setupUi(self)
         # 夹持点位置姿态初始化
         self.__grasp_point = [0] * 6
+        self.__pre_grasp_point = [0] * 6
         self.__which_base = which_base
         self.__descartes_position = descartes_position
         self.__current_joint_pos = current_joint_pos
@@ -82,14 +83,15 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
         
     def __update_grasp_point(self, data):
         # print str(data) + "  __update_grasp_point"
-        if(data[1]):
-            self.__grasp_point = list(data[0])
-            for i in range(len(self.__grasp_point)):
-                self.__grasp_point[i] = round(self.__grasp_point[i], 2)
 
-            self.show_grasp_point_data(self.__grasp_point)
+        self.__grasp_point      = list(data[0])
+        self.__pre_grasp_point  = list(data[1])
 
-        pass
+        for i in range(len(self.__grasp_point)):
+            self.__grasp_point[i]       = round(self.__grasp_point[i], 2)
+            self.__pre_grasp_point[i]   = round(self.__pre_grasp_point[i], 2)
+
+        self.show_grasp_point_data(self.__grasp_point)
 
     def __calculate_descartes_vel(self, current, later):
         for i in range(len(self.__descartes_vel_list)):
@@ -100,6 +102,18 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
 
     # 预调整抓夹点位姿
     def pre_adjust_position_and_posture(self):
+
+        self.__calculate_descartes_vel(self.__descartes_position, self.__pre_grasp_point)
+        self.__get_inverse_solution_thread = Get_inverse_solution_thread(0, self.__which_base, self.__pre_grasp_point, \
+                                                    self.__descartes_vel_list, self.__current_joint_pos)
+        self.__get_inverse_solution_thread.sin_inverse_solution.connect(self.__get_inverse_solution)   
+
+        self.__get_inverse_solution_thread.start() 
+        pass
+
+    # 调整抓夹点位姿
+    def move_to_grasp_point(self):
+
         if not self.__get_inverse_solution_thread.isRunning():
             try:
                 self.__grasp_point[0] = round(float(self.lineEdit.text()), 3)
@@ -109,22 +123,9 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
                 self.__grasp_point[4] = round(float(self.lineEdit_5.text()), 3)
                 self.__grasp_point[5] = round(float(self.lineEdit_6.text()), 3)
             except:
-                print "pre_adjust_position_and_posture input error"
+                print "move_to_grasp_point input error"
                 return
-            # Z方向
-            self.__grasp_point[2] -= self.__pre_grasp_point_pos_z
-            self.__calculate_descartes_vel(self.__descartes_position, self.__grasp_point)
-            self.__get_inverse_solution_thread = Get_inverse_solution_thread(0, self.__which_base, self.__grasp_point, \
-                                                        self.__descartes_vel_list, self.__current_joint_pos)
-            self.__get_inverse_solution_thread.sin_inverse_solution.connect(self.__get_inverse_solution)   
 
-            self.__get_inverse_solution_thread.start() 
-        pass
-
-    # 调整抓夹点位姿
-    def move_to_grasp_point(self):
-        # Z方向
-        self.__grasp_point[2] += self.__pre_grasp_point_pos_z
         self.__calculate_descartes_vel(self.__descartes_position, self.__grasp_point)
         self.__get_inverse_solution_thread = Get_inverse_solution_thread(0, self.__which_base, self.__grasp_point, \
                                                     self.__descartes_vel_list, self.__current_joint_pos)

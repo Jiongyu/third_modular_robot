@@ -80,6 +80,15 @@ public:
                                 const enum GRIPPER which_gripper, std::vector<double> *grasp_point);
 
     /**
+     * @brief 获取机器人预抓夹点位姿
+     * @note 该函数必须在findGraspPointByLine或者findGraspPointBySearch后运行
+     * @param pre_grasp_point 
+     * @return true 
+     * @return false 
+     */
+    bool getPreGraspPoint(std::vector<double> *pre_grasp_point);
+
+    /**
      * @brief 获取相机相对与机器人基座坐标变换
      * 
      * @return Eigen::Isometry3d 
@@ -132,6 +141,19 @@ private:
      * 
      */
     std::vector<Eigen::Vector3d> pole_position_;
+
+    /**
+     * @brief 机器基座标系下，杆件端点位置
+     * 
+     */
+    Eigen::Vector3d p1_;
+    Eigen::Vector3d p2_;
+
+    /**
+     * @brief 预抓夹点位姿
+     * 
+     */
+    std::unique_ptr<std::vector<double>> pre_grasp_point_;
 
 private:
 
@@ -211,5 +233,8 @@ private:
      * @param grasp_point : 夹持点 (xyz --> mm) 相对base
      * @return int (0:success, other : fail)
      */
-    int getInverseSolution(const std::vector<double>& current_joint_pos, std::vector<double> &grasp_point);
+    int getInverseSolution(const std::vector<double>& current_joint_pos, const std::vector<double> &grasp_point);
+
+
+    void caculatePreGraspPoint(const std::vector<double> &grasp_point);
 };

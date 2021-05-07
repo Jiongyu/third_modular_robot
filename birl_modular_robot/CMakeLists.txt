@@ -85,3 +85,6 @@ target_link_libraries(find_grasp_point_test find_grasp ${catkin_LIBRARIES} )
 
 add_executable(find_grasp_point_server src/find_grasp_point_server.cpp)
 target_link_libraries(find_grasp_point_server find_grasp jsoncpp grasp_point_error_note ${catkin_LIBRARIES} )
+
+add_executable(eigen_test src/eigen_test.cpp)
+target_link_libraries(eigen_test ${catkin_LIBRARIES} )

@@ -49,10 +49,11 @@ def Find_grasp_point_client( which_base, current_descartes_position, p1, p2, cur
         return [None, result]
     result = True
 
-    return [resp.grasp_point, result]
+    return [resp.grasp_point, result, resp.pre_grasp_point]
     
 if __name__ == "__main__":
     rospy.init_node("Find_grasp_point_client", log_level=rospy.INFO)
-    [temp1, temp2] = Find_grasp_point_client(True, [507.8,0,0,0,0,180], [0, 50, 50], [0, -50, 50])
+    [temp1, temp2, temp3] = Find_grasp_point_client(True, [507.8,0,0,0,0,180], [0, 50, 50], [0, -50, 50], [0,0,0,0,0])
     print temp1
     print temp2
+    print temp3

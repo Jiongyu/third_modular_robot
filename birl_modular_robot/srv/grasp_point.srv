@@ -16,3 +16,5 @@ float32[] current_joint_postion
 # 笛卡尔空间夹持点位置姿态
 #X，Y，Z（mm），Rx，Ry，Rz(deg)
 float32[] grasp_point
+#X，Y，Z（mm），Rx，Ry，Rz(deg)
+float32[] pre_grasp_point

@@ -34,6 +34,7 @@
 #define PI_RAD_ 0.0174533
 
 std::vector<double> grasp_point;
+std::vector<double> pre_grasp_point;
 std::vector<double> p1;
 std::vector<double> p2;
 std::vector<double> tcp;
@@ -203,6 +204,7 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
         // ret = Strategy->findGraspPointByLine(p1, p2, tcp, GraspIntelligent::G6_GRIPPER, &grasp_point);
         ROS_INFO_STREAM("G6 tcp");  
     }
+    ret &= Strategy->getPreGraspPoint(&pre_grasp_point);
     // ROS_INFO_STREAM("3.---------------.");  
     if(!ret){
         ROS_WARN_STREAM("夹持点求解错误！");
@@ -218,12 +220,16 @@ bool handle_function(   birl_module_robot::grasp_point::Request &req,
 #endif
 
     res.grasp_point.resize(POINT_WIDTH);
+    res.pre_grasp_point.resize(POINT_WIDTH);
     for(size_t i = 0; i < POINT_WIDTH; ++i)
     {
         if(i < 3){
-            res.grasp_point[i] = grasp_point[i];
+            res.grasp_point[i]      = grasp_point[i];
+            res.pre_grasp_point[i]  = pre_grasp_point[i];
         }else{
-            res.grasp_point[i] = grasp_point[i] * PI_DEG_;
+            res.grasp_point[i]      = grasp_point[i] * PI_DEG_;
+            res.pre_grasp_point[i]  = pre_grasp_point[i] * PI_DEG_;
+
         }
         // std::cout << grasp_point[i] << std::endl;
     }
@@ -241,6 +247,7 @@ int main(int argc, char *argv[])
     Note->setRosNodeHandle(nh);
 #endif
     grasp_point.resize(POINT_WIDTH);
+    pre_grasp_point.resize(POINT_WIDTH);
     p1.resize(POLE_WIDTH);
     p2.resize(POLE_WIDTH);
     tcp.resize(POINT_WIDTH);

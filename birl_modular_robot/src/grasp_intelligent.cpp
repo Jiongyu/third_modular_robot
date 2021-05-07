@@ -105,6 +105,8 @@ bool GraspIntelligent::findGraspPointByLine(  const std::vector<double>& point1,
     // 计算夹持点姿态 相对base坐标系
     calculateGraspPointPosture(point1, point2, grasp_point);
 
+    // 计算预抓夹点位姿
+    caculatePreGraspPoint(*grasp_point);
     return true;
 };
 
@@ -132,8 +134,22 @@ bool GraspIntelligent::findGraspPointBySearch(  const std::vector<double>& point
         return false;
     }
 
+    // 计算预抓夹点位姿
+    caculatePreGraspPoint(*grasp_point);
     return true;
 };
+
+bool GraspIntelligent::getPreGraspPoint(std::vector<double> *pre_grasp_point)
+{
+    if(pre_grasp_point_.get() == nullptr){
+        return false;        
+    }
+    for(int i = 0; i < pre_grasp_point_->size(); ++ i){
+        pre_grasp_point->at(i) = pre_grasp_point_->at(i);
+    }
+    pre_grasp_point_.reset();
+    return true;
+}
 
 void GraspIntelligent::calculateRobotTcpToBase(const std::vector<double>& tvector){
 
@@ -263,6 +279,10 @@ void GraspIntelligent::calculateGraspPointPosition(const std::vector<double>& po
     p1 << temp_p1(0,3), temp_p1(1,3), temp_p1(2, 3);
     p2 << temp_p2(0,3), temp_p2(1,3), temp_p2(2, 3);
 
+    // 机器人基座坐标系下杆件端点位置，深拷贝
+    p1_ = p1;
+    p2_ = p2;
+
     pole_position_.push_back(p1);
     pole_position_.push_back(p2);
 
@@ -367,7 +387,6 @@ Eigen::Isometry3d GraspIntelligent::getTransformCarmeraToBase()
 std::vector<Eigen::Vector3d> GraspIntelligent::getPolePosition()
 {
     return std::move(pole_position_);
-
 }
 
 int GraspIntelligent::searchGraspPoint(const std::vector<double>& point1, const std::vector<double>& point2, 
@@ -390,8 +409,13 @@ int GraspIntelligent::searchGraspPoint(const std::vector<double>& point1, const 
         // 计算夹持点位置 相对base坐标系
         calculateGraspPointPosition(point1, point2, robot_tcp, grasp_point);
 
-        // x轴 搜索
-        grasp_point->at(0) += times * search_interval;
+        // 杆件轴向方向 搜索
+        // grasp_point->at(0) += times * search_interval;
+        Eigen::Vector3d temp_t = p2_ - p1_;
+        temp_t = temp_t.normalized();
+        grasp_point->at(0) += times * search_interval * temp_t.x();
+        grasp_point->at(1) += times * search_interval * temp_t.y();
+        grasp_point->at(2) += times * search_interval * temp_t.z();
 
         // 计算夹持点姿态 相对base坐标系
         calculateGraspPointPosture(point1, point2, grasp_point);
@@ -425,7 +449,7 @@ int GraspIntelligent::searchGraspPoint(const std::vector<double>& point1, const 
     return -1;
 }
 
-int GraspIntelligent::getInverseSolution(const std::vector<double>& current_joint_pos, std::vector<double> &grasp_point)
+int GraspIntelligent::getInverseSolution(const std::vector<double>& current_joint_pos, const std::vector<double> &grasp_point)
 {
 
     double Robot_Link_Len[6]; 
@@ -491,4 +515,40 @@ int GraspIntelligent::getInverseSolution(const std::vector<double>& current_join
             return -1;        
         }
     }
+}
+
+void GraspIntelligent::caculatePreGraspPoint(const std::vector<double> &grasp_point)
+{
+    // 计算抓夹点变换矩阵
+    Eigen::Isometry3d grasp_point_matrix = Eigen::Isometry3d::Identity();
+    convertVectorToTransMatrix(grasp_point, &grasp_point_matrix);
+
+    Eigen::Isometry3d temp = Eigen::Isometry3d::Identity();
+    // // 沿tcp坐标系抓夹点z轴后退100mm
+    Eigen::Vector3d pre_grasp_point_adjust_dist(0, 0, -100);
+
+    // temp = _transform_tcp_to_base.inverse() * grasp_point_matrix;
+    // temp.pretranslate(pre_grasp_point_adjust_dist);
+    // temp = _transform_tcp_to_base * temp;
+
+    // 右乘
+    temp = grasp_point_matrix.translate(pre_grasp_point_adjust_dist);
+
+    pre_grasp_point_ = std::make_unique<std::vector<double>>();
+    pre_grasp_point_->resize(6);
+
+    // 位置
+    pre_grasp_point_->at(0) = temp(0,3);
+    pre_grasp_point_->at(1) = temp(1,3);
+    pre_grasp_point_->at(2) = temp(2,3);
+
+    // 姿态
+    Eigen::Vector3d pre_grasp_point_posture = temp.rotation().eulerAngles(2,1,0);
+    pre_grasp_point_->at(3) = pre_grasp_point_posture.x();
+    pre_grasp_point_->at(4) = pre_grasp_point_posture.y();
+    pre_grasp_point_->at(5) = pre_grasp_point_posture.z();
+    
+    // std::cout <<"caculatePreGraspPoint\n";
+    // std::cout << pre_grasp_point_->at(0) << " " << pre_grasp_point_->at(1) << " " << pre_grasp_point_->at(2) << std::endl;
+    // std::cout <<pre_grasp_point_posture.matrix() << std::endl;
 }
