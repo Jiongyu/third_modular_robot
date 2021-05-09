@@ -23,6 +23,8 @@ class Gripper_control_func(QWidget,Ui_Form_gripper):
 
     sin_close = pyqtSignal()
 
+    sin_if_enable_grasp_controller = pyqtSignal(bool)
+
     #　启动夹持器反馈状态
     sin_open_gripper_feedback = pyqtSignal(bool)
 
@@ -71,6 +73,11 @@ class Gripper_control_func(QWidget,Ui_Form_gripper):
             self.sin_open_or_close_gripper6.emit(-self.__current)
         else:
             self.sin_open_or_close_gripper6.emit(0)
+
+    # 是否使能顺应抓夹控制器
+    def if_enable_compliantly_grasp(self, data):
+        self.sin_if_enable_grasp_controller.emit(data)
+        pass
 
     # 电流状态显示
     def display(self,data):

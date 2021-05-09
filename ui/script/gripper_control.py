@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form_gripper(object):
     def setupUi(self, Form_gripper):
         Form_gripper.setObjectName("Form_gripper")
-        Form_gripper.resize(491, 157)
+        Form_gripper.resize(491, 161)
         font = QtGui.QFont()
         font.setPointSize(15)
         Form_gripper.setFont(font)
@@ -129,6 +129,13 @@ class Ui_Form_gripper(object):
         self.pushButton_5.setFont(font)
         self.pushButton_5.setObjectName("pushButton_5")
         self.gridLayout_4.addWidget(self.pushButton_5, 0, 3, 1, 1)
+        self.checkBox = QtWidgets.QCheckBox(Form_gripper)
+        self.checkBox.setGeometry(QtCore.QRect(380, 20, 85, 20))
+        font = QtGui.QFont()
+        font.setFamily("Ubuntu")
+        font.setPointSize(12)
+        self.checkBox.setFont(font)
+        self.checkBox.setObjectName("checkBox")
 
         self.retranslateUi(Form_gripper)
         self.pushButton.clicked['bool'].connect(Form_gripper.gripper_0_open)
@@ -136,6 +143,7 @@ class Ui_Form_gripper(object):
         self.pushButton_2.clicked['bool'].connect(Form_gripper.gripper_6_open)
         self.pushButton_4.clicked['bool'].connect(Form_gripper.gripper_6_close)
         self.pushButton_5.clicked.connect(Form_gripper.gripper_torque_set)
+        self.checkBox.clicked['bool'].connect(Form_gripper.if_enable_compliantly_grasp)
         QtCore.QMetaObject.connectSlotsByName(Form_gripper)
 
     def retranslateUi(self, Form_gripper):
@@ -156,4 +164,5 @@ class Ui_Form_gripper(object):
         self.label_3.setText(_translate("Form_gripper", "夹持器力矩  "))
         self.lineEdit.setToolTip(_translate("Form_gripper", "<html><head/><body><p>整数0~2000</p></body></html>"))
         self.pushButton_5.setText(_translate("Form_gripper", "设置"))
+        self.checkBox.setText(_translate("Form_gripper", "顺应抓夹"))
 

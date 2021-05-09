@@ -21,6 +21,9 @@ from modular_I100 import I100
 from modular_T100 import T100
 from modular_I85 import I85
 
+from controller import Controller
+from filter import Filter
+
 from PyQt5.QtCore import QThread,pyqtSignal,QMutex
 
 from time import sleep
@@ -109,11 +112,16 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         # 软限位发生标志
         self.__robot_soft_limit_happen = False
 
+        # 是否使能顺应抓夹控制器
+        self.__if_enable_grasp_controller = False
+
     def run(self):
         # 发送命令线程
         self.thread_command = threading.Thread(target = self.thread_command_func, args= (None,))
         # 反馈数据线程
         self.thread_feedback = threading.Thread(target = self.thread_feedback_func, args= (None,))
+        # 顺应抓夹控制器线程
+        self.thread_compliantly_grasp = threading.Thread(target = self.thread_compliantly_grasp_func, args= (None,))
 
         # 线程启动
         self.thread_command.start()
@@ -144,13 +152,20 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         except Exception as e:
             traceback.print_exc()
 
-    def thread_feedback_func(self,data):
+    def thread_feedback_func(self, data):
         
         while not self.__robot_start:
             sleep(0.5)
         while((not self.__stop) and (not self.__quick_stop)):
             self.__transimit_feedback_data()  
 
+    def thread_compliantly_grasp_func(self, data):
+        
+        while(not self.__if_enable_grasp_controller):
+            sleep(0.5)
+
+        self.__grasp_controller_adjust()
+        pass
 
     # 机器人启动
     def __start_communication(self, which_robot):
@@ -163,6 +178,14 @@ class Robot_lowlevel_control_Muti_thread(QThread):
             self.__T4 = T100(4,self.__eds_file)
             self.__I5 = I100(5,self.__eds_file)
             self.__joints = [self.__I1 ,self.__T2 ,self.__T3 ,self.__T4 ,self.__I5]
+
+            filter_length = 10
+            self.__filterI1 = Filter(filter_length)
+            self.__filterT2 = Filter(filter_length)
+            self.__filterT3 = Filter(filter_length)
+            self.__filterT4 = Filter(filter_length)
+            self.__filterI5 = Filter(filter_length)
+            self.__filter = [self.__filterI1, self.__filterT2, self.__filterT3, self.__filterT4, self.__filterI5]
 
             if which_robot == 0:
                 self.__G0 = G100(6,self.__eds_file)
@@ -227,6 +250,10 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         self.__G6_command = data
         self.__new_G6_gripper_command = True
         self.__gripper_mode = True
+        pass
+
+    def if_enable_grasp_controller(self, data):
+        self.__if_enable_grasp_controller = data
         pass
 
     # 打开夹持器反馈槽函数
@@ -415,9 +442,26 @@ class Robot_lowlevel_control_Muti_thread(QThread):
             except:
                 self.__G6.sent_current(self.__G6_command)
             self.__mutex.unlock()
+
             self.__new_G6_gripper_command = False
 
+        if self.__if_enable_grasp_controller and (self.__G0_command < 0 or self.__G6_command < 0):
+            if not self.thread_compliantly_grasp.is_alive():
+                self.thread_compliantly_grasp.start()            
+            pass
         self.__gripper_mode = False
+
+    def __grasp_controller_adjust(self):
+        
+        sleep(3.5)
+        self.robot_set_torque_mode()
+        self.__mutex.lock()
+        Controller.getVelComd([0,0,0,0,0], self.__current_joints_feedback, self.__vel_joints_feedback)
+        self.__mutex.unlock()
+        sleep(3)
+        self.robot_set_single_postition_mode()
+        self.__if_enable_grasp_controller = False
+        pass
 
     # 机器人急停
     def robot_quick_stop(self):
@@ -531,4 +575,11 @@ class Robot_lowlevel_control_Muti_thread(QThread):
                 self.__joints[i].set_path_mode_acc_dcc()
                 self.__joints[i].opmode_set('PROFILED POSITION')
             self.__mutex.unlock()
+
+    def robot_set_torque_mode(self):
+        self.__mutex.lock()
+        for i in range(len(self.__joints)):
+            self.__joints[i].opmode_set('PROFILED TORQUE')
+        self.__mutex.unlock()
+        pass
         

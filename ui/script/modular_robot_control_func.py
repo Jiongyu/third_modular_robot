@@ -653,7 +653,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                     self.sin_G0_command.connect(self.__lowLevelControl.G0_command)
                     self.sin_G6_command.connect(self.__lowLevelControl.G6_command)
                     self.__window_gripper_control.sin_open_gripper_feedback.connect(self.__lowLevelControl.open_gripper_feedback)
-                    
+                    self.__window_gripper_control.sin_if_enable_grasp_controller.connect(self.__lowLevelControl.if_enable_grasp_controller)
                     self.__lowLevelControl.sin_gripper_feedback.connect(self.__window_gripper_control.display)
                 self.__window_gripper_control.show()
                 self.__window_gripper_control.open_gripper_current_feedback()
