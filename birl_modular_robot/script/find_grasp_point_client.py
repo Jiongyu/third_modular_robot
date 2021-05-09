@@ -19,7 +19,7 @@ import copy
 def Find_grasp_point_client( which_base, current_descartes_position, p1, p2, current_joint_position):
     # 检测输入
     if((len(p1) != 3) or (len(p2) != 3) ):
-        return [None, False]
+        return [None, False, None]
 
     # deg --> rad   
     PI_RAD = 0.0174533
@@ -34,7 +34,7 @@ def Find_grasp_point_client( which_base, current_descartes_position, p1, p2, cur
         rospy.wait_for_service("find_grasp_point", timeout=3)
     except rospy.ROSException:
         rospy.loginfo("find_grasp_point timeout.")
-        return [None, False]
+        return [None, False, None]
 
     rospy.loginfo("Client Get New Requset.")
     
@@ -46,7 +46,7 @@ def Find_grasp_point_client( which_base, current_descartes_position, p1, p2, cur
     except rospy.ServiceException, e:
         rospy.logwarn("Service call failed: %s"%e)
         result = False
-        return [None, result]
+        return [None, result, None]
     result = True
 
     return [resp.grasp_point, result, resp.pre_grasp_point]
