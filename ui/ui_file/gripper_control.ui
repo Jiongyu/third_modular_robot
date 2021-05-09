@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>491</width>
-    <height>157</height>
+    <height>161</height>
    </rect>
   </property>
   <property name="font">
@@ -271,6 +271,25 @@
     </item>
    </layout>
   </widget>
+  <widget class="QCheckBox" name="checkBox">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>20</y>
+     <width>85</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Ubuntu</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>顺应抓夹</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>
@@ -281,8 +300,8 @@
    <slot>gripper_0_open()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>210</x>
-     <y>99</y>
+     <x>207</x>
+     <y>98</y>
     </hint>
     <hint type="destinationlabel">
      <x>443</x>
@@ -298,7 +317,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>309</x>
-     <y>99</y>
+     <y>98</y>
     </hint>
     <hint type="destinationlabel">
      <x>418</x>
@@ -313,12 +332,12 @@
    <slot>gripper_6_open()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>210</x>
-     <y>144</y>
+     <x>207</x>
+     <y>142</y>
     </hint>
     <hint type="destinationlabel">
      <x>369</x>
-     <y>254</y>
+     <y>160</y>
     </hint>
    </hints>
   </connection>
@@ -330,11 +349,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>309</x>
-     <y>144</y>
+     <y>142</y>
     </hint>
     <hint type="destinationlabel">
-     <x>501</x>
-     <y>205</y>
+     <x>490</x>
+     <y>160</y>
     </hint>
    </hints>
   </connection>
@@ -354,6 +373,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>Form_gripper</receiver>
+   <slot>if_enable_compliantly_grasp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>392</x>
+     <y>31</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>367</x>
+     <y>52</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>gripper_torque_set()</slot>
@@ -361,5 +396,6 @@
   <slot>gripper_0_close()</slot>
   <slot>gripper_6_open()</slot>
   <slot>gripper_6_close()</slot>
+  <slot>if_enable_compliantly_grasp()</slot>
  </slots>
 </ui>
