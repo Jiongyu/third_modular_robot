@@ -304,7 +304,7 @@ void GraspIntelligent::calculateGraspPointPosition(const std::vector<double>& po
     for(size_t i = 0 ; i < 3; ++ i)
     {   
         grasp_point->at(i) = p2(i) + k_ * p1(i);
-        if( abs(grasp_point->at(i)) < CALCULATE_THRESHOLD){
+        if( fabs(grasp_point->at(i)) < CALCULATE_THRESHOLD){
             grasp_point->at(i) = 0;
         }
     }
@@ -366,7 +366,7 @@ void GraspIntelligent::convertPostureMatrixToEuler(const Eigen::Matrix3d &matrix
     for(size_t i = 3 ; i < 6; ++ i)
     {   
         grasp_point->at(i) = ld_temp[i];
-        if( abs(grasp_point->at(i)) < CALCULATE_THRESHOLD){
+        if( fabs(grasp_point->at(i)) < CALCULATE_THRESHOLD){
             grasp_point->at(i) = 0;
         }
     }
