@@ -765,6 +765,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
                 self.__window_auto_gripper.sin_close.connect(self.__open_auto_gripper_close_flag)
                 self.__window_auto_gripper.sin_robot_command.connect(self.__auto_gripper_sent_command)
                 self.sin_close_windowsAutoGripper.connect((self.__window_auto_gripper.close_windows))
+                self.sin_update_gripper_base.connect(self.__window_auto_gripper.update_base_state)
                 self.sin_update_descartes_and_joint_position.connect(self.__window_auto_gripper.update_joint_and_descartes_data)
                 self.__window_auto_gripper.show()
                 self.__window_auto_gripper_flag = True
@@ -834,6 +835,9 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.sin_G0_command.emit(data)
             if (self.__last_G0_cur == 0) & (data < 0):
                 self.__ros_feedback_msg.isGrasping[0] = True
+                self.__base_flag = True
+                self.sin_update_gripper_base.emit(self.__base_flag)
+  
             if (self.__last_G0_cur > 0) & (data == 0):
                 self.__ros_feedback_msg.isGrasping[0] = False
             self.__last_G0_cur = data
@@ -843,6 +847,9 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
             self.sin_G6_command.emit(data)
             if (self.__last_G6_cur == 0) & (data < 0):
                 self.__ros_feedback_msg.isGrasping[1] = True
+                self.__base_flag = False
+                self.sin_update_gripper_base.emit(self.__base_flag)
+                
             if (self.__last_G6_cur > 0) & (data == 0):
                 self.__ros_feedback_msg.isGrasping[1] = False
             self.__last_G6_cur = data

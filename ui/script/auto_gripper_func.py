@@ -238,3 +238,6 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
         self.lineEdit_5.setValidator(pDoubleDescartesIncre)
         self.lineEdit_6.setValidator(pDoubleDescartesIncre)
         pass
+
+    def update_base_state(self, data):
+        self.__which_base = data
