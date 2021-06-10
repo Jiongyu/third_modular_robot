@@ -28,6 +28,7 @@ add_service_files(
   positive_solution.srv
   robot_increTransTool.srv
   grasp_point.srv
+  detection_results.srv
 )
 
 generate_messages(

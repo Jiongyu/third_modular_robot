@@ -829,7 +829,7 @@ class Modular_robot_control_func(QMainWindow,Ui_MainWindow_modular_robot):
         pass
     ####################### 爬壁机器人接收控制命令窗口 end #########################
     
-    ####################### 获取夹持器界面控制数据，并发送至底层 ###########################
+    ####################### 获取夹持器界面控制数据，并发送至底层 ###########################s
     def __get_G0_torque_from_windowsGripperControl(self,data):
         if self.__robot_enabled_flag:
             self.sin_G0_command.emit(data)

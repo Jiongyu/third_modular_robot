@@ -1,0 +1,7 @@
+# 夹持器标志：true对应加持端为gripper0，false为gripper6
+bool base
+---
+# 相机坐标系下的杆件两端点和半径（数组，可能为多根杆件）
+#X11，Y11，Z11，X12，Y12， Z12， r1, X21, Y21, Z21, X22, Y22, Z22, r2, ... (单位：mm）
+std_msgs/Float64MultiArray detection_results
+float32 time_stamp

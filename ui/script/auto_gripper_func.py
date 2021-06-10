@@ -59,7 +59,7 @@ class Auto_gripper_func(QWidget,Ui_auto_gripper):
         # 启动获取杆件端点
         if not self.__get_pole_point_thread.isRunning():
             # 获取杆件端点
-            self.__get_pole_point_thread = Auto_gripper_get_pole_point_thread()
+            self.__get_pole_point_thread = Auto_gripper_get_pole_point_thread(self.__which_base)
             # 杆件端点回调
             self.__get_pole_point_thread.sin_pole_point.connect(self.__update_pole_point)
             self.__get_pole_point_thread.start()
