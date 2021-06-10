@@ -114,14 +114,13 @@ class Robot_lowlevel_control_Muti_thread(QThread):
 
         # 是否使能顺应抓夹控制器
         self.__if_enable_grasp_controller = False
+        self.__grasp_controller = Controller()
 
     def run(self):
         # 发送命令线程
         self.thread_command = threading.Thread(target = self.thread_command_func, args= (None,))
         # 反馈数据线程
         self.thread_feedback = threading.Thread(target = self.thread_feedback_func, args= (None,))
-        # 顺应抓夹控制器线程
-        self.thread_compliantly_grasp = threading.Thread(target = self.thread_compliantly_grasp_func, args= (None,))
 
         # 线程启动
         self.thread_command.start()
@@ -158,14 +157,6 @@ class Robot_lowlevel_control_Muti_thread(QThread):
             sleep(0.5)
         while((not self.__stop) and (not self.__quick_stop)):
             self.__transimit_feedback_data()  
-
-    def thread_compliantly_grasp_func(self, data):
-        
-        while(not self.__if_enable_grasp_controller):
-            sleep(0.5)
-
-        self.__grasp_controller_adjust()
-        pass
 
     # 机器人启动
     def __start_communication(self, which_robot):
@@ -446,22 +437,9 @@ class Robot_lowlevel_control_Muti_thread(QThread):
             self.__new_G6_gripper_command = False
 
         if self.__if_enable_grasp_controller and (self.__G0_command < 0 or self.__G6_command < 0):
-            if not self.thread_compliantly_grasp.is_alive():
-                self.thread_compliantly_grasp.start()            
+            self.__grasp_controller_adjust()
             pass
         self.__gripper_mode = False
-
-    def __grasp_controller_adjust(self):
-        
-        sleep(3.5)
-        self.robot_set_torque_mode()
-        self.__mutex.lock()
-        Controller.getVelComd([0,0,0,0,0], self.__current_joints_feedback, self.__vel_joints_feedback)
-        self.__mutex.unlock()
-        sleep(3)
-        self.robot_set_single_postition_mode()
-        self.__if_enable_grasp_controller = False
-        pass
 
     # 机器人急停
     def robot_quick_stop(self):
@@ -582,4 +560,13 @@ class Robot_lowlevel_control_Muti_thread(QThread):
             self.__joints[i].opmode_set('PROFILED TORQUE')
         self.__mutex.unlock()
         pass
-        
+
+    def __grasp_controller_adjust(self):
+        sleep(2)
+        self.robot_set_torque_mode()
+        self.__mutex.lock()
+        self.__grasp_controller.getVelComd([0,0,0,0,0], self.__current_joints_feedback, self.__vel_joints_feedback)
+        self.__mutex.unlock()
+        sleep(1)
+        self.robot_set_single_postition_mode()
+        pass
