@@ -116,6 +116,9 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         self.__if_enable_grasp_controller = False
         self.__grasp_controller = Controller()
 
+        # 顺应抓夹控制
+        self.__grasp_command = [0, 0, 0, 0, 0]
+
     def run(self):
         # 发送命令线程
         self.thread_command = threading.Thread(target = self.thread_command_func, args= (None,))
@@ -285,7 +288,6 @@ class Robot_lowlevel_control_Muti_thread(QThread):
             self.path_command_mode = True
             self.__if_fine_tune = True
 
-
     # 执行关节空间位置控制命令
     def __execute_joints_position_command(self):
         if not self.__robot_soft_limit_happen:
@@ -369,7 +371,7 @@ class Robot_lowlevel_control_Muti_thread(QThread):
                 self.__path_point_index += 1
                 if ((self.__stop) or (self.__quick_stop)):
                     break
-                
+
             # 重复发送最后一点
             for i in range(len(self.__joints)):
                 self.__joints[i].sent_position( self.__path_pos_joints_command[len(self.__path_pos_joints_command) - 1][i],  \
@@ -571,7 +573,12 @@ class Robot_lowlevel_control_Muti_thread(QThread):
         sleep(2)
         self.robot_set_torque_mode()
         self.__mutex.lock()
-        self.__grasp_controller.getVelComd([0,0,0,0,0], self.__current_joints_feedback, self.__vel_joints_feedback)
+        try:
+            self.__grasp_command = self.__grasp_controller.getPosComd([0,0,0,0,0], self.__current_joints_feedback, self.__vel_joints_feedback)   
+            for i in range(len(self.__joints)):
+                self.__joints[i].sent_position(self.__grasp_command[i])
+        except:
+            pass
         self.__mutex.unlock()
         sleep(1)
         self.robot_set_single_postition_mode()
