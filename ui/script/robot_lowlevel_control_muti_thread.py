@@ -369,6 +369,12 @@ class Robot_lowlevel_control_Muti_thread(QThread):
                 self.__path_point_index += 1
                 if ((self.__stop) or (self.__quick_stop)):
                     break
+                
+            # 重复发送最后一点
+            for i in range(len(self.__joints)):
+                self.__joints[i].sent_position( self.__path_pos_joints_command[len(self.__path_pos_joints_command) - 1][i],  \
+                                            self.__path_pos_joints_command[len(self.__path_pos_joints_command) - 1][i+5] )
+
         self.path_command_mode = False
 
     # 笛卡尔空间调整后，更新轨迹延时参数，防止轨迹中断
